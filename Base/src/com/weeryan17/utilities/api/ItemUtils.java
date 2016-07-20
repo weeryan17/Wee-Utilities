@@ -34,4 +34,18 @@ public class ItemUtils {
         item.setItemMeta(meta);
         return item;
     }
+    /**
+     * Adds lore to an item.
+     * 
+     * @param item The item to add lore to.
+     * @param lore The lore you want to add.
+     * 
+     * @return The new item with lore.
+     */
+    public ItemStack addLore(ItemStack item, ArrayList<String> lore){
+    	ItemMeta meta = item.getItemMeta();
+    	meta.setLore(lore);
+    	item.setItemMeta(meta);
+    	return item;
+    }
 }
