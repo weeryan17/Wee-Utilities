@@ -1,2 +1,2 @@
 # Wee-Utilities
-This is a collect of all my plugins in my new linked system
+This is a collection of all my plugins in my new linked system
