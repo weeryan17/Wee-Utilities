@@ -1,4 +1,4 @@
-name: Wee Utilities
+name: weeUtilities
 version: 1.0.0
 main: com.weeryan17.utilities.Base
 commands:

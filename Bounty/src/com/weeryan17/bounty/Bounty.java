@@ -2,6 +2,7 @@ package com.weeryan17.bounty;
 
 import com.weeryan17.bounty.BountyCommand;
 import com.weeryan17.bounty.KillEvents;
+import com.weeryan17.utilities.PluginMannager;
 import com.weeryan17.utilities.api.CommandApi;
 import com.weeryan17.utilities.api.ConfigApi;
 import org.bukkit.Bukkit;
@@ -11,19 +12,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Bounty
 extends JavaPlugin {
     ConfigApi config;
-    CommandApi command;
+    CommandApi command = new CommandApi();
     static int max;
+    static int id;
     static boolean gui;
     static boolean chat;
 
-    @SuppressWarnings("deprecation")
-	public Bounty() {
-        this.config = new ConfigApi((JavaPlugin)this);
-        this.command = new CommandApi();
-    }
-
-    @SuppressWarnings("deprecation")
 	public void onEnable() {
+		PluginMannager mannager = new PluginMannager();
+		id = mannager.registerPlugin(this);
+		config = new ConfigApi(id);
         String discription;
         String permission;
         this.config.saveDefaultConfigs("config", "", false);
@@ -34,7 +32,7 @@ extends JavaPlugin {
             discription = "Opens up the bounty command help menu.";
             permission = null;
         }
-        this.command.registerCommand((JavaPlugin)this, "/bounty", discription, permission);
+        this.command.registerCommand(id, "/bounty", discription, permission);
         BountyCommand cmd = new BountyCommand(this);
         this.getCommand("bounty").setExecutor(cmd);
         KillEvents kill = new KillEvents(this);

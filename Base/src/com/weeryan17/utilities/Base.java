@@ -1,6 +1,7 @@
 package com.weeryan17.utilities;
 
 import com.weeryan17.utilities.BaseCommand;
+
 import org.bukkit.plugin.java.JavaPlugin;
 /**
  * The main class for this plugin

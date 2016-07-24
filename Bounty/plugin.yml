@@ -1,0 +1,7 @@
+name: WeeBounty
+main: com.weeryan17.bounty.Bounty
+version: 1.0.0
+depend: [weeUtilities, Essentials]
+commands:
+  bounty:
+    description: eather opens up the gui or the help menu

@@ -1,9 +1,11 @@
 package com.weeryan17.utilities;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.weeryan17.utilities.api.CommandApi;
 /**
@@ -19,6 +21,13 @@ public class BaseCommand implements CommandExecutor {
             switch (string.toLowerCase()) {
                 case "help": {
                     this.help(sender);
+                }
+                break;
+                case "reload":{
+                	for(JavaPlugin plugin : PluginMannager.plugins){
+                		Bukkit.getServer().getPluginManager().disablePlugin(plugin);
+                		//Bukkit.getServer().getPluginManager().enablePlugin(plugin);
+                	}
                 }
                 break;
                 default: {
