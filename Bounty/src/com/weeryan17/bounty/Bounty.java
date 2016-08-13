@@ -2,9 +2,10 @@ package com.weeryan17.bounty;
 
 import com.weeryan17.bounty.BountyCommand;
 import com.weeryan17.bounty.KillEvents;
-import com.weeryan17.utilities.PluginMannager;
 import com.weeryan17.utilities.api.CommandApi;
 import com.weeryan17.utilities.api.ConfigApi;
+import com.weeryan17.utilities.api.PluginMannager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;

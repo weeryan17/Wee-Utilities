@@ -7,8 +7,8 @@ import java.util.logging.Level;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.weeryan17.utilities.PluginMannager;
 import com.weeryan17.utilities.api.ConfigApi;
+import com.weeryan17.utilities.api.PluginMannager;
 
 public class Items extends JavaPlugin {
 	PluginMannager mannager = new PluginMannager();

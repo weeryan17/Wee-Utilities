@@ -3,8 +3,8 @@ package com.weeryan17.sc;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.weeryan17.utilities.PluginMannager;
 import com.weeryan17.utilities.api.ConfigApi;
+import com.weeryan17.utilities.api.PluginMannager;
 
 public class Chat extends JavaPlugin {
 	static int id;
