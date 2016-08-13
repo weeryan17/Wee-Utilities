@@ -12,13 +12,14 @@ import com.weeryan17.utilities.api.ConfigApi;
 
 public class Items extends JavaPlugin {
 	PluginMannager mannager = new PluginMannager();
+	ConfigApi api;
 	static int id;
 	public void onEnable(){
 		id = mannager.registerPlugin(this);
 		this.loadConfigs();
+		api = new ConfigApi(id);
 	}
 	public ArrayList<String> files = new ArrayList<String>();
-	ConfigApi api = new ConfigApi(id);
 	public void loadConfigs(){
 		File file = new File(this.getDataFolder() + "/Items");
 		for(File fileThing : file.listFiles()){

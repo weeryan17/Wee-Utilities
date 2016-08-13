@@ -1,0 +1,6 @@
+name: GUI
+main: com.weeryan17.gui.GUI
+version: 1.0.0
+commands:
+  si:
+    description: a special item command
