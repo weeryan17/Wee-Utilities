@@ -5,4 +5,10 @@ Chats:
     #prefix giving to the messgaes in this channel
     prefix: '%AQUA%[%BLUE%Admin Chat%AQUA%]'
     #color of the channel text
-    color: '%RED%'
+    color: 'RED'
+    #abreviation of the channel. used for permisions and commands
+    abreviation: 'ac'
+  StaffChat:
+    prefix: '%BLUE%[%YELLOW%Admin Chat%YELLOW%]'
+    color: 'YELLOW'
+    abreviation: 'sc'

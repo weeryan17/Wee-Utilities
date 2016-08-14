@@ -1,0 +1,4 @@
+name: StaffChat
+main: com.weeryan17.sc.Chat
+version: 1.0.0
+depend: [weeUtilities]
