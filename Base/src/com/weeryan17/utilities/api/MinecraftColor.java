@@ -80,10 +80,18 @@ public enum MinecraftColor {
 	 * Represents the color white in minecraft formatting terms.
 	 */
 	WHITE("§f");
+	
 	String color;
 	MinecraftColor(String string){
 		color = string;
 	}
+	
+	/**
+	 * Gets weather or not a string is a color
+	 * 
+	 * @param string The string you want to check
+	 * @return a boolean representing if it's a color
+	 */
 	public static boolean isColor(String string){
 		boolean color = false;
 		for(MinecraftColor m : MinecraftColor.values()){
