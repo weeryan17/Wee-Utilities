@@ -45,8 +45,8 @@ public class BaseCommand implements CommandExecutor {
         sender.sendMessage((Object)ChatColor.BLUE + "Wee Utilitys help");
         sender.sendMessage((Object)ChatColor.BLUE + "/wu help: opens up this help menu");
         String[][] commands = CommandApi.list;
-        int max = commands.length;
-        for(int i = 0;i <= max; i++){
+        int max = commands.length - 1;
+        for(int i = 0; i <= max; i++){
             String[] list = commands[i];
             if (list[3] == null || sender.hasPermission(list[3])) {
                 sender.sendMessage((Object)ChatColor.BLUE + list[1] + ": " + list[2] + " The plugin this command is from is " + (Object)ChatColor.RED + list[0]);

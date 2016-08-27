@@ -45,7 +45,7 @@ public class ConfigApi {
      * @return The configuration file.
      */
     public FileConfiguration config(String name, String subFolder) {
-        File config = subFolder == "" ? new File(this.plugin.getDataFolder(), String.valueOf(name) + ".yml") : new File(this.plugin.getDataFolder() + "\\" + subFolder, String.valueOf(name) + ".yml");
+        File config = subFolder.equals("") ? new File(this.plugin.getDataFolder(), String.valueOf(name) + ".yml") : new File(this.plugin.getDataFolder() + "/" + subFolder, String.valueOf(name) + ".yml");
         if (this.datas.get(name) == null) {
             this.data = YamlConfiguration.loadConfiguration((File)config);
             InputStream defConfigStream = this.plugin.getResource(String.valueOf(name) + ".yml");
@@ -65,7 +65,7 @@ public class ConfigApi {
      * @param subFolder The folder within your data folder that the config should go into.
      */
     public void saveConfigs(String name, String subFolder) {
-        File config = subFolder == "" ? new File(this.plugin.getDataFolder(), String.valueOf(name) + ".yml") : new File(this.plugin.getDataFolder() + "/" + subFolder, String.valueOf(name) + ".yml");
+        File config = subFolder.equals("") ? new File(this.plugin.getDataFolder(), String.valueOf(name) + ".yml") : new File(this.plugin.getDataFolder() + "/" + subFolder, String.valueOf(name) + ".yml");
         try {
             this.plugin.getConfig().options().copyDefaults(true);
             this.config(name, subFolder).save(config);
@@ -83,9 +83,10 @@ public class ConfigApi {
      * @param replace
      */
     public void saveDefaultConfigs(String name, String subFolder, boolean replace) {
-        String resource = subFolder == "" ? String.valueOf(name) + ".yml" : String.valueOf(subFolder) + "/" + name + ".yml";
+        String resource = subFolder.equals("") ? String.valueOf(name) + ".yml" : String.valueOf(subFolder) + "/" + name + ".yml";
         this.plugin.saveResource(resource, replace);
     }
+    
     /**
      * Reloads a config file.
      * 

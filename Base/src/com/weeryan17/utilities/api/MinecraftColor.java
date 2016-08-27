@@ -1,5 +1,11 @@
 package com.weeryan17.utilities.api;
 
+/**
+ * Used to easily reference the minecraft formating codes
+ * 
+ * @author weeryan17
+ *
+ */
 public enum MinecraftColor {
 	/**
 	 * Represents the color black in minecraft formatting terms.
@@ -81,9 +87,9 @@ public enum MinecraftColor {
 	 */
 	WHITE("§f");
 	
-	String color;
-	MinecraftColor(String string){
-		color = string;
+	private String color;
+	private MinecraftColor(String color){
+		this.color = color;
 	}
 	
 	/**
@@ -103,4 +109,4 @@ public enum MinecraftColor {
 		return color;
 	}
 	
-}
+};

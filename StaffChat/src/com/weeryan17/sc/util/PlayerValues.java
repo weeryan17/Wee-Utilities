@@ -1,8 +1,10 @@
 package com.weeryan17.sc.util;
 
+import org.bukkit.entity.Player;
+
 public class PlayerValues {
 	
-	public PluginChannel getCurrentChannel(){
+	public ChatChannel getCurrentChannel(Player p){
 		return null;
 	}
 }

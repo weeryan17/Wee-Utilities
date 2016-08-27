@@ -27,16 +27,15 @@ public class CommandApi {
             CommandApi.list[0] = new String[]{pluginName, command, discrition, permission};
         } else {
             int length = list.length;
-            String[][] temp = list;
+            String[][] arrstring = list;
             int i = -1;
             list = new String[length + 1][4];
-            String[][] arrstring = temp;
-            int max = arrstring.length;
+            int max = arrstring.length - 1;
             for(i = 0; i <= max; i++){
                 String[] stored = arrstring[i];
-                CommandApi.list[i + 1] = stored;
+                CommandApi.list[i] = stored;
             }
-            CommandApi.list[i + 1] = new String[]{pluginName, command, discrition, permission};
+            CommandApi.list[i] = new String[]{pluginName, command, discrition, permission};
         }
     }
     /**
@@ -55,16 +54,15 @@ public class CommandApi {
             CommandApi.list[0] = new String[]{pluginName, command, discrition, permission};
         } else {
             int length = list.length;
-            String[][] temp = list;
+            String[][] arrstring = list;
             int i = -1;
             list = new String[length + 1][4];
-            String[][] arrstring = temp;
-            int max = arrstring.length;
+            int max = arrstring.length - 1;
             for(i = 0; i <= max; i++){
                 String[] stored = arrstring[i];
-                CommandApi.list[i + 1] = stored;
+                CommandApi.list[i] = stored;
             }
-            CommandApi.list[i + 1] = new String[]{pluginName, command, discrition, permission};
+            CommandApi.list[i] = new String[]{pluginName, command, discrition, permission};
         }
     }
 }
