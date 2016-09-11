@@ -7,7 +7,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
-
+/**
+ * Allows you to create recipes where only specific items can be used.
+ * 
+ * @author weeryan17
+ *
+ */
 public class CustomRecipe {
 	ItemStack result;
 	ShapedRecipe recipe;
