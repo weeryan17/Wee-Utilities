@@ -36,7 +36,7 @@ public class Chat extends JavaPlugin {
 				String prefix = this.getChannelsConfig().getString("Chats" + configkey + ".prefix");
 				String color = this.getChannelsConfig().getString("Chats" + configkey + ".color");
 				String abreviation = this.getChannelsConfig().getString("Chats" + configkey + ".abreviation");
-				ChatChannel channel = new ChatChannel(this);
+				ChatChannel channel = new ChatChannel();
 				channel.createChannel(name, prefix, color, abreviation);
 				api.registerCommand(id, "/" + abreviation, "Toggles using the channel " + name, "staffchat." + abreviation + ".use");
 				Field bukkitCommandMap;

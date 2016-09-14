@@ -1,20 +1,14 @@
 package com.weeryan17.sc.util;
 
 import java.util.HashMap;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.weeryan17.sc.Chat;
 import com.weeryan17.utilities.api.MinecraftColor;
 
 public class ChatChannel {
-	Chat instance;
-	public ChatChannel(Chat instance){
-		this.instance = instance;
-	}
 	
 	private String name;
 	private String prefix;
@@ -46,7 +40,7 @@ public class ChatChannel {
 		if(MinecraftColor.isColor(rawColor)){
 			color = "" + ChatColor.valueOf(rawColor);
 		} else {
-			instance.getLogger().log(Level.WARNING, "The color defined for the chat " + name + "is invalid");
+			
 		}
 		this.color = color;
 		nameMap.put(name, this);
