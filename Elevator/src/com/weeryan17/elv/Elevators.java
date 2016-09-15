@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.weeryan17.elv.util.Movement;
 import com.weeryan17.utilities.api.ConfigApi;
 import com.weeryan17.utilities.api.PluginMannager;
 
@@ -26,6 +27,8 @@ public class Elevators extends JavaPlugin {
 		confApi = new ConfigApi(id);
 		Events events = new Events(this);
 		Bukkit.getPluginManager().registerEvents(events, this);
+		Movement move = new Movement();
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, move, 0, 1);
 	}
 	
 	public boolean isElevatorPlate(ItemStack item){

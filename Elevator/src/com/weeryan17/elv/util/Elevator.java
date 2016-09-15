@@ -1,5 +1,6 @@
 package com.weeryan17.elv.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Location;
@@ -20,6 +21,7 @@ public class Elevator {
 	
 	private static HashMap<Integer, Elevator> idMap = new HashMap<Integer, Elevator>(); 
 	private static HashMap<XZ, Elevator> locMap = new HashMap<XZ, Elevator>();
+	HashMap<Integer, Location> plates = new HashMap<Integer, Location>();
 	
 	int id;
 	Location loc;
@@ -34,11 +36,16 @@ public class Elevator {
 		return locMap.get(loc);
 	}
 	
-	public void openElevatorMenu(Player p, XZ loc){
+	public void openElevatorMenu(Player p){
 		ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
 		BookMeta meta = (BookMeta) item.getItemMeta();
-		Elevator elevator = Elevator.getElevatorByXZ(loc);
-		
+		String book = "These number corispond to the y level of the plates./n";
+		for(int i = loc.getWorld().getMaxHeight(); i >= 1; i--){
+			if(plates.containsKey(i)){
+				book = book + i + "./n";
+			}
+		}
+		meta.setPage(0, book);
 	}
 	
 	public void addPlate(Location loc){
@@ -58,6 +65,9 @@ public class Elevator {
 		}
 		if(exists){
 			instance.getElevatorsConfig().set("Elevators." + id + ".Plates", y);
+			XZ xz = new XZ(loc.getWorld(), x, z);
+			Elevator elv = Elevator.getElevatorByXZ(xz);
+			elv.plates.put(y, loc);
 		} else {
 			id = elevators.getKeys(false).size() + 1;
 			instance.getElevatorsConfig().set("Elevators." + id + ".x", x);
@@ -68,7 +78,20 @@ public class Elevator {
 			idMap.put(id, this);
 			XZ xz = new XZ(loc.getWorld(), x, z);
 			locMap.put(xz, this);
+			plates.put(y, loc);
 		}
 		instance.saveElevatorsConfig();
+	}
+	
+	public int getSizePlates(){
+		return plates.size();
+	}
+	
+	public ArrayList<Integer> getYValues(){
+		ArrayList<Integer> yValues = new ArrayList<Integer>();
+		for(Location loc : plates.values()){
+			yValues.add(loc.getBlockY());
+		}
+		return yValues;
 	}
 }
