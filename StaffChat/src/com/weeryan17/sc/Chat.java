@@ -9,7 +9,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.weeryan17.sc.util.ChatChannel;
+import com.weeryan17.sc.api.ChatChannel;
 import com.weeryan17.utilities.api.CommandApi;
 import com.weeryan17.utilities.api.ConfigApi;
 import com.weeryan17.utilities.api.PluginMannager;

@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.weeryan17.sc.util.ChatChannel;
+import com.weeryan17.sc.api.ChatChannel;
 
 public class Events implements Listener {
 	Chat instance;
@@ -22,7 +22,7 @@ public class Events implements Listener {
 			if(!instance.getPlayerDataConfig().get(uuid.toString() + ".channel").equals("")){
 				String name = instance.getPlayerDataConfig().get(uuid.toString() + ".channel").toString();
 				ChatChannel channel = ChatChannel.getChannelByName(name);
-				channel.broadcastMessage(p, e.getMessage());
+				channel.broadcastPlayerMessage(p, e.getMessage());
 				e.setCancelled(true);
 			}
 		}

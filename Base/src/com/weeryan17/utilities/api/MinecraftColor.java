@@ -109,4 +109,8 @@ public enum MinecraftColor {
 		return color;
 	}
 	
-};
+	@Override
+	public String toString(){
+		return this.color;
+	}
+}

@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.weeryan17.sc.util.ChatChannel;
+import com.weeryan17.sc.api.ChatChannel;
 
 public class ChatCommand extends Command {
 	Chat instance;
@@ -43,7 +43,7 @@ public class ChatCommand extends Command {
 					for(String string : args){
 						message = message + " " + string;
 					}
-					channel.broadcastMessage((Player) sender, message);
+					channel.broadcastPlayerMessage((Player) sender, message);
 				}
 			} else {
 				sender.sendMessage(ChatColor.RED + "You don't have permission to use this command");
