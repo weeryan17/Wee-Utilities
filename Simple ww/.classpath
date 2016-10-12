@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/developer/Dropbox/spigot/BuildTools/Spigot/Spigot-API/target/spigot-api-1.10.2-R0.1-SNAPSHOT-shaded.jar"/>
 	<classpathentry kind="lib" path="C:/Users/developer/Desktop/StaffChat.jar" sourcepath="/StaffChat"/>
 	<classpathentry kind="lib" path="C:/Users/developer/Desktop/LibsDisguises-9.0.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/developer/Dropbox/spigot/BuildTools/spigot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
