@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.weeryan17.sc.api.ChatChannel;
-import com.weeryan17.sww.util.mannagers.PlayerMannager;
 import com.weeryan17.sww.util.mannagers.WerewolfMannager;
 import com.weeryan17.sww.util.tasks.WorldChecker;
 import com.weeryan17.utilities.api.ConfigApi;
@@ -24,7 +23,6 @@ public class WerewolfPlugin extends JavaPlugin {
 	ConfigApi api;
 	int worldChecker;
 	WerewolfMannager werewolfMannager;
-	PlayerMannager playerMannager;
 	public void onEnable(){
 		PluginMannager man = new PluginMannager();
 		id = man.registerPlugin(this);
@@ -33,8 +31,7 @@ public class WerewolfPlugin extends JavaPlugin {
 		WorldChecker worldChecker = new WorldChecker(this);
 		this.worldChecker = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, worldChecker, 0L, 10L);
 		channel.createChannel("Werewolf Chat", "%RED%[%DARK_PURPLE&Werewolf%RED%]", "DARK_BLUE", "sc");
-		werewolfMannager = new WerewolfMannager();
-		playerMannager = new PlayerMannager();
+		werewolfMannager = new WerewolfMannager(this);
 	}
 	
 	public FileConfiguration getPlayerDataConfig(UUID player){
@@ -45,12 +42,16 @@ public class WerewolfPlugin extends JavaPlugin {
 		api.saveConfigs(player.toString(), "Data/Players");
 	}
 	
-	public WerewolfMannager getWerewolfMannager(){
-		return werewolfMannager;
+	public FileConfiguration getWerewolfListConfig(){
+		return api.config("werewolves", "Data");
 	}
 	
-	public PlayerMannager getPlayerMannager(){
-		return playerMannager;
+	public void saveWerewolfListConfig(){
+		api.saveConfigs("werewolves", "Data");
+	}
+	
+	public WerewolfMannager getWerewolfMannager(){
+		return werewolfMannager;
 	}
 	
 	/*
