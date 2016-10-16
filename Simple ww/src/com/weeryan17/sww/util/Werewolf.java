@@ -9,6 +9,7 @@ public class Werewolf {
 	public Werewolf(Player p){
 		this.p = p;
 	}
+	
 	public boolean wolfState;
 	public void toggleWolfState(){
 		if(wolfState){

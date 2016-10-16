@@ -12,6 +12,7 @@ public class WorldChecker implements Runnable {
 	public WorldChecker(WerewolfPlugin instance){
 		this.instance = instance;
 	}
+	
 	@Override
 	public void run() {
 		for(World world: Bukkit.getWorlds()){
