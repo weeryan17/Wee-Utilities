@@ -10,6 +10,7 @@ public class CraftEvent {
 		Recipe recipe = e.getRecipe();
 		if(CustomRecipe.isPluginRecipe(recipe)){
 			CustomRecipe custom = CustomRecipe.getRecipeByRecipe(recipe);
+			//TODO get this finished
 		}
 	}
 }

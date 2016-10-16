@@ -32,7 +32,7 @@ public class CustomRecipe {
 	 * Defines the shape of the items. same as how you would use the bukkit system.
 	 * 
 	 * @param top The pattern for the top row.
-	 * @param midle The pattern for the middle row.
+	 * @param middle The pattern for the middle row.
 	 * @param bottom The pattern for the bottom row.
 	 */
 	public void shape(String top, String middle, String bottom){
