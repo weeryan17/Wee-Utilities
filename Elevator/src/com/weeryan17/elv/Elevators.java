@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,8 +16,8 @@ import com.weeryan17.utilities.api.PluginMannager;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_10_R1.PacketDataSerializer;
-import net.minecraft.server.v1_10_R1.PacketPlayOutCustomPayload;
+import net.minecraft.server.v1_11_R1.PacketDataSerializer;
+import net.minecraft.server.v1_11_R1.PacketPlayOutCustomPayload;
 
 public class Elevators extends JavaPlugin {
 	ConfigApi confApi;
