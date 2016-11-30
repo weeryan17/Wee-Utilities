@@ -55,6 +55,7 @@ public class ChatChannel {
 		String prefix = "";
 		for(String split : rawPrefix.split("%")){
 			if(MinecraftColor.isColor(split)){
+				System.out.println("Staff chat found color " + split);
 				split = "" + ChatColor.valueOf(split);
 			}
 			prefix = prefix + split;

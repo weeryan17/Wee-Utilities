@@ -1,5 +1,7 @@
 package com.weeryan17.utilities.api;
 
+import java.util.ArrayList;
+
 /**
  * Used to easily reference the minecraft formating codes
  * 
@@ -99,14 +101,28 @@ public enum MinecraftColor {
 	 * @return a boolean representing if it's a color
 	 */
 	public static boolean isColor(String string){
-		boolean color = false;
-		for(MinecraftColor m : MinecraftColor.values()){
-			String s = m + "";
-			if(s.equals(string)){
-				color = true;
-			}
+		ArrayList<String> colors = new ArrayList<String>();
+		colors.add("BLACK");
+		colors.add("DARK_BLUE");
+		colors.add("DARK_GREEN");
+		colors.add("DARK_AQUA");
+		colors.add("DARK_RED");
+		colors.add("DARK_PURPLE");
+		colors.add("GOLD");
+		colors.add("GRAY");
+		colors.add("DARK_GRAY");
+		colors.add("BLUE");
+		colors.add("GREEN");
+		colors.add("AQUA");
+		colors.add("RED");
+		colors.add("LIGHT_PURPLE");
+		colors.add("YELLOW");
+		colors.add("WHITE");
+		if(colors.contains(string)){
+			return true;
+		} else {
+			return false;
 		}
-		return color;
 	}
 	
 	@Override

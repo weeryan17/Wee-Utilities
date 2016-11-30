@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.weeryan17.sww.WerewolfPlugin;
 import com.weeryan17.sww.util.Werewolf;
@@ -59,5 +60,9 @@ public class WerewolfMannager {
 		uuidList.add(uuid);
 		instance.getWerewolfListConfig().set("Werewolves", uuidList);
 		instance.saveWerewolfListConfig();
+	}
+	
+	public boolean isSilverWepon(ItemStack item){
+		
 	}
 }
