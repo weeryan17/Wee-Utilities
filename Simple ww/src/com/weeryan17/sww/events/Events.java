@@ -4,10 +4,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Wolf;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.BrewEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.weeryan17.sww.WerewolfPlugin;
@@ -29,7 +36,7 @@ public class Events implements Listener {
 				damagee.sendMessage(ChatColor.BLUE + "You feal str" + ChatColor.MAGIC + "a" + ChatColor.RESET + ChatColor.BLUE + "nge");
 				instance.getWerewolfMannager().addWerewolf((Player) damagee);
 			}
-		} else if(damagee instanceof Player){
+		} else if(damagee instanceof Player && instance.getWerewolfMannager().isWerewolf((Player) damagee)){
 			switch(damager.getType()){
 			case PLAYER:{
 				Player p = (Player) damager;
@@ -37,19 +44,92 @@ public class Events implements Listener {
 				ItemStack offHand = p.getInventory().getItemInOffHand();
 				boolean mainHandAir = mainHand.getType().equals(Material.AIR) ? true : false;
 				ItemStack attackItem = mainHandAir ? offHand : mainHand;
+				if(instance.getWerewolfMannager().isSilverWepon(attackItem)){
+					e.setDamage(e.getDamage() * 2);
+				}
 			}
 			break;
 			case ZOMBIE:{
-				
+				Zombie zombie = (Zombie) damager;
+				ItemStack mainHand = zombie.getEquipment().getItemInMainHand();
+				ItemStack offHand = zombie.getEquipment().getItemInOffHand();
+				boolean mainHandAir = mainHand.getType().equals(Material.AIR) ? true : false;
+				ItemStack attackItem = mainHandAir ? offHand : mainHand;
+				if(instance.getWerewolfMannager().isSilverWepon(attackItem)){
+					e.setDamage(e.getDamage() * 2);
+				}
 			}
 			break;
 			case SKELETON:{
-				
+				Skeleton skele = (Skeleton) damager;
+				ItemStack mainHand = skele.getEquipment().getItemInMainHand();
+				ItemStack offHand = skele.getEquipment().getItemInOffHand();
+				boolean mainHandAir = mainHand.getType().equals(Material.AIR) ? true : false;
+				ItemStack attackItem = mainHandAir ? offHand : mainHand;
+				if(instance.getWerewolfMannager().isSilverWepon(attackItem)){
+					e.setDamage(e.getDamage() * 2);
+				}
 			}
 			break;
 			default:{
 				
 			}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPrepareCraft(PrepareItemCraftEvent e){
+		//Probably don't need this any more.
+	}
+	
+	@EventHandler
+	public void onCraft(CraftItemEvent e){
+		ItemStack result = e.getRecipe().getResult();
+		if(result.isSimilar(instance.normalSilverSword)){
+			CraftingInventory inv = e.getInventory();
+			if(!inv.getItem(2).isSimilar(instance.normalSilver) || !inv.getItem(5).isSimilar(instance.normalSilver)){
+				e.setCancelled(true);
+				e.getWhoClicked().sendMessage(ChatColor.RED + "You can only craft this with silver.");
+			}
+		} else if(result.isSimilar(instance.pureSilverSword)){
+			CraftingInventory inv = e.getInventory();
+			if(!inv.getItem(2).isSimilar(instance.pureSilver) || !inv.getItem(5).isSimilar(instance.pureSilver)){
+				e.setCancelled(true);
+				e.getWhoClicked().sendMessage(ChatColor.RED + "You can only craft this with pure silver.");
+			}
+		} else if(result.isSimilar(instance.pureSilver)){
+			CraftingInventory inv = e.getInventory();
+			for(int i = 1; i <= 9; i++){
+				ItemStack item = inv.getItem(i);
+				if(item.getType().equals(Material.IRON_INGOT)){
+					if(!item.isSimilar(instance.normalSilver)){
+						e.setCancelled(true);
+						e.getWhoClicked().sendMessage(ChatColor.RED + "You can only craft pure silver with normal silver");
+					}
+				}
+			}
+		} else {
+			CraftingInventory inv = e.getInventory();
+			for(ItemStack item: inv.getContents()){
+				if(item.isSimilar(instance.curePotion) || item.isSimilar(instance.normalSilver) || item.isSimilar(instance.normalSilverSword)
+						|| item.isSimilar(instance.pureSilver) || item.isSimilar(instance.pureSilverSword) || item.isSimilar(instance.UFcurePotion)){
+					e.setCancelled(true);
+					e.getWhoClicked().sendMessage(ChatColor.RED + "You may not use this item for normal crafting");
+				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onBrew(BrewEvent e){
+		BrewerInventory inv = e.getContents();
+		for(ItemStack item: inv.getStorageContents()){
+			if(item.isSimilar(instance.curePotion)){
+				e.setCancelled(true);
+				if(inv.getIngredient().getType().equals(Material.FERMENTED_SPIDER_EYE)){
+					
+				}
 			}
 		}
 	}

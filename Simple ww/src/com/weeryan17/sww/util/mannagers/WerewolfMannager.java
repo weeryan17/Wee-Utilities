@@ -17,7 +17,7 @@ public class WerewolfMannager {
 	HashMap<Player, Werewolf> werewolves = new HashMap<Player, Werewolf>();
 	ArrayList<UUID> uuidList = new ArrayList<UUID>();
 	public WerewolfMannager(WerewolfPlugin instance){
-		if(!instance.getWerewolfListConfig().contains("Werewolves")){
+		if(instance.getWerewolfListConfig().contains("Werewolves")){
 			@SuppressWarnings("unchecked")
 			ArrayList<UUID> werewolves = (ArrayList<UUID>) instance.getWerewolfListConfig().get("Werewolves");
 			for(UUID uuid : werewolves){
@@ -63,6 +63,15 @@ public class WerewolfMannager {
 	}
 	
 	public boolean isSilverWepon(ItemStack item){
-		
+		ItemStack silverSword = instance.pureSilverSword;
+		if(item.isSimilar(silverSword)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean playersInWorld(World world){
+		return world.getPlayers().size() >= 1 ? true : false;
 	}
 }

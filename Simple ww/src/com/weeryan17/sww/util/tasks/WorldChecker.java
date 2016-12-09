@@ -20,15 +20,21 @@ public class WorldChecker implements Runnable {
 			long days = time/24000;
 			int phase = (int) (days % 8);
 			if(phase == 0 && world.getTime() >= 13000){
-				for(Werewolf wolf: instance.getWerewolfMannager().getWerewolvesInWorld(world)){
-					if(wolf.skyOpen() && !wolf.wolfState){
-						wolf.setWolfState(true);
+				if(instance.getWerewolfMannager().playersInWorld(world)){
+					for(Werewolf wolf: instance.getWerewolfMannager().getWerewolvesInWorld(world)){
+						if(wolf.skyOpen() && !wolf.wolfState){
+							wolf.setWolfState(true);
+						}
 					}
 				}
 			} else {
-				for(Werewolf wolf: instance.getWerewolfMannager().getWerewolvesInWorld(world)){
-					if(wolf.wolfState){
-						wolf.setWolfState(false);
+				if(instance.getWerewolfMannager().playersInWorld(world)){
+					if(instance.getWerewolfMannager().playersInWorld(world)){
+						for(Werewolf wolf: instance.getWerewolfMannager().getWerewolvesInWorld(world)){
+							if(wolf.wolfState){
+								wolf.setWolfState(false);
+							}
+						}
 					}
 				}
 			}
