@@ -135,6 +135,7 @@ public class WerewolfCommand implements CommandExecutor {
 			case "give" :{
 				sender.sendMessage(ChatColor.GOLD + "______________-Werewolf Help Menu-_______________");
 				sender.sendMessage(ChatColor.GOLD + "/ww give " + ChatColor.WHITE + "help menu");
+				sender.sendMessage(ChatColor.GOLD + "/ww give <player> <item>");
 				sender.sendMessage("Current accepted items:");
 				if(sender instanceof Player){
 					Player p = (Player) sender;
@@ -152,8 +153,20 @@ public class WerewolfCommand implements CommandExecutor {
 					pureSilverSwordMessage.addExtra(pureSilverSwordText);
 					p.spigot().sendMessage(pureSilverSwordMessage);
 					
+					//Normal Silver Sword
+					TextComponent normalSilverSwordMessage = new TextComponent("normalsilversword: ");
+					normalSilverSwordMessage.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+					TextComponent normalSilverSwordText = new TextComponent("Silver Sword");
+					normalSilverSwordText.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+					String normalSilverSwordJson = instance.convertItemStackToJsonRegular(instance.normalSilverSword);
+					BaseComponent[] normalSilverSilverSwordTextHoverComponents = new BaseComponent[]{
+						new TextComponent(normalSilverSwordJson)
+					};
+					normalSilverSwordText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, normalSilverSilverSwordTextHoverComponents));
+					normalSilverSwordMessage.addExtra(normalSilverSwordText);
+					p.spigot().sendMessage(normalSilverSwordMessage);
 				} else {
-					sender.sendMessage(ChatColor.RED + "Curently this help menu isn't suported by non-payers");
+					sender.sendMessage(ChatColor.RED + "Curently this help menu isn't suported by non-payers due to hover events");
 				}
 			}
 			break;
