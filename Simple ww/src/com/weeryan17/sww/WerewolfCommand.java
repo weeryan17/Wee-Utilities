@@ -136,14 +136,25 @@ public class WerewolfCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "______________-Werewolf Help Menu-_______________");
 				sender.sendMessage(ChatColor.GOLD + "/ww give " + ChatColor.WHITE + "help menu");
 				sender.sendMessage("Current accepted items:");
-				TextComponent pureSilverSwordText = new TextComponent("Pure Silver Sword");
-				pureSilverSwordText.setColor(net.md_5.bungee.api.ChatColor.BLUE);
-				String pureSilverSwordJson = instance.convertItemStackToJsonRegular(instance.pureSilverSword);
-				BaseComponent[] pureSilverSwordTextHoverComponents = new BaseComponent[]{
-					new TextComponent(pureSilverSwordJson)
-				};
-				pureSilverSwordText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, pureSilverSwordTextHoverComponents));
-				sender.sendMessage(ChatColor.GOLD + "puresilversword: " + pureSilverSwordText);
+				if(sender instanceof Player){
+					Player p = (Player) sender;
+					
+					//Pure Silver Sword
+					TextComponent pureSilverSwordMessage = new TextComponent("puresilversword: ");
+					pureSilverSwordMessage.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+					TextComponent pureSilverSwordText = new TextComponent("Pure Silver Sword");
+					pureSilverSwordText.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+					String pureSilverSwordJson = instance.convertItemStackToJsonRegular(instance.pureSilverSword);
+					BaseComponent[] pureSilverSwordTextHoverComponents = new BaseComponent[]{
+							new TextComponent(pureSilverSwordJson)
+					};
+					pureSilverSwordText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, pureSilverSwordTextHoverComponents));
+					pureSilverSwordMessage.addExtra(pureSilverSwordText);
+					p.spigot().sendMessage(pureSilverSwordMessage);
+					
+				} else {
+					sender.sendMessage(ChatColor.RED + "Curently this help menu isn't suported by non-payers");
+				}
 			}
 			break;
 			default :{
