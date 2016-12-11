@@ -138,6 +138,7 @@ public class WerewolfCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "/ww give <player> <item>");
 				sender.sendMessage("Current accepted items:");
 				if(sender instanceof Player){
+					//TODO add a method in the wee utilities api for hover events
 					Player p = (Player) sender;
 					
 					//Pure Silver Sword
@@ -167,6 +168,16 @@ public class WerewolfCommand implements CommandExecutor {
 					p.spigot().sendMessage(normalSilverSwordMessage);
 				} else {
 					sender.sendMessage(ChatColor.RED + "Curently this help menu isn't suported by non-payers due to hover events");
+				}
+			}
+			break;
+			case "toggle" :{
+				if(sender.hasPermission("ww.command.admin.toggle")){
+					sender.sendMessage(ChatColor.GOLD + "______________-Werewolf Help Menu-_______________");
+					sender.sendMessage(ChatColor.GOLD + "/ww toggle <player>");
+					sender.sendMessage("It toggles the specifiedplayers werewolf state");
+				} else {
+					sender.sendMessage(ChatColor.RED + "You don't have permission for this command so you don't need to look up a help on it");
 				}
 			}
 			break;
