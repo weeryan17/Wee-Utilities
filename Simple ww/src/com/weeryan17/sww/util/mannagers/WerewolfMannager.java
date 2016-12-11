@@ -48,23 +48,35 @@ public class WerewolfMannager {
 	public boolean isWerewolf(Player p){
 		return werewolves.containsKey(p) ? true : false;
 	}
-
-	public void setWerewolf(Player p){
-		if(!this.isWerewolf(p)){
-			werewolves.put(p, new Werewolf(p));
-		}
-	}
 	
 	public void addWerewolf(Player p){
 		UUID uuid = p.getUniqueId();
+		Werewolf wolf = new Werewolf(p);
+		this.werewolves.put(p, wolf);
 		uuidList.add(uuid);
 		instance.getWerewolfListConfig().set("Werewolves", uuidList);
 		instance.saveWerewolfListConfig();
 	}
 	
+	public boolean toggleWerewolf(Player p){
+		if(this.isWerewolf(p)){
+			this.removeWerewolf(p);
+			return false;
+		} else {
+			this.addWerewolf(p);
+			return true;
+		}
+	}
+	
+	public void removeWerewolf(Player p){
+		werewolves.remove(p);
+		uuidList.remove(p.getUniqueId());
+		instance.getWerewolfListConfig().set("Werewolves", uuidList);
+		instance.saveWerewolfListConfig();
+	}
+	
 	public boolean isSilverWepon(ItemStack item){
-		ItemStack silverSword = instance.pureSilverSword;
-		if(item.isSimilar(silverSword)){
+		if(item.isSimilar(instance.pureSilverSword) || item.isSimilar(instance.normalSilverSword)){
 			return true;
 		} else {
 			return false;
@@ -73,5 +85,15 @@ public class WerewolfMannager {
 	
 	public boolean playersInWorld(World world){
 		return world.getPlayers().size() >= 1 ? true : false;
+	}
+	
+	public int getDaysTillMoon(World world){
+		long day = world.getFullTime() / 24000;
+		int phase = (int) (day % 8);
+		if(phase == 0){
+			return 0;
+		} else {
+			return 9 - phase;
+		}
 	}
 }

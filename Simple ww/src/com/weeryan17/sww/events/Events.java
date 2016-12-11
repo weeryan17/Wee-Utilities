@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
@@ -102,13 +103,30 @@ public class Events implements Listener {
 			CraftingInventory inv = e.getInventory();
 			for(int i = 1; i <= 9; i++){
 				ItemStack item = inv.getItem(i);
-				if(item.getType().equals(Material.IRON_INGOT)){
-					if(!item.isSimilar(instance.normalSilver)){
-						e.setCancelled(true);
-						e.getWhoClicked().sendMessage(ChatColor.RED + "You can only craft pure silver with normal silver");
+				if(item != null){
+					if(item.getType().equals(Material.IRON_INGOT)){
+						if(!item.isSimilar(instance.normalSilver)){
+							e.setCancelled(true);
+							e.getWhoClicked().sendMessage(ChatColor.RED + "You can only craft pure silver with normal silver");
+						}
 					}
 				}
 			}
+		} else if(result.isSimilar(instance.UFcurePotion)) {
+			CraftingInventory inv = e.getInventory();
+			for(int i = 1; i <= 9; i++){
+				ItemStack item = inv.getItem(i);
+				if(item != null){
+					if(item.getType().equals(Material.IRON_INGOT)){
+						if(!item.isSimilar(instance.normalSilver)){
+							e.setCancelled(true);
+							e.getWhoClicked().sendMessage(ChatColor.RED + "You can only craft a cure potion with normal silver");
+						}
+					}
+				}
+			}
+		} else if(result.isSimilar(instance.normalSilver)) {
+			
 		} else {
 			CraftingInventory inv = e.getInventory();
 			for(ItemStack item: inv.getContents()){
@@ -123,14 +141,26 @@ public class Events implements Listener {
 	
 	@EventHandler
 	public void onBrew(BrewEvent e){
-		BrewerInventory inv = e.getContents();
-		for(ItemStack item: inv.getStorageContents()){
-			if(item.isSimilar(instance.curePotion)){
-				e.setCancelled(true);
-				if(inv.getIngredient().getType().equals(Material.FERMENTED_SPIDER_EYE)){
-					
+		final BrewerInventory inv = e.getContents();
+		for(int i = 0; i <= 2; i++){
+			ItemStack item = inv.getItem(i);
+			if(item != null){
+				if(item.isSimilar(instance.UFcurePotion)){
+					final boolean isFermented = inv.getIngredient().getType().equals(Material.FERMENTED_SPIDER_EYE) ? true : false;
+					if(isFermented){
+						inv.setItem(i, instance.curePotion);
+					} else {
+						inv.setItem(i, instance.UFcurePotion);
+					}
 				}
 			}
+		}
+	}
+	
+	@EventHandler
+	public void onDrink(PlayerItemConsumeEvent e){
+		if(e.getItem().isSimilar(instance.curePotion)){
+			
 		}
 	}
 }

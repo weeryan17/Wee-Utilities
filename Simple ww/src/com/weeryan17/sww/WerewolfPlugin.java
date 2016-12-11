@@ -14,7 +14,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.weeryan17.sc.api.ChatChannel;
 import com.weeryan17.sww.events.Events;
 import com.weeryan17.sww.util.mannagers.WerewolfMannager;
 import com.weeryan17.sww.util.tasks.WorldChecker;
@@ -53,7 +52,7 @@ public class WerewolfPlugin extends JavaPlugin {
 		createItems();
 		createRecipes();
 		werewolfMannager = new WerewolfMannager(this);
-		WerewolfCommand cmd = new WerewolfCommand();
+		WerewolfCommand cmd = new WerewolfCommand(this);
 		cmdApi.registerCommand(id, "/ww", "Main werewolf command", "");
 		cmdApi.registerCommand(id, "/werewolf", "Main werewolf command", "");
 		getCommand("ww").setExecutor(cmd);
