@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -25,6 +26,7 @@ import com.weeryan17.utilities.api.MinecraftColor;
 import com.weeryan17.utilities.api.PluginMannager;
 
 import net.minecraft.server.v1_11_R1.IChatBaseComponent;
+import net.minecraft.server.v1_11_R1.NBTTagCompound;
 import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
 
 public class WerewolfPlugin extends JavaPlugin {
@@ -177,5 +179,14 @@ public class WerewolfPlugin extends JavaPlugin {
         PacketPlayOutChat bar = new PacketPlayOutChat(icbc, (byte)2);
             ((CraftPlayer)p).getHandle().playerConnection.sendPacket(bar);
     }
+	
+	public String convertItemStackToJsonRegular(ItemStack itemStack) {
+	    // First we convert the item stack into an NMS itemstack
+	    net.minecraft.server.v1_11_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+	    net.minecraft.server.v1_11_R1.NBTTagCompound compound = new NBTTagCompound();
+	    compound = nmsItemStack.save(compound);
+
+	    return compound.toString();
+	}
 	
 }

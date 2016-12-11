@@ -10,6 +10,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class WerewolfCommand implements CommandExecutor {
 	WerewolfPlugin instance;
 	public WerewolfCommand(WerewolfPlugin instance){
@@ -46,7 +50,32 @@ public class WerewolfCommand implements CommandExecutor {
 					sender.sendMessage(ChatColor.RED + "Their are no sub commands for /ww admin");
 				}
 			}
-			
+			break;
+			case "give" :{
+				if(sender.hasPermission("ww.command.admin.give")){
+					if(args.length == 1){
+						this.handleHelp(sender, args);
+					} else if(args.length == 2) {
+						sender.sendMessage(ChatColor.RED + "Inavlid args /ww give <player> <item>");
+					} else if(args.length == 3) {
+						Player p = Bukkit.getPlayer(args[1]);
+						if(p != null){
+							if(instance.getWerewolfMannager().isWerewolfItem(args[2])){
+								p.getInventory().addItem(instance.getWerewolfMannager().getWerewolfItem(args[2]));
+							} else {
+								sender.sendMessage(ChatColor.RED + "Invalid item.");
+							}
+						} else {
+							sender.sendMessage(ChatColor.RED + "Inavlid player.");
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED + "Inavlid args /ww give <player> <item>");
+					}
+				} else {
+					sender.sendMessage(ChatColor.RED + "You don't have permission to give people werewolf items.");
+				}
+			}
+			break;
 			case "toggle" :{
 				if(sender.hasPermission("ww.command.admin.toggle")){
 					if(args.length == 2){
@@ -70,11 +99,11 @@ public class WerewolfCommand implements CommandExecutor {
 					sender.sendMessage(ChatColor.RED + "You don't have permision to prefourm this command");
 				}
 			}
-			
+			break;
 			case "help" :{
 				this.handleHelp(sender, Arrays.copyOfRange(args, 1, args.length));
 			}
-			
+			break;
 			default :{
 				sender.sendMessage("Ivalid sub command");
 			}
@@ -99,7 +128,26 @@ public class WerewolfCommand implements CommandExecutor {
 			switch(args[0]){
 			case "admin" :{
 				sender.sendMessage(ChatColor.GOLD + "______________-Werewolf Help Menu-_______________");
-				sender.sendMessage(ChatColor.GOLD + "");
+				sender.sendMessage(ChatColor.GOLD + "/ww toggle <player>: " + ChatColor.WHITE + "Toggles that players werewolf state.");
+				sender.sendMessage(ChatColor.GOLD + "/ww give <player> <item>: " + ChatColor.GOLD + "Gives the specified player the pecified item.");
+			}
+			break;
+			case "give" :{
+				sender.sendMessage(ChatColor.GOLD + "______________-Werewolf Help Menu-_______________");
+				sender.sendMessage(ChatColor.GOLD + "/ww give " + ChatColor.WHITE + "help menu");
+				sender.sendMessage("Current accepted items:");
+				TextComponent pureSilverSwordText = new TextComponent("Pure Silver Sword");
+				pureSilverSwordText.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+				String pureSilverSwordJson = instance.convertItemStackToJsonRegular(instance.pureSilverSword);
+				BaseComponent[] pureSilverSwordTextHoverComponents = new BaseComponent[]{
+					new TextComponent(pureSilverSwordJson)
+				};
+				pureSilverSwordText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, pureSilverSwordTextHoverComponents));
+				sender.sendMessage(ChatColor.GOLD + "puresilversword: " + pureSilverSwordText);
+			}
+			break;
+			default :{
+				sender.sendMessage(ChatColor.RED + "The help menu your looking for doesn't exist (yet).");
 			}
 			}
 		} else {

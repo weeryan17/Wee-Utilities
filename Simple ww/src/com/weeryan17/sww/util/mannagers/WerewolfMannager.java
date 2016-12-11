@@ -16,6 +16,9 @@ public class WerewolfMannager {
 	WerewolfPlugin instance;
 	HashMap<Player, Werewolf> werewolves = new HashMap<Player, Werewolf>();
 	ArrayList<UUID> uuidList = new ArrayList<UUID>();
+	
+	ArrayList<String> itemNames = new ArrayList<String>();
+	
 	public WerewolfMannager(WerewolfPlugin instance){
 		if(instance.getWerewolfListConfig().contains("Werewolves")){
 			@SuppressWarnings("unchecked")
@@ -27,6 +30,12 @@ public class WerewolfMannager {
 				uuidList.add(uuid);
 			}
 		}
+		itemNames.add("puresilversword");
+		itemNames.add("normalsilversword");
+		itemNames.add("puresilver");
+		itemNames.add("normalsilver");
+		itemNames.add("curepotion");
+		itemNames.add("unfinishedcurepotion");
 		this.instance = instance;
 	}
 	
@@ -46,7 +55,7 @@ public class WerewolfMannager {
 	}
 	
 	public boolean isWerewolf(Player p){
-		return werewolves.containsKey(p) ? true : false;
+		return werewolves.containsKey(p);
 	}
 	
 	public void addWerewolf(Player p){
@@ -80,6 +89,48 @@ public class WerewolfMannager {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public boolean isWerewolfItem(String itemName){
+		itemName = itemName.toLowerCase();
+		return itemNames.contains(itemName);
+	}
+	
+	public ItemStack getWerewolfItem(String itemName){
+		if(this.isWerewolfItem(itemName)){
+			switch(itemName.toLowerCase()){
+			case "puresilversword" :{
+				return instance.pureSilverSword;
+			}
+			
+			case "normalsilversword" :{
+				return instance.normalSilverSword;
+			}
+			
+			case "puresilver" :{
+				return instance.pureSilver;
+			}
+			
+			case "normalsilver" :{
+				return instance.normalSilver;
+			}
+			
+			case "curepotion" :{
+				return instance.curePotion;
+			}
+			
+			case "unfinishedcurepotion" :{
+				return instance.UFcurePotion;
+			}
+			
+			default :{
+				return null;
+			}
+			
+			}
+		} else {
+			return null;
 		}
 	}
 	
