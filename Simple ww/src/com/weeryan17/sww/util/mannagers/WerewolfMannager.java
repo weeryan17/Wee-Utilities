@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.weeryan17.sww.WerewolfPlugin;
 import com.weeryan17.sww.util.Werewolf;
@@ -59,6 +61,7 @@ public class WerewolfMannager {
 	}
 	
 	public void addWerewolf(Player p){
+		p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000, 1), true);
 		UUID uuid = p.getUniqueId();
 		Werewolf wolf = new Werewolf(p);
 		this.werewolves.put(p, wolf);
@@ -78,6 +81,7 @@ public class WerewolfMannager {
 	}
 	
 	public void removeWerewolf(Player p){
+		p.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
 		werewolves.remove(p);
 		uuidList.remove(p.getUniqueId());
 		instance.getWerewolfListConfig().set("Werewolves", uuidList);

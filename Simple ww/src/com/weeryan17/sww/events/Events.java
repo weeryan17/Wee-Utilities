@@ -160,7 +160,13 @@ public class Events implements Listener {
 	@EventHandler
 	public void onDrink(PlayerItemConsumeEvent e){
 		if(e.getItem().isSimilar(instance.curePotion)){
-			
+			if(instance.getWerewolfMannager().isWerewolf(e.getPlayer())){
+				e.getPlayer().setHealth(0);
+				instance.getWerewolfMannager().removeWerewolf(e.getPlayer());
+			} else {
+				e.setCancelled(true);
+				e.getPlayer().sendMessage(ChatColor.RED + "You are not a werewolf so you arn't allowed to drink this");
+			}
 		}
 	}
 }

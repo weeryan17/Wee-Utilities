@@ -3,6 +3,8 @@ package com.weeryan17.sww.util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 /**
  * Main class for werewolf handling.
  * 
@@ -35,9 +37,13 @@ public class Werewolf {
 		this.wolfState = wolfState;
 		Disguiser dis = new Disguiser();
 		if(wolfState){
-			dis.UnDisguise(p);
-		} else {
 			dis.DisgusisePlayerAsWolf(p);
+			p.setWalkSpeed(1.005f);
+			p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000, 3), true);
+		} else {
+			dis.UnDisguise(p);
+			p.setWalkSpeed(1f);
+			p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000, 1), true);
 		}
 	}
 	
