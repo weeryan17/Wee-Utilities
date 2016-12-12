@@ -138,6 +138,7 @@ public class WerewolfCommand implements CommandExecutor {
 				sender.sendMessage(ChatColor.GOLD + "/ww give <player> <item>");
 				sender.sendMessage("Current accepted items:");
 				if(sender instanceof Player){
+					sender.sendMessage("(The name is the thing before the : the rest is just showing you the item.)");
 					//TODO add a method in the wee utilities api for hover events
 					Player p = (Player) sender;
 					
@@ -166,6 +167,58 @@ public class WerewolfCommand implements CommandExecutor {
 					normalSilverSwordText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, normalSilverSilverSwordTextHoverComponents));
 					normalSilverSwordMessage.addExtra(normalSilverSwordText);
 					p.spigot().sendMessage(normalSilverSwordMessage);
+					
+					//Pure silver
+					TextComponent pureSilverMessage = new TextComponent("puresilver: ");
+					pureSilverMessage.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+					TextComponent pureSilverText = new TextComponent("Pure Silver");
+					pureSilverText.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+					String pureSilverJson = instance.convertItemStackToJsonRegular(instance.pureSilver);
+					BaseComponent[] pureSilverTextHoverComponents = new BaseComponent[]{
+							new TextComponent(pureSilverJson)
+					};
+					pureSilverText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, pureSilverTextHoverComponents));
+					pureSilverMessage.addExtra(pureSilverText);
+					p.spigot().sendMessage(pureSilverMessage);
+					
+					//Normal Silver
+					TextComponent normalSilverMessage = new TextComponent("normalsilver: ");
+					normalSilverMessage.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+					TextComponent normalSilverText = new TextComponent("Silver");
+					normalSilverText.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+					String normalSilverJson = instance.convertItemStackToJsonRegular(instance.normalSilver);
+					BaseComponent[] normalSilverTextHoverComponents = new BaseComponent[]{
+							new TextComponent(normalSilverJson)
+					};
+					normalSilverText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, normalSilverTextHoverComponents));
+					normalSilverMessage.addExtra(normalSilverText);
+					p.spigot().sendMessage(normalSilverMessage);
+					
+					//Cure Potion
+					TextComponent curePotionMessage = new TextComponent("curepotion: ");
+					curePotionMessage.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+					TextComponent curePotionText = new TextComponent("Cure Potion");
+					curePotionText.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+					String curePotionJson = instance.convertItemStackToJsonRegular(instance.curePotion);
+					BaseComponent[] curePotionTextHoverComponents = new BaseComponent[]{
+							new TextComponent(curePotionJson)
+					};
+					curePotionText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, curePotionTextHoverComponents));
+					curePotionMessage.addExtra(curePotionText);
+					p.spigot().sendMessage(curePotionMessage);
+					
+					//unfinished cure potion
+					TextComponent UFcurePotionMessage = new TextComponent("unfinishedcurepotion: ");
+					UFcurePotionMessage.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+					TextComponent UFcurePotionText = new TextComponent("Unfinished Cure Potion");
+					UFcurePotionText.setColor(net.md_5.bungee.api.ChatColor.RED);
+					String UFcurePotionJson = instance.convertItemStackToJsonRegular(instance.UFcurePotion);
+					BaseComponent[] UFcorePotionTextHoverComponents = new BaseComponent[]{
+							new TextComponent(UFcurePotionJson)
+					};
+					UFcurePotionText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, UFcorePotionTextHoverComponents));
+					UFcurePotionMessage.addExtra(UFcurePotionText);
+					p.spigot().sendMessage(UFcurePotionMessage);
 				} else {
 					sender.sendMessage(ChatColor.RED + "Curently this help menu isn't suported by non-payers due to hover events");
 				}

@@ -102,13 +102,13 @@ public class WerewolfPlugin extends JavaPlugin {
 		ArrayList<String> UFcurePotionLore = new ArrayList<String>();
 		UFcurePotionLore.add(MinecraftColor.RED + "It's a cure potion but it's unfinished...");
 		UFcurePotionLore.add(MinecraftColor.RED + "You can still drink it but no one knows what outcome it will have on you.");
-		UFcurePotion = itemUtils.createItem(Material.POTION, 0, 1, MinecraftColor.RED + "Unfinished cure potion", UFcurePotionLore);
+		UFcurePotion = itemUtils.createItem(Material.POTION, 0, 1, MinecraftColor.RED + "Unfinished Cure Potion", UFcurePotionLore);
 		
 		ArrayList<String> curePotionLore = new ArrayList<String>();
 		curePotionLore.add(MinecraftColor.RED + "It cures you from being a werewolf.");
 		curePotionLore.add("");
 		curePotionLore.add(MinecraftColor.RED + "Only death can cure one......");
-		curePotion = itemUtils.createItem(Material.POTION, 0, 1, MinecraftColor.GREEN + "Cure potion.", curePotionLore);
+		curePotion = itemUtils.createItem(Material.POTION, 0, 1, MinecraftColor.GREEN + "Cure Potion", curePotionLore);
 	}
 	
 	public void createRecipes(){
