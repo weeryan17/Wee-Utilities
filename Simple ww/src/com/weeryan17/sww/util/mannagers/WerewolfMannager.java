@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.weeryan17.sww.WerewolfPlugin;
+import com.weeryan17.sww.util.Clan;
 import com.weeryan17.sww.util.Werewolf;
 
 public class WerewolfMannager {
@@ -61,7 +62,7 @@ public class WerewolfMannager {
 	}
 	
 	public void addWerewolf(Player p){
-		p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000, 1), true);
+		p.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100000, 0), true);
 		UUID uuid = p.getUniqueId();
 		Werewolf wolf = new Werewolf(p);
 		this.werewolves.put(p, wolf);
@@ -150,5 +151,16 @@ public class WerewolfMannager {
 		} else {
 			return 9 - phase;
 		}
+	}
+	
+	/**
+	 * Adds a Werewolf to the given Clan.
+	 * 
+	 * @param wolf The Werewolf to add to the clan.
+	 * @param clan The Clan to ass the Werewolf to.
+	 */
+	public void addWerewolfToClan(Werewolf wolf, Clan clan){
+		clan.addWerewolf(wolf);
+		wolf.putInClan(clan);
 	}
 }

@@ -189,4 +189,8 @@ public class WerewolfPlugin extends JavaPlugin {
 	    return compound.toString();
 	}
 	
+	public void createDefaultClans(){
+		
+	}
+	
 }

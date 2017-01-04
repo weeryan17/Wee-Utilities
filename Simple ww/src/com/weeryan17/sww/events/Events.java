@@ -1,5 +1,7 @@
 package com.weeryan17.sww.events;
 
+import java.util.Random;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -12,11 +14,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.weeryan17.sww.WerewolfPlugin;
 import com.weeryan17.sww.util.mannagers.WerewolfMannager;
@@ -77,11 +80,6 @@ public class Events implements Listener {
 			}
 			}
 		}
-	}
-	
-	@EventHandler
-	public void onPrepareCraft(PrepareItemCraftEvent e){
-		//Probably don't need this any more.
 	}
 	
 	@EventHandler
@@ -167,6 +165,44 @@ public class Events implements Listener {
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(ChatColor.RED + "You are not a werewolf so you arn't allowed to drink this");
 			}
+		} else if(e.getItem().isSimilar(instance.UFcurePotion)) {
+			this.applyRandomBadEffect(e.getPlayer());
+			this.applyRandomBadEffect(e.getPlayer());
 		}
+	}
+	
+	public void applyRandomBadEffect(Player p){
+		Random random = new Random();
+		int strenght = random.nextInt(5);
+		strenght = strenght + 1;
+		int duration = random.nextInt(99);
+		duration = duration +1;
+		int potionEffect = random.nextInt(10);
+		PotionEffectType type = null;
+		if(potionEffect == 0){
+			type = PotionEffectType.BLINDNESS;
+		} else if(potionEffect == 1){
+			type = PotionEffectType.CONFUSION;
+		} else if(potionEffect == 2){
+			type = PotionEffectType.HARM;
+		} else if(potionEffect == 3){
+			type = PotionEffectType.HUNGER;
+		} else if(potionEffect == 4){
+			type = PotionEffectType.LEVITATION;
+		} else if(potionEffect == 5){
+			type = PotionEffectType.POISON;
+		} else if(potionEffect == 6){
+			type = PotionEffectType.SLOW;
+		} else if(potionEffect == 7){
+			type = PotionEffectType.SLOW_DIGGING;
+		} else if(potionEffect == 8){
+			type = PotionEffectType.UNLUCK;
+		} else if(potionEffect == 9){
+			type = PotionEffectType.WEAKNESS;
+		} else if(potionEffect == 10){
+			type = PotionEffectType.WITHER;
+		}
+		PotionEffect effect = new PotionEffect(type, duration, strenght);
+		p.addPotionEffect(effect);
 	}
 }

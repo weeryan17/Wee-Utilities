@@ -32,11 +32,11 @@ public class WerewolfCommand implements CommandExecutor {
 				Player p = (Player) sender;
 				p.sendMessage(ChatColor.GOLD + String.valueOf(instance.getWerewolfMannager().getDaysTillMoon(p.getWorld())) + " days " + ChatColor.WHITE + "till full moon in your world");
 				if(instance.getWerewolfMannager().isWerewolf(p)){
-					//Going to be added after Clans are done
+					p.sendMessage("You are in the " + ChatColor.GOLD + instance.getWerewolfMannager().getWerewolfByPlayer(p).getClan().getName() + " clan" + ChatColor.WHITE + ".");
 				}
 			} else {
 				for(World world: Bukkit.getWorlds()){
-					sender.sendMessage(ChatColor.GOLD + String.valueOf(instance.getWerewolfMannager().getDaysTillMoon(world)) + " days " + ChatColor.WHITE + "till full moon in world " + world.getName());
+					sender.sendMessage(ChatColor.GOLD + String.valueOf(instance.getWerewolfMannager().getDaysTillMoon(world)) + " days " + ChatColor.WHITE + "till full moon in world " + ChatColor.GOLD + world.getName());
 				}
 			}
 			
