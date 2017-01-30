@@ -153,6 +153,14 @@ public class WerewolfMannager {
 		}
 	}
 	
+	public boolean isFullMoon(World world){
+		if(this.getDaysTillMoon(world) == 0 && world.getTime() >= 13000){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Adds a Werewolf to the given Clan.
 	 * 

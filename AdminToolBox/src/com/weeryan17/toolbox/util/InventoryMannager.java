@@ -1,5 +1,9 @@
 package com.weeryan17.toolbox.util;
 
-public class InventoryMannager {
+import org.bukkit.event.inventory.InventoryInteractEvent;
 
+public class InventoryMannager {
+	public void onInventoryInteract(InventoryInteractEvent e){
+		
+	}
 }

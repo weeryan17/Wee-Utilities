@@ -5,6 +5,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.weeryan17.sww.WerewolfPlugin;
+import com.weeryan17.sww.util.FullMoonEvent;
 import com.weeryan17.sww.util.Werewolf;
 
 public class WorldChecker implements Runnable {
@@ -13,6 +14,7 @@ public class WorldChecker implements Runnable {
 		this.instance = instance;
 	}
 	
+	boolean isFullmoon;
 	@Override
 	public void run() {
 		for(World world: Bukkit.getWorlds()){
@@ -26,8 +28,14 @@ public class WorldChecker implements Runnable {
 							wolf.setWolfState(true);
 						}
 					}
+					if(!isFullmoon){
+						FullMoonEvent fullmoon = new FullMoonEvent(world);
+						Bukkit.getPluginManager().callEvent(fullmoon);
+					}
 				}
+				isFullmoon = true;
 			} else {
+				isFullmoon = false;
 				if(instance.getWerewolfMannager().playersInWorld(world)){
 					if(instance.getWerewolfMannager().playersInWorld(world)){
 						for(Werewolf wolf: instance.getWerewolfMannager().getWerewolvesInWorld(world)){

@@ -18,7 +18,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ConfigApi {
     JavaPlugin plugin;
     HashMap<String, FileConfiguration> datas = new HashMap<String, FileConfiguration>();
+    
     private FileConfiguration data;
+    
     /**
      * The class for easy use of custom configs.
      * 
@@ -29,6 +31,7 @@ public class ConfigApi {
     public ConfigApi(JavaPlugin plugin) {
         this.plugin = plugin;
     }
+    
     /**
      * The class for easy use of custom configs.
      * 
@@ -37,6 +40,7 @@ public class ConfigApi {
     public ConfigApi(int id) {
         this.plugin = PluginMannager.plugins.get(id);
     }
+    
     /**
      * Creates a new custom config.
      * 
@@ -58,6 +62,7 @@ public class ConfigApi {
         }
         return this.datas.get(name);
     }
+    
     /**
      * Saves your custom config.
      * 
@@ -75,6 +80,7 @@ public class ConfigApi {
             this.plugin.getLogger().log(Level.WARNING, "Couldn''t save {0}.yml", name);
         }
     }
+    
     /**
      * Saves a config resource from your plugin into your data folder.
      * 
@@ -94,5 +100,17 @@ public class ConfigApi {
      */
     public void reloadConfig(String name) {
         this.datas.remove(name);
+    }
+    
+    /**
+     * Creates a new xlxs spreadsheet.
+     * This will probably be integrated into the getSpreadsheet() method later later.
+     * 
+     * @param name The name of the spreadsheet.
+     * @param subFolder The folder you want to have it in. use an empty sting for no folder.
+     */
+    public void createSpreadsheet(String name, String subFolder){
+    	File config = subFolder.equals("") ? new File(this.plugin.getDataFolder(), String.valueOf(name) + ".yml") : new File(this.plugin.getDataFolder() + "/" + subFolder, String.valueOf(name) + ".xlxs");
+    	
     }
 }
