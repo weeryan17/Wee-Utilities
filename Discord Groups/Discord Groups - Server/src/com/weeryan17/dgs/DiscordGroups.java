@@ -1,10 +1,10 @@
 package com.weeryan17.dgs;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.DateFormat;
@@ -39,19 +39,16 @@ public class DiscordGroups {
 		try {
 			client = new ClientBuilder().withToken(token).login();
 		} catch (DiscordException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*ServerSocket serverSocket;
+		ServerSocket serverSocket;
 		try {
 			serverSocket = new ServerSocket(port);
 			socket = serverSocket.accept();
 			objectIn = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
 		client.getDispatcher().registerListener(new ChatListener());
 		client.getDispatcher().registerListener(new RandomListener(this));
 	}
@@ -60,50 +57,57 @@ public class DiscordGroups {
 	
 	public void readyInit(){
 		this.log("Bot initilized");
+		this.log("This is just for testing");
 	}
 	
-	@SuppressWarnings("unused")
 	public void log(String message){
-		System.out.println(message);
 		IGuild mainGuild = client.getGuildByID(guildId);
 		IChannel logChannel = mainGuild.getChannelByID(channelId);
 		try {
 			logChannel.sendMessage(message);
 		} catch (MissingPermissionsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RateLimitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DiscordException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		Date dateobj = new Date();
 		
-		DateFormat dayf = new SimpleDateFormat("dd/MM/yy");
+		DateFormat dayf = new SimpleDateFormat("dd.MM.yy");
 		String dayDate = dayf.format(dateobj);
 		
 		DateFormat hourf = new SimpleDateFormat("HH");
-		String hourDate = hourf.format(dateobj);
+		String hourDate = hourf.format(dateobj) + ".00";
 		
-		PrintWriter writer = null;
+		DateFormat secoondsf = new SimpleDateFormat("HH:mm:ss:SSS");
+		String secondsDate = secoondsf.format(dateobj);
 		
-		if(!hourDate.equals(hour)){
-			try {
-				PrintWriter newWriter = new PrintWriter("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".txt", "UTF-8");
-				if(writer != null){
-					writer.close();
-				}
-				writer = newWriter;
-				newWriter.close();
-			} catch (FileNotFoundException | UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		
+		File file = null;
+		
+		try {
+			File dir = new File("C:/Users/developer/Documents/Logs/" + dayDate);
+			dir.mkdirs();
+			file = new File("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".log");
+			if(!file.exists()){
+				file.createNewFile();
 			}
+			
+			fw = new FileWriter(file, true);
+			bw = new BufferedWriter(fw);
+			
+			bw.write("[" + secondsDate + "] " + message);
+			bw.write('\n');
+			
+			bw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		writer.write(message);
+		System.out.println("[" + secondsDate + "] " + message);
 	}
-
+	
 }
