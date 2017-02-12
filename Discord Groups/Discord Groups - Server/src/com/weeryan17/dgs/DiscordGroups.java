@@ -1,23 +1,16 @@
 package com.weeryan17.dgs;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import com.weeryan17.dgs.util.Logging;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.MissingPermissionsException;
-import sx.blah.discord.util.RateLimitException;
 
 public class DiscordGroups {
 	public IDiscordClient client;
@@ -27,8 +20,7 @@ public class DiscordGroups {
 	}
 	
 	String token = "REMOVED"; //Removed from github for security reasons.
-	public String guildId = "280175962769850369"; //This is the id of the main guild. Used for logging to the discord server it's self.
-	public String channelId = "280177651392708608"; //This is the id of the log channel. Used for logging to the discord server it's self.
+	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	Socket socket;
 	int port = 0; //Removed from github for security reasons.
@@ -53,61 +45,22 @@ public class DiscordGroups {
 		client.getDispatcher().registerListener(new RandomListener(this));
 	}
 	
-	String hour;
+	IGuild mainGuild;
+	
+	Logging logger;
 	
 	public void readyInit(){
-		this.log("Bot initilized");
-		this.log("This is just for testing");
+		mainGuild = client.getGuildByID(guildId);
+		logger = new Logging(this);
+		logger.log("Bot initlized", true);
 	}
 	
-	public void log(String message){
-		IGuild mainGuild = client.getGuildByID(guildId);
-		IChannel logChannel = mainGuild.getChannelByID(channelId);
-		try {
-			logChannel.sendMessage(message);
-		} catch (MissingPermissionsException e) {
-			e.printStackTrace();
-		} catch (RateLimitException e) {
-			e.printStackTrace();
-		} catch (DiscordException e) {
-			e.printStackTrace();
-		}
-		
-		Date dateobj = new Date();
-		
-		DateFormat dayf = new SimpleDateFormat("dd.MM.yy");
-		String dayDate = dayf.format(dateobj);
-		
-		DateFormat hourf = new SimpleDateFormat("HH");
-		String hourDate = hourf.format(dateobj) + ".00";
-		
-		DateFormat secoondsf = new SimpleDateFormat("HH:mm:ss:SSS");
-		String secondsDate = secoondsf.format(dateobj);
-		
-		BufferedWriter bw = null;
-		FileWriter fw = null;
-		
-		File file = null;
-		
-		try {
-			File dir = new File("C:/Users/developer/Documents/Logs/" + dayDate);
-			dir.mkdirs();
-			file = new File("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".log");
-			if(!file.exists()){
-				file.createNewFile();
-			}
-			
-			fw = new FileWriter(file, true);
-			bw = new BufferedWriter(fw);
-			
-			bw.write("[" + secondsDate + "] " + message);
-			bw.write('\n');
-			
-			bw.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("[" + secondsDate + "] " + message);
+	public IGuild getMainGuild(){
+		return mainGuild;
+	}
+	
+	public Logging getLogger(){
+		return logger;
 	}
 	
 }
