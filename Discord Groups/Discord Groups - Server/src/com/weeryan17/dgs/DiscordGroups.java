@@ -41,7 +41,7 @@ public class DiscordGroups {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		client.getDispatcher().registerListener(new ChatListener());
+		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
 	}
 	

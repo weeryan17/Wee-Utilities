@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.weeryan17.dgs.DiscordGroups;
 
@@ -22,10 +23,13 @@ public class Logging {
 	
 	IChannel logChannel;
 	
+	Logger logger;
+	
 	public Logging(DiscordGroups instance){
 		this.instance = instance;
 		String channelId = "280177651392708608";
 		logChannel = instance.getMainGuild().getChannelByID(channelId);
+		logger = Logger.getLogger("com.weeryan17");
 	}
 	
 	/**
@@ -41,11 +45,11 @@ public class Logging {
 			try {
 				logChannel.sendMessage(message);
 			} catch (MissingPermissionsException e) {
-				e.printStackTrace();
+				this.log("Discord bot is missing permisions", DiscordLevels.DiscordMissingPerms, e, false);
 			} catch (RateLimitException e) {
-				e.printStackTrace();
+				this.log("Discord bot hit it's rate limit", DiscordLevels.DiscordRateLimit, e, false);
 			} catch (DiscordException e) {
-				e.printStackTrace();
+				this.log("Discord bot ran into a error", DiscordLevels.Discord, e, false);
 			}	
 		}
 		
@@ -81,9 +85,9 @@ public class Logging {
 			
 			bw.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
+					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
 		}
-		System.out.println("[" + secondsDate + "] " + message);
 	}
 	
 	/**
@@ -99,12 +103,12 @@ public class Logging {
 			try {
 				logChannel.sendMessage("[" + level.getName() + "] " + message);
 			} catch (MissingPermissionsException e) {
-				e.printStackTrace();
+				this.log("Discord bot is missing permisions", DiscordLevels.DiscordMissingPerms, e, false);
 			} catch (RateLimitException e) {
-				e.printStackTrace();
+				this.log("Discord bot hit it's rate limit", DiscordLevels.DiscordRateLimit, e, false);
 			} catch (DiscordException e) {
-				e.printStackTrace();
-			}	
+				this.log("Discord bot ran into a error", DiscordLevels.Discord, e, false);
+			}
 		}
 		
 		Date dateobj = new Date();
@@ -139,8 +143,70 @@ public class Logging {
 			
 			bw.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
+					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
 		}
-		System.out.println("[" + secondsDate + "] " + "[" + level.getName() + "] " + message);
+		logger.log(level, "[" + secondsDate + "] " + message);
 	}
+	
+	/**
+	 * Logs stuff with a log level, and a Throwable. Both to console and file.
+	 * Optionally logs to discord.
+	 * 
+	 * @param message The message to log.
+	 * @param level The level at witch to log it.
+	 * @param thrown The exception thrown.
+	 * @param discord If you want to log to discord.
+	 */
+	public void log(String message, Level level, Throwable thrown, boolean discord){
+		if(discord){
+			try {
+				logChannel.sendMessage("[" + level.getName() + "] " + message);
+			} catch (MissingPermissionsException e) {
+				this.log("Discord bot is missing permisions", DiscordLevels.DiscordMissingPerms, e, false);
+			} catch (RateLimitException e) {
+				this.log("Discord bot hit it's rate limit", DiscordLevels.DiscordRateLimit, e, false);
+			} catch (DiscordException e) {
+				this.log("Discord bot ran into a error", DiscordLevels.Discord, e, false);
+			}
+		}
+		
+		Date dateobj = new Date();
+		
+		DateFormat dayf = new SimpleDateFormat("dd.MM.yy");
+		String dayDate = dayf.format(dateobj);
+		
+		DateFormat hourf = new SimpleDateFormat("HH");
+		String hourDate = hourf.format(dateobj) + ".00";
+		
+		DateFormat secoondsf = new SimpleDateFormat("HH:mm:ss:SSS");
+		String secondsDate = secoondsf.format(dateobj);
+		
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+		
+		File file = null;
+		
+		try {
+			File dir = new File("C:/Users/developer/Documents/Logs/" + dayDate);
+			dir.mkdirs();
+			file = new File("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".log");
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			
+			fw = new FileWriter(file, true);
+			bw = new BufferedWriter(fw);
+			
+			bw.write("[" + secondsDate + "] " + "[" + level.getName() + "] " + message);
+			bw.write('\n');
+			
+			bw.flush();
+		} catch (IOException e) {
+			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
+					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
+		}
+		logger.log(level, "[" + secondsDate + "] " + message, thrown);
+	}
+	
 }
