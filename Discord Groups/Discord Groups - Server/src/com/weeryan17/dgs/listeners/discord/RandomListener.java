@@ -1,4 +1,6 @@
-package com.weeryan17.dgs;
+package com.weeryan17.dgs.listeners.discord;
+
+import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
