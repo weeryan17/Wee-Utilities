@@ -57,6 +57,7 @@ public class DiscordGroups {
 	String secret = "REMOVED"; //Removed from github for security reasons.
 	
 	public void readyInit(){
+		System.out.println("let's try this");
 		mainGuild = client.getGuildByID(guildId);
 		logger = new Logging(this);
 		logger.log("Bot initlized", true);
