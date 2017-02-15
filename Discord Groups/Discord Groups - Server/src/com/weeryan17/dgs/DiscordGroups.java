@@ -7,6 +7,8 @@ import java.net.Socket;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
+import com.weeryan17.dgs.commands.CommandMannager;
+import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.listeners.WebhooksListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
@@ -24,7 +26,7 @@ public class DiscordGroups {
 		discord.init();
 	}
 	
-	String token = "REMOVED"; //Removed from github for security reasons.
+	String token = "MjgwMTkyNTYyNTgzNjk5NDU4.C4U_xQ.UtvdpzcS2rmLvKntR5vP4-T6gZI"; //Removed from github for security reasons.
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	Socket socket;
@@ -55,7 +57,9 @@ public class DiscordGroups {
 	
 	Logging logger;
 	
-	String secret = "REMOVED"; //Removed from github for security reasons.
+	String secret = "22042"; //Removed from github for security reasons.
+	
+	CommandMannager cmdMannage;
 	
 	public void readyInit(){
 		mainGuild = client.getGuildByID(guildId);
@@ -71,6 +75,8 @@ public class DiscordGroups {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		cmdMannage = new CommandMannager();
+		cmdMannage.registerCommand("test", new DiscordGroupsCommand(this));
 	}
 	
 	public IGuild getMainGuild(){
@@ -79,6 +85,10 @@ public class DiscordGroups {
 	
 	public Logging getLogger(){
 		return logger;
+	}
+	
+	public CommandMannager getCommandMannager(){
+		return cmdMannage;
 	}
 	
 }

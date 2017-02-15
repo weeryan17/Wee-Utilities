@@ -55,7 +55,7 @@ public class Logging {
 		
 		Date dateobj = new Date();
 		
-		DateFormat dayf = new SimpleDateFormat("dd.MM.yy");
+		DateFormat dayf = new SimpleDateFormat("MM.dd.yy");
 		String dayDate = dayf.format(dateobj);
 		
 		DateFormat hourf = new SimpleDateFormat("HH");
@@ -88,6 +88,7 @@ public class Logging {
 			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
 					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
 		}
+		System.out.println(secondsDate + " [DiscordGroups] " + message);
 	}
 	
 	/**
@@ -146,7 +147,7 @@ public class Logging {
 			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
 					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
 		}
-		logger.log(level, "[" + secondsDate + "] " + message);
+		logger.log(level, secondsDate + " [DiscordGroups] " + message);
 	}
 	
 	/**
@@ -206,7 +207,7 @@ public class Logging {
 			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
 					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
 		}
-		logger.log(level, "[" + secondsDate + "] " + message, thrown);
+		logger.log(level, secondsDate + " [DiscordGroups] " + message, thrown);
 	}
 	
 }
