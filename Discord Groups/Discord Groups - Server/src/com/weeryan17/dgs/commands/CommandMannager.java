@@ -3,6 +3,7 @@ package com.weeryan17.dgs.commands;
 import java.util.HashMap;
 
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IUser;
 
 public class CommandMannager {
 	static HashMap<String, DiscordGroupsCommandBase> commands;
@@ -19,7 +20,11 @@ public class CommandMannager {
 		commands.remove(name);
 	}
 	
-	public void dispatchCommand(String name, String[] args, IChannel channel){
-		commands.get(name).onCommand(args, channel);
+	public boolean isCommand(String name){
+		return commands.containsKey(name);
+	}
+	
+	public void dispatchCommand(String name, String[] args, IChannel channel, IUser user){
+		commands.get(name).onCommand(args, channel, user);
 	}
 }
