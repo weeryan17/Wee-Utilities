@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.listeners.WebhooksListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
@@ -60,7 +61,15 @@ public class DiscordGroups {
 		logger = new Logging(this);
 		logger.log("Bot initlized", true);
 		WebhooksBuilder web = new WebhooksBuilder().onPort(6000).withSecret(secret);
-		web.addListener(new WebhooksListener(this));
+		web = web.addListener(new WebhooksListener(this));
+		@SuppressWarnings("unused")
+		GithubWebhooks4J github;
+		try {
+			github = web.build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public IGuild getMainGuild(){
