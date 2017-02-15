@@ -14,7 +14,6 @@ public class RandomListener {
 	
 	@EventSubscriber
 	public void onReady(ReadyEvent e){
-		System.out.println("Ready event ativated");
 		discord.readyInit();
 	}
 }
