@@ -33,6 +33,7 @@ public class DiscordGroups {
 	ObjectInputStream objectIn;
 	
 	public void init(){
+		System.out.println("init called");
 		try {
 			client = new ClientBuilder().withToken(token).login();
 		} catch (DiscordException e) {
@@ -44,6 +45,16 @@ public class DiscordGroups {
 			socket = serverSocket.accept();
 			objectIn = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		WebhooksBuilder web = new WebhooksBuilder().onPort(6000).withSecret(secret);
+		web = web.addListener(new WebhooksListener(this));
+		@SuppressWarnings("unused")
+		GithubWebhooks4J github;
+		try {
+			github = web.build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
@@ -61,16 +72,6 @@ public class DiscordGroups {
 		mainGuild = client.getGuildByID(guildId);
 		logger = new Logging(this);
 		logger.log("Bot initlized", true);
-		WebhooksBuilder web = new WebhooksBuilder().onPort(6000).withSecret(secret);
-		web = web.addListener(new WebhooksListener(this));
-		@SuppressWarnings("unused")
-		GithubWebhooks4J github;
-		try {
-			github = web.build();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	public IGuild getMainGuild(){
