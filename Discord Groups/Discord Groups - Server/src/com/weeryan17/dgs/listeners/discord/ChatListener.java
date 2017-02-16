@@ -36,7 +36,7 @@ public class ChatListener {
 					compressedArgs = compressedArgs + "\n" + space + " * " + arg;
 				}
 				instance.getLogger().log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getID() + "\n" + 
-					"executed the command: " + name + "\n" + space + "With the args:" + compressedArgs, false);
+					space + "executed the command: " + name + "\n" + space + "With the args:" + compressedArgs, false);
 			} else {
 				message.addReaction(EmojiManager.getForAlias("question"));
 			}
