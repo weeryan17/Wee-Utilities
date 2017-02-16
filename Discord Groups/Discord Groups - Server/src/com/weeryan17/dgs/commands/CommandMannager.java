@@ -6,6 +6,7 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
 public class CommandMannager {
+	
 	static HashMap<String, DiscordGroupsCommandBase> commands;
 	
 	public CommandMannager(){
