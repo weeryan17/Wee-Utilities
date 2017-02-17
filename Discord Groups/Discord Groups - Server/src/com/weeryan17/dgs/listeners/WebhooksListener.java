@@ -6,6 +6,7 @@ import com.arsenarsen.githubwebhooks4j.objects.Commit;
 import com.arsenarsen.githubwebhooks4j.objects.ShortUser;
 import com.weeryan17.dgs.DiscordGroups;
 
+import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.util.EmbedBuilder;
 
 public class WebhooksListener implements EventListener<PushEvent> {
@@ -28,19 +29,42 @@ public class WebhooksListener implements EventListener<PushEvent> {
 			
 			embed.appendDesc("Commit " + commit.getId() + ": " + commit.getMessage());
 			
-			for(String file: commit.getAdded()){
-				embed.appendField("Added files", file, false);
+			if(commit.getAdded().length > 0){
+				String added = "";
+				for(String file: commit.getAdded()){
+					added = added + "* " + file + "\n";
+				}
+				embed.appendField("Added files", added, false);
 			}
 			
-			for(String file: commit.getRemoved()){
-				embed.appendField("Removed files", file, false);
+			if(commit.getRemoved().length > 0){
+				String removed = "";
+				for(String file: commit.getRemoved()){
+					removed = removed + "* " + file + "\n";
+				}
+				embed.appendField("Removed files", removed, false);
 			}
 			
-			for(String file: commit.getModified()){
-				embed.appendField("Modified files", file, false);
+			if(commit.getModified().length > 0){
+				String modified = "";
+				for(String file: commit.getModified()){
+					modified = modified + "* " + file + "\n";
+				}
+				embed.appendField("Modified files", modified, false);
 			}
 			
-			instance.getMainGuild().getChannelByID("280176956958441472").sendMessage(embed.build());
+			IRole role = null;
+			int pos = 0;
+			for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(instance.getMainGuild())){
+				int rawPos = rawRole.getPosition();
+				if(rawPos > pos){
+					role = rawRole;
+					pos = rawPos;
+				}
+			}
+			embed.withColor(role.getColor());
+			
+			instance.getMainGuild().getChannelByID("281978233468092416").sendMessage(embed.build());
 		}
 	}
 	
