@@ -24,10 +24,7 @@ public class WebhooksListener implements EventListener<PushEvent> {
 			
 			embed.withAuthorName(authorName);
 			
-			ShortUser commiter = commit.getCommiter();
-			String commiterName = commiter.getUsername();
-			
-			embed.withDesc(authorName + " commit with " + commiterName + " to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)");
+			embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities) ");
 			
 			embed.appendDesc("Commit " + commit.getId() + ": " + commit.getMessage());
 			

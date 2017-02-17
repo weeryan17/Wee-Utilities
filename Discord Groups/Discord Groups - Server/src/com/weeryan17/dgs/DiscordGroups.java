@@ -9,6 +9,7 @@ import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
+import com.weeryan17.dgs.commands.TestCommand;
 import com.weeryan17.dgs.listeners.WebhooksListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
@@ -18,6 +19,7 @@ import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.Image;
 
 public class DiscordGroups {
 	public IDiscordClient client;
@@ -62,21 +64,22 @@ public class DiscordGroups {
 	CommandMannager cmdMannage;
 	
 	public void readyInit(){
+		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
 		mainGuild = client.getGuildByID(guildId);
 		logger = new Logging(this);
 		logger.log("Bot initlized", true);
-		WebhooksBuilder web = new WebhooksBuilder().onPort(6000).withSecret(secret);
+		WebhooksBuilder web = new WebhooksBuilder().onPort(7000).withSecret(secret);
 		web = web.addListener(new WebhooksListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
 		try {
 			github = web.build();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cmdMannage = new CommandMannager();
-		cmdMannage.registerCommand("test", new DiscordGroupsCommand(this));
+		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
+		cmdMannage.registerCommand("test", new TestCommand(this));
 	}
 	
 	public IGuild getMainGuild(){
