@@ -17,6 +17,7 @@ public class WebhooksListener implements EventListener<PushEvent> {
 	
 	@Override
 	public void handle(PushEvent event) {
+		instance.getLogger().log("Push event recived", true);
 		for(Commit commit : event.getCommits()){
 			EmbedBuilder embed =  new EmbedBuilder();
 			
@@ -25,9 +26,9 @@ public class WebhooksListener implements EventListener<PushEvent> {
 			
 			embed.withAuthorName(authorName);
 			
-			embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities) ");
+			embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)         ");
 			
-			embed.appendDesc("Commit " + commit.getId() + ": " + commit.getMessage());
+			embed.appendDesc("Commit " + commit.getId() + ":                           " + commit.getMessage());
 			
 			if(commit.getAdded().length > 0){
 				String added = "";
