@@ -2,8 +2,10 @@ package com.weeryan17.dgs;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-//import java.net.ServerSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.logging.Level;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
@@ -13,6 +15,7 @@ import com.weeryan17.dgs.commands.TestCommand;
 import com.weeryan17.dgs.listeners.WebhooksListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
+import com.weeryan17.dgs.socket.SocketTimer;
 import com.weeryan17.dgs.util.Logging;
 
 import sx.blah.discord.api.ClientBuilder;
@@ -32,7 +35,7 @@ public class DiscordGroups {
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	Socket socket;
-	int port = 0; //Removed from github for security reasons.
+	int port = 8000; //Removed from github for security reasons.
 	
 	ObjectInputStream objectIn;
 	
@@ -42,17 +45,20 @@ public class DiscordGroups {
 		} catch (DiscordException e) {
 			e.printStackTrace();
 		}
+		client.getDispatcher().registerListener(new ChatListener(this));
+		client.getDispatcher().registerListener(new RandomListener(this));
 		/*ServerSocket serverSocket;
 		*try {
 		*	serverSocket = new ServerSocket(port);
 		*	socket = serverSocket.accept();
 		*	objectIn = new ObjectInputStream(socket.getInputStream());
 		*} catch (IOException e) {
-		*	e.printStackTrace();
+		*	this.getLogger().log("Server socket geerated an io Exception", Level.SEVERE, e, false);
+		*	System.exit(1);
 		*}
-		**/
-		client.getDispatcher().registerListener(new ChatListener(this));
-		client.getDispatcher().registerListener(new RandomListener(this));
+		*Timer timer = new Timer();
+		*timer.schedule(new SocketTimer(this, objectIn), 0, 100);
+		*/
 	}
 	
 	IGuild mainGuild;
