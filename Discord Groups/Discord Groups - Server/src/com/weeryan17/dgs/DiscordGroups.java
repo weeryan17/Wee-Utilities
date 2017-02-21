@@ -35,7 +35,7 @@ public class DiscordGroups {
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	Socket socket;
-	int port = 8000; //Removed from github for security reasons.
+	int port = 0; //Removed from github for security reasons.
 	
 	ObjectInputStream objectIn;
 	
@@ -47,18 +47,18 @@ public class DiscordGroups {
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
-		/*ServerSocket serverSocket;
-		*try {
-		*	serverSocket = new ServerSocket(port);
-		*	socket = serverSocket.accept();
-		*	objectIn = new ObjectInputStream(socket.getInputStream());
-		*} catch (IOException e) {
-		*	this.getLogger().log("Server socket geerated an io Exception", Level.SEVERE, e, false);
-		*	System.exit(1);
-		*}
-		*Timer timer = new Timer();
-		*timer.schedule(new SocketTimer(this, objectIn), 0, 100);
-		*/
+		ServerSocket serverSocket;
+		try {
+			serverSocket = new ServerSocket(port);
+			socket = serverSocket.accept();
+			objectIn = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			this.getLogger().log("Server socket geerated an io Exception", Level.SEVERE, e, false);
+			System.exit(1);
+		}
+		Timer timer = new Timer();
+		timer.schedule(new SocketTimer(this, objectIn), 0, 100);
+		
 	}
 	
 	IGuild mainGuild;
