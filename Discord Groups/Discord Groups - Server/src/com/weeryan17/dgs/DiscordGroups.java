@@ -1,5 +1,12 @@
 package com.weeryan17.dgs;
 
+import java.awt.AWTException;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -7,11 +14,14 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.logging.Level;
 
+import javax.imageio.ImageIO;
+
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.TestCommand;
+import com.weeryan17.dgs.commands.wee.Eval;
 import com.weeryan17.dgs.listeners.WebhooksListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
@@ -39,6 +49,10 @@ public class DiscordGroups {
 	
 	ObjectInputStream objectIn;
 	
+	SystemTray tray;
+	boolean hasTray = false;
+	TrayIcon icon;
+	
 	public void init(){
 		try {
 			client = new ClientBuilder().withToken(token).login();
@@ -58,7 +72,35 @@ public class DiscordGroups {
 		}
 		Timer timer = new Timer();
 		timer.schedule(new SocketTimer(this, objectIn), 0, 100);
-		
+		if(SystemTray.isSupported()){
+			PopupMenu popup = new PopupMenu();
+			
+			tray = SystemTray.getSystemTray();
+			hasTray = true;
+			
+			java.awt.Image img = null;
+			try {
+				img = ImageIO.read(new File("C:/Users/developer/Dropbox/discordgroups.png"));
+			} catch (IOException e) {
+				getLogger().log("Choudln't read image", Level.SEVERE, e, false);
+			}
+			icon = new TrayIcon(img);
+			
+			MenuItem logItem = new MenuItem("Logs");
+			
+			popup.add(logItem);
+			
+			icon.setPopupMenu(popup);
+
+			icon.displayMessage("Discord Groups", "Bot initilizing", MessageType.INFO);
+			
+			try {
+				tray.add(icon);
+			} catch (AWTException e) {
+				getLogger().log("Error setting tray icon", Level.SEVERE, e, false);
+			}
+			
+		}
 	}
 	
 	IGuild mainGuild;
@@ -86,6 +128,14 @@ public class DiscordGroups {
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("test", new TestCommand(this));
+		cmdMannage.registerCommand("eval", new Eval(this));
+		icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
+		try {
+			tray.add(icon);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public IGuild getMainGuild(){
