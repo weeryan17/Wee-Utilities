@@ -41,11 +41,11 @@ public class DiscordGroups {
 		discord.init();
 	}
 	
-	String token = "MjgwMTkyNTYyNTgzNjk5NDU4.C46WfA.5qUL39cScugCpMcbxzaNuvMPwkc"; //Removed from github for security reasons.
+	String token = "REMOVED"; //Removed from github for security reasons.
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	Socket socket;
-	int port = 8000; //Removed from github for security reasons.
+	int port = 0; //Removed from github for security reasons.
 	
 	ObjectInputStream objectIn;
 	
@@ -80,7 +80,7 @@ public class DiscordGroups {
 	
 	Logging logger;
 	
-	String secret = "22042"; //Removed from github for security reasons.
+	String secret = "REMOVED"; //Removed from github for security reasons.
 	
 	CommandMannager cmdMannage;
 	
