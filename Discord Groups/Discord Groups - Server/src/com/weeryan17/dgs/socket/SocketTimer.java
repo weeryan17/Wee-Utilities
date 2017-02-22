@@ -19,7 +19,6 @@ public class SocketTimer extends TimerTask {
 	@Override
 	public void run() {
 		try {
-
 			Object ob = in.readObject();
 			if (ob instanceof String[]) {
 				String[] stuff = (String[]) ob;

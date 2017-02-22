@@ -36,16 +36,18 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			builder.appendField("How can I help?", "If you're a developer you can help out by making the changes you think are need by forking my project on [github](https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups). I plan on making an isolated repo later but for now you're going to get a lot of extra stuff", true);
 			builder.appendField("What am I'm not a developer and I want to help?", "You can suggest stuff in the offical guild, and later I plan on having donation links. I also need some artists", true);
 			builder.withFooterText("Command requested by " + sender.getDisplayName(channel.getGuild()));
-			IRole role = null;
-			int pos = 0;
-			for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
-				int rawPos = rawRole.getPosition();
-				if(rawPos > pos){
-					role = rawRole;
-					pos = rawPos;
+			if(!channel.isPrivate()){
+				IRole role = null;
+				int pos = 0;
+				for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
+					int rawPos = rawRole.getPosition();
+					if(rawPos > pos){
+						role = rawRole;
+						pos = rawPos;
+					}
 				}
+				builder.withColor(role.getColor());
 			}
-			builder.withColor(role.getColor());
 			EmbedObject embed = builder.build();
 			channel.sendMessage(embed);
 			channel.setTypingStatus(false);

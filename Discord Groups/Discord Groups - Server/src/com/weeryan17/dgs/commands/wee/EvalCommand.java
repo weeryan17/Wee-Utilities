@@ -35,6 +35,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			"com.weeryan17.dgs.listeners.discord.*",
 			"com.weeryan17.dgs.socket.*",
 			"com.weeryan17.dgs.util.*",
+			"sx.blah.discord.util.*",
 			"java.util.streams.*",
             "java.util.*",
             "java.text.*",
@@ -72,16 +73,18 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 				builder.withTitle("Evaluation");
 				builder.appendField("Code", code, false);
 				builder.appendField("Result", "`Ouput too long. Check output file`", false);
-				IRole role = null;
-				int pos = 0;
-				for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
-					int rawPos = rawRole.getPosition();
-					if(rawPos > pos){
-						role = rawRole;
-						pos = rawPos;
+				if(!channel.isPrivate()){
+					IRole role = null;
+					int pos = 0;
+					for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
+						int rawPos = rawRole.getPosition();
+						if(rawPos > pos){
+							role = rawRole;
+							pos = rawPos;
+						}
 					}
+					builder.withColor(role.getColor());
 				}
-				builder.withColor(role.getColor());
 				//TODO write to file
 				channel.sendMessage(builder.build());
 			} else {
@@ -89,16 +92,18 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 				builder.withTitle("Evaluation");
 				builder.appendField("Code", "`" + code + "`", false);
 				builder.appendField("Result", "`" + result + "`", false);
-				IRole role = null;
-				int pos = 0;
-				for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
-					int rawPos = rawRole.getPosition();
-					if(rawPos > pos){
-						role = rawRole;
-						pos = rawPos;
+				if(!channel.isPrivate()){
+					IRole role = null;
+					int pos = 0;
+					for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
+						int rawPos = rawRole.getPosition();
+						if(rawPos > pos){
+							role = rawRole;
+							pos = rawPos;
+						}
 					}
+					builder.withColor(role.getColor());
 				}
-				builder.withColor(role.getColor());
 				channel.sendMessage(builder.build());
 			}
 			channel.setTypingStatus(false);

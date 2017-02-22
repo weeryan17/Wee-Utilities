@@ -16,7 +16,7 @@ public class ChatListener {
 		this.instance = instance;
 	}
 	
-	String space = "            ";
+	String space = "                 ";
 	
 	char prefix = '^';
 	@EventSubscriber
@@ -30,7 +30,9 @@ public class ChatListener {
 				String name = command[0];
 				String[] args = Arrays.copyOfRange(command, 1, command.length);
 				if(instance.getCommandMannager().isCommand(name)){
-					message.delete();
+					if(!message.getChannel().isPrivate()){
+						message.delete();
+					}
 					instance.getCommandMannager().dispatchCommand(name, args, e.getChannel(), e.getAuthor());
 					String compressedArgs = "";
 					for(String arg : args){
