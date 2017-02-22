@@ -9,9 +9,9 @@ import com.weeryan17.dgs.DiscordGroups;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.util.EmbedBuilder;
 
-public class WebhooksListener implements EventListener<PushEvent> {
+public class PushListener implements EventListener<PushEvent> {
 	DiscordGroups instance;
-	public WebhooksListener(DiscordGroups instance){
+	public PushListener(DiscordGroups instance){
 		this.instance = instance;
 	}
 	

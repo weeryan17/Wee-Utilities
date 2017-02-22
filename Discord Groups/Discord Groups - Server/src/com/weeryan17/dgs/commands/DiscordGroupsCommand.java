@@ -19,6 +19,7 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
 		if (args.length == 0) {
+			channel.setTypingStatus(true);
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.withAuthorName("@Discord Groups#2320");
 			builder.withAuthorUrl("https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups");
@@ -47,6 +48,7 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			builder.withColor(role.getColor());
 			EmbedObject embed = builder.build();
 			channel.sendMessage(embed);
+			channel.setTypingStatus(false);
 		} else if(args.length == 1){
 			switch(args[0]){
 			case "stats" :{

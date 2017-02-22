@@ -21,8 +21,8 @@ import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.TestCommand;
-import com.weeryan17.dgs.commands.wee.Eval;
-import com.weeryan17.dgs.listeners.WebhooksListener;
+import com.weeryan17.dgs.commands.wee.EvalCommand;
+import com.weeryan17.dgs.listeners.PushListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
 import com.weeryan17.dgs.socket.SocketTimer;
@@ -41,16 +41,16 @@ public class DiscordGroups {
 		discord.init();
 	}
 	
-	String token = "REMOVED"; //Removed from github for security reasons.
+	String token = "MjgwMTkyNTYyNTgzNjk5NDU4.C46WfA.5qUL39cScugCpMcbxzaNuvMPwkc"; //Removed from github for security reasons.
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	Socket socket;
-	int port = 0; //Removed from github for security reasons.
+	int port = 8000; //Removed from github for security reasons.
 	
 	ObjectInputStream objectIn;
 	
 	SystemTray tray;
-	boolean hasTray = false;
+	public static boolean hasTray = false;
 	TrayIcon icon;
 	
 	public void init(){
@@ -61,6 +61,7 @@ public class DiscordGroups {
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
+		
 		ServerSocket serverSocket;
 		try {
 			serverSocket = new ServerSocket(port);
@@ -72,7 +73,23 @@ public class DiscordGroups {
 		}
 		Timer timer = new Timer();
 		timer.schedule(new SocketTimer(this, objectIn), 0, 100);
+		
+	}
+	
+	IGuild mainGuild;
+	
+	Logging logger;
+	
+	String secret = "22042"; //Removed from github for security reasons.
+	
+	CommandMannager cmdMannage;
+	
+	public void readyInit(){
+		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
+		mainGuild = client.getGuildByID(guildId);
+		logger = new Logging(this);
 		if(SystemTray.isSupported()){
+			getLogger().log("System tray is supported. Using!", true);
 			PopupMenu popup = new PopupMenu();
 			
 			tray = SystemTray.getSystemTray();
@@ -80,7 +97,7 @@ public class DiscordGroups {
 			
 			java.awt.Image img = null;
 			try {
-				img = ImageIO.read(new File("C:/Users/developer/Dropbox/discordgroups.png"));
+				img = ImageIO.read(new File("C:/Users/developer/Dropbox/discordgroupstray.png"));
 			} catch (IOException e) {
 				getLogger().log("Choudln't read image", Level.SEVERE, e, false);
 			}
@@ -100,24 +117,11 @@ public class DiscordGroups {
 				getLogger().log("Error setting tray icon", Level.SEVERE, e, false);
 			}
 			
+		} else {
+			getLogger().log("System tray not supported. disableing system tray.", true);
 		}
-	}
-	
-	IGuild mainGuild;
-	
-	Logging logger;
-	
-	String secret = "REMOVED"; //Removed from github for security reasons.
-	
-	CommandMannager cmdMannage;
-	
-	public void readyInit(){
-		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
-		mainGuild = client.getGuildByID(guildId);
-		logger = new Logging(this);
-		logger.log("Bot initlized", true);
 		WebhooksBuilder web = new WebhooksBuilder().onPort(7000).withSecret(secret);
-		web = web.addListener(new WebhooksListener(this));
+		web = web.addListener(new PushListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
 		try {
@@ -128,14 +132,11 @@ public class DiscordGroups {
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("test", new TestCommand(this));
-		cmdMannage.registerCommand("eval", new Eval(this));
-		icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
-		try {
-			tray.add(icon);
-		} catch (AWTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		cmdMannage.registerCommand("eval", new EvalCommand(this));
+		if(hasTray){
+			icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
 		}
+		logger.log("Bot initlized", true);
 	}
 	
 	public IGuild getMainGuild(){
@@ -148,6 +149,10 @@ public class DiscordGroups {
 	
 	public CommandMannager getCommandMannager(){
 		return cmdMannage;
+	}
+	
+	public TrayIcon getIcon(){
+		return icon;
 	}
 	
 }
