@@ -115,7 +115,7 @@ public class Logging {
 		
 		Date dateobj = new Date();
 		
-		DateFormat dayf = new SimpleDateFormat("dd.MM.yy");
+		DateFormat dayf = new SimpleDateFormat("MM.dd.yy");
 		String dayDate = dayf.format(dateobj);
 		
 		DateFormat hourf = new SimpleDateFormat("HH");
@@ -175,7 +175,7 @@ public class Logging {
 		
 		Date dateobj = new Date();
 		
-		DateFormat dayf = new SimpleDateFormat("dd.MM.yy");
+		DateFormat dayf = new SimpleDateFormat("MM.dd.yy");
 		String dayDate = dayf.format(dateobj);
 		
 		DateFormat hourf = new SimpleDateFormat("HH");

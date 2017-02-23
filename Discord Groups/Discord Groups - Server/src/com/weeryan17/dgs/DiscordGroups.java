@@ -8,10 +8,8 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Timer;
 import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
@@ -47,8 +45,6 @@ public class DiscordGroups {
 	Socket socket;
 	int port = 0; //Removed from github for security reasons.
 	
-	ObjectInputStream objectIn;
-	
 	SystemTray tray;
 	public static boolean hasTray = false;
 	TrayIcon icon;
@@ -66,13 +62,11 @@ public class DiscordGroups {
 		try {
 			serverSocket = new ServerSocket(port);
 			socket = serverSocket.accept();
-			objectIn = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			this.getLogger().log("Server socket geerated an io Exception", Level.SEVERE, e, false);
 			System.exit(1);
 		}
-		Timer timer = new Timer();
-		timer.schedule(new SocketTimer(this, objectIn), 0, 100);
+		new SocketTimer(this, socket).initSocket();
 		
 	}
 	
@@ -120,7 +114,7 @@ public class DiscordGroups {
 		} else {
 			getLogger().log("System tray not supported. disableing system tray.", true);
 		}
-		WebhooksBuilder web = new WebhooksBuilder().onPort(7000).withSecret(secret);
+		WebhooksBuilder web = new WebhooksBuilder().onPort(0).withSecret(secret);
 		web = web.addListener(new PushListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
