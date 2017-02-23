@@ -8,6 +8,7 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
@@ -37,23 +38,34 @@ public class DiscordGroups {
 		discord.init();
 	}
 	
-	String token = "REMOVED"; //Removed from github for security reasons.
+	String token = "";
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
 	SystemTray tray;
 	public static boolean hasTray = false;
 	TrayIcon icon;
 	
+	Properties prop;
+	
 	public void init(){
+		prop = new Properties();
+		try {
+			prop.load(getClass().getClassLoader().getResourceAsStream("bot.properties"));
+		} catch (IOException e) {
+			getLogger().log("Error loading properties file!", Level.SEVERE, e, false);
+			System.exit(1);
+		}
+		token = prop.getProperty("token");
 		try {
 			client = new ClientBuilder().withToken(token).login();
 		} catch (DiscordException e) {
-			e.printStackTrace();
+			getLogger().log("Error Logging in!", Level.SEVERE, e, false);
+			System.exit(1);
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
 		
-		new SocketTimer(this).initSocket();
+		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 		
 	}
 	
@@ -61,7 +73,7 @@ public class DiscordGroups {
 	
 	Logging logger;
 	
-	String secret = "REMOVED"; //Removed from github for security reasons.
+	String secret = "";
 	
 	CommandMannager cmdMannage;
 	
@@ -101,7 +113,9 @@ public class DiscordGroups {
 		} else {
 			getLogger().log("System tray not supported. disableing system tray.", true);
 		}
-		WebhooksBuilder web = new WebhooksBuilder().onPort(0).withSecret(secret);//Port removed from github again security
+		secret = prop.getProperty("secret");
+		int port = Integer.valueOf(prop.getProperty("webhookPort"));
+		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret);//Port removed from github again security
 		web = web.addListener(new PushListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;

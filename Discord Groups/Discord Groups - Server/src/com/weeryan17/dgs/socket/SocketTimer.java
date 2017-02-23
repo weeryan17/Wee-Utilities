@@ -12,16 +12,15 @@ public class SocketTimer {
 	DiscordGroups instance;
 	ServerSocket serverSocket;
 
-	public SocketTimer(DiscordGroups instance) {
+	public SocketTimer(DiscordGroups instance, int port) {
 		this.instance = instance;
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			instance.getLogger().log("Error screating server socket", Level.SEVERE, e, false);
+			System.exit(1);
 		}
 	}
-	
-	int port = 0; //Removed from github for security reasons.
 	
 	public void initSocket() {
 		while (true) {
@@ -29,7 +28,7 @@ public class SocketTimer {
 			try {
 				socket = serverSocket.accept();
 			} catch (IOException e) {
-				instance.getLogger().log("Server socket geerated an io Exception", Level.SEVERE, e, false);
+				instance.getLogger().log("Server socket generated an io Exception", Level.SEVERE, e, false);
 				System.exit(1);
 			}
 			
