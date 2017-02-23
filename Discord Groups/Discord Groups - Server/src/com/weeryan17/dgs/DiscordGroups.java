@@ -8,8 +8,6 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
@@ -42,9 +40,6 @@ public class DiscordGroups {
 	String token = "REMOVED"; //Removed from github for security reasons.
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
 	
-	Socket socket;
-	int port = 0; //Removed from github for security reasons.
-	
 	SystemTray tray;
 	public static boolean hasTray = false;
 	TrayIcon icon;
@@ -58,15 +53,7 @@ public class DiscordGroups {
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
 		
-		ServerSocket serverSocket;
-		try {
-			serverSocket = new ServerSocket(port);
-			socket = serverSocket.accept();
-		} catch (IOException e) {
-			this.getLogger().log("Server socket geerated an io Exception", Level.SEVERE, e, false);
-			System.exit(1);
-		}
-		new SocketTimer(this, socket).initSocket();
+		new SocketTimer(this).initSocket();
 		
 	}
 	
@@ -114,7 +101,7 @@ public class DiscordGroups {
 		} else {
 			getLogger().log("System tray not supported. disableing system tray.", true);
 		}
-		WebhooksBuilder web = new WebhooksBuilder().onPort(0).withSecret(secret);
+		WebhooksBuilder web = new WebhooksBuilder().onPort(0).withSecret(secret);//Port removed from github again security
 		web = web.addListener(new PushListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
