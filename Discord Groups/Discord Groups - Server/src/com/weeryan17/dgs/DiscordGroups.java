@@ -64,7 +64,8 @@ public class DiscordGroups {
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
-		
+
+		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 	}
 	
 	IGuild mainGuild;
@@ -129,7 +130,6 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("test", new TestCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
 		storage = new Storage(this);
-		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 		if(hasTray){
 			icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
 		}
