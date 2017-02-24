@@ -7,6 +7,11 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.logging.Level;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.util.Sync;
 
@@ -43,11 +48,25 @@ public class SocketTimer {
 					String[][] stuff = (String[][]) ob;
 					String key = stuff[0][0];
 					String process = stuff[0][1];
-					if(true){ //TODO check key with data storage
+					Sheet keys = instance.getStorage().getKeysSheet();
+					Row row = keys.getRow(keys.getFirstRowNum());
+					boolean hasKey = false;
+					int colum = -1;
+					for(Cell cell : row){
+						if(cell.getCellTypeEnum().equals(CellType.STRING)){
+							String cellValue = cell.getStringCellValue();
+							if(cellValue.equals(key)){
+								hasKey = true;
+								colum = cell.getAddress().getColumn();
+							}
+						}
+					}
+					if(hasKey){ //TODO check key with data storage
 						String[][] values = Arrays.copyOfRange(stuff, 1, stuff.length);
 						if(process.equals(instance.getProperties().getProperty("userSyncProcess"))){
 							instance.getLogger().log("User sync process activated from ip " + socket.getRemoteSocketAddress(), true);
-							sync.syncUsers(key, values);
+							Row guildIds = keys.getRow(keys.getFirstRowNum() + 1);
+							sync.syncUsers(key, values, guildIds.getCell(colum).getStringCellValue());
 						} else if (process.equals(instance.getProperties().getProperty("roleSyncProcess"))){
 							instance.getLogger().log("Role sync process activated from ip " + socket.getRemoteSocketAddress(), true);
 						} else {

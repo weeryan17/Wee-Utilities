@@ -37,12 +37,47 @@ public class Storage {
 				wb.close();
 				return sheet;
 			} else {
-				sheet = wb.createSheet("Users");
+				instance.getLogger().log("Players sheet wasn't found", Level.SEVERE, false);
+				System.exit(1);
 				wb.close();
-				return sheet;
+				return null;
 			}
 		} catch (IOException e) {
 			instance.getLogger().log("Chouldn't reed player data sheet", Level.SEVERE, e, false);
+			System.exit(1);
+			return null;
+		}
+	}
+	
+	/**
+	 * get's the sheet for storing player data.
+	 * 
+	 * @return The player sheet.
+	 */
+	public Sheet getKeysSheet(){
+		try {
+			Workbook wb = new XSSFWorkbook(instance.getProperties().getProperty("workbookPath"));
+			boolean sheetExists = false;
+			Sheet sheet = null;
+			for(int i = 0; i <= wb.getNumberOfSheets() - 1; i++){
+				Sheet rawSheet = wb.getSheetAt(i);
+				String name = rawSheet.getSheetName();
+				if(name.equals("Keys")){
+					sheetExists = true;
+					sheet = rawSheet;
+				}
+			}
+			if(sheetExists){
+				wb.close();
+				return sheet;
+			} else {
+				instance.getLogger().log("Keys sheet wasn't found", Level.SEVERE, false);
+				System.exit(1);
+				wb.close();
+				return null;
+			}
+		} catch (IOException e) {
+			instance.getLogger().log("Chouldn't reed keys data sheet", Level.SEVERE, e, false);
 			System.exit(1);
 			return null;
 		}
