@@ -36,6 +36,8 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			"com.weeryan17.dgs.socket.*",
 			"com.weeryan17.dgs.util.*",
 			"sx.blah.discord.util.*",
+			"org.apache.poi.xssf.usermodel.*",
+			"org.apache.poi.ss.usermodel.*",
 			"java.util.streams.*",
             "java.util.*",
             "java.text.*",
@@ -67,12 +69,16 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 				result = String.valueOf(engine.eval(imports + code));
 			} catch (ScriptException e) {
 				instance.getLogger().log("The script encountered an exception on eval", Level.WARNING, e, true);
+				for(StackTraceElement element: e.getStackTrace()){
+					result = result + element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "()." + "\n";
+				}
 			}
 			if(result.length() >= 2000){
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("Evaluation");
-				builder.appendField("Code", code, false);
-				builder.appendField("Result", "`Ouput too long. Check output file`", false);
+				builder.appendField("Code", "```" + code + "```", false);
+				builder.appendField("Result", "```Ouput too long. Check output file```", false);
+				
 				if(!channel.isPrivate()){
 					IRole role = null;
 					int pos = 0;
@@ -85,13 +91,13 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 					}
 					builder.withColor(role.getColor());
 				}
-				//TODO write to file
+				instance.getStorage().logResult(result);
 				channel.sendMessage(builder.build());
 			} else {
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("Evaluation");
-				builder.appendField("Code", "`" + code + "`", false);
-				builder.appendField("Result", "`" + result + "`", false);
+				builder.appendField("Code", "```" + code + "```", false);
+				builder.appendField("Result", "```" + result + "```", false);
 				if(!channel.isPrivate()){
 					IRole role = null;
 					int pos = 0;
