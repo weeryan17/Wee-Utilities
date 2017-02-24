@@ -73,7 +73,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 					result = result + element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "()." + "\n";
 				}
 			}
-			if(result.length() >= 2000){
+			if(result.length() >= 4000){
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("Evaluation");
 				builder.appendField("Code", "```" + code + "```", false);

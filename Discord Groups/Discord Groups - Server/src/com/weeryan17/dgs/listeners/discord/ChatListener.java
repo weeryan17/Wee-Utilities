@@ -35,8 +35,14 @@ public class ChatListener {
 					}
 					instance.getCommandMannager().dispatchCommand(name, args, e.getChannel(), e.getAuthor());
 					String compressedArgs = "";
-					for(String arg : args){
-						compressedArgs = compressedArgs + "\n" + space + " * " + arg;
+					if(!name.equals("eval")){
+						for(String arg : args){
+							compressedArgs = compressedArgs + "\n" + space + " * " + arg;
+						}
+					} else {
+						for(String arg : args){
+							compressedArgs = compressedArgs + arg;
+						}
 					}
 					instance.getLogger().log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getID() + "\n" + 
 						space + "executed the command: " + name + "\n" + space + "With the args:" + compressedArgs, false);
@@ -53,11 +59,17 @@ public class ChatListener {
 					}
 					instance.getCommandMannager().dispatchCommand(name, args, e.getChannel(), e.getAuthor());
 					String compressedArgs = "";
-					for(String arg : args){
-						compressedArgs = compressedArgs + "\n" + space + " * " + arg;
+					if(!name.equals("eval")){
+						for(String arg : args){
+							compressedArgs = compressedArgs + "\n" + space + " * " + arg;
+						}
+					} else {
+						for(String arg : args){
+							compressedArgs = compressedArgs + arg;
+						}
 					}
 					instance.getLogger().log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getID() + "\n" + 
-						space + "executed the command: " + name + "\n" + space + "With the args:" + compressedArgs, false);
+						space + "executed the command: " + name + "\n" + space + "With the args:" + "\n" + compressedArgs, false);
 				} else {
 					message.addReaction(EmojiManager.getForAlias("question"));
 				}
