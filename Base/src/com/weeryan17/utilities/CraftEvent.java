@@ -9,6 +9,7 @@ public class CraftEvent {
 	public void onCraft(PrepareItemCraftEvent e){
 		Recipe recipe = e.getRecipe();
 		if(CustomRecipe.isPluginRecipe(recipe)){
+			@SuppressWarnings("unused")
 			CustomRecipe custom = CustomRecipe.getRecipeByRecipe(recipe);
 			//TODO get this finished
 		}

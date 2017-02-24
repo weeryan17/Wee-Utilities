@@ -1,0 +1,15 @@
+package com.weeryan17.dgs.util;
+
+import com.weeryan17.dgs.DiscordGroups;
+
+public class Sync {
+	DiscordGroups instance;
+	
+	public Sync(DiscordGroups instance){
+		this.instance = instance;
+	}
+	
+	public void syncUsers(String key, String[][] user){
+		//TODO this. first i need data storage.
+	}
+}

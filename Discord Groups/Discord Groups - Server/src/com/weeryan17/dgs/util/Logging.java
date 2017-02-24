@@ -26,11 +26,14 @@ public class Logging {
 	
 	Logger logger;
 	
+	String logFolder;
+	
 	public Logging(DiscordGroups instance){
 		this.instance = instance;
 		String channelId = "280177651392708608";
 		logChannel = instance.getMainGuild().getChannelByID(channelId);
 		logger = Logger.getLogger("com.weeryan17");
+		logFolder = instance.getProperties().getProperty("logFolder");
 	}
 	
 	/**
@@ -71,9 +74,9 @@ public class Logging {
 		File file = null;
 		
 		try {
-			File dir = new File("C:/Users/developer/Documents/Logs/" + dayDate);
+			File dir = new File(logFolder + dayDate);
 			dir.mkdirs();
-			file = new File("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".log");
+			file = new File(logFolder + dayDate + "/" + hourDate + ".log");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -130,9 +133,9 @@ public class Logging {
 		File file = null;
 		
 		try {
-			File dir = new File("C:/Users/developer/Documents/Logs/" + dayDate);
+			File dir = new File(logFolder + dayDate);
 			dir.mkdirs();
-			file = new File("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".log");
+			file = new File(logFolder + dayDate + "/" + hourDate + ".log");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -190,9 +193,9 @@ public class Logging {
 		File file = null;
 		
 		try {
-			File dir = new File("C:/Users/developer/Documents/Logs/" + dayDate);
+			File dir = new File(logFolder + dayDate);
 			dir.mkdirs();
-			file = new File("C:/Users/developer/Documents/Logs/" + dayDate + "/" + hourDate + ".log");
+			file = new File(logFolder + dayDate + "/" + hourDate + ".log");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -202,6 +205,10 @@ public class Logging {
 			
 			bw.write("[" + secondsDate + "] " + "[" + level.getName() + "] " + message);
 			bw.write('\n');
+			for(StackTraceElement element: thrown.getStackTrace()){
+				bw.write(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+				bw.write("\n");
+			}
 			
 			bw.flush();
 		} catch (IOException e) {

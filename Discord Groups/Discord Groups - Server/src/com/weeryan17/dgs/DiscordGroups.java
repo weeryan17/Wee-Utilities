@@ -18,13 +18,13 @@ import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.TestCommand;
-import com.weeryan17.dgs.commands.wee.EvalCommand;
+import com.weeryan17.dgs.commands.developer.EvalCommand;
 import com.weeryan17.dgs.listeners.PushListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
 import com.weeryan17.dgs.socket.SocketTimer;
 import com.weeryan17.dgs.util.Logging;
-
+import com.weeryan17.dgs.util.Storage;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
@@ -65,8 +65,6 @@ public class DiscordGroups {
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
 		
-		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
-		
 	}
 	
 	IGuild mainGuild;
@@ -76,6 +74,8 @@ public class DiscordGroups {
 	String secret = "";
 	
 	CommandMannager cmdMannage;
+	
+	Storage storage;
 	
 	public void readyInit(){
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
@@ -128,6 +128,8 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("test", new TestCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
+		storage = new Storage(this);
+		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 		if(hasTray){
 			icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
 		}
@@ -148,6 +150,14 @@ public class DiscordGroups {
 	
 	public TrayIcon getIcon(){
 		return icon;
+	}
+	
+	public Properties getProperties(){
+		return prop;
+	}
+	
+	public Storage getStorage(){
+		return storage;
 	}
 	
 }

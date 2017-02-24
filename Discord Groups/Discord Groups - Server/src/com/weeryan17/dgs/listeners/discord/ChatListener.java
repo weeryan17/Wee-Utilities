@@ -43,6 +43,24 @@ public class ChatListener {
 				} else {
 					message.addReaction(EmojiManager.getForAlias("question"));
 				}
+			} else if(text.split(" ")[0].equals("<@" + instance.client.getOurUser().getID() + ">")){
+				String[] command = text.split(" ");
+				String name = command[1];
+				String[] args = Arrays.copyOfRange(command, 2, command.length);
+				if(instance.getCommandMannager().isCommand(name)){
+					if(!message.getChannel().isPrivate()){
+						message.delete();
+					}
+					instance.getCommandMannager().dispatchCommand(name, args, e.getChannel(), e.getAuthor());
+					String compressedArgs = "";
+					for(String arg : args){
+						compressedArgs = compressedArgs + "\n" + space + " * " + arg;
+					}
+					instance.getLogger().log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getID() + "\n" + 
+						space + "executed the command: " + name + "\n" + space + "With the args:" + compressedArgs, false);
+				} else {
+					message.addReaction(EmojiManager.getForAlias("question"));
+				}
 			}
 		}
 	}

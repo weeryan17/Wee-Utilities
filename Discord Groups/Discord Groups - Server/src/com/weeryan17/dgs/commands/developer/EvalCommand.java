@@ -1,4 +1,4 @@
-package com.weeryan17.dgs.commands.wee;
+package com.weeryan17.dgs.commands.developer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
