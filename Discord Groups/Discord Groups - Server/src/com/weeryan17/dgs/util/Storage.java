@@ -2,6 +2,7 @@ package com.weeryan17.dgs.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -28,7 +29,8 @@ public class Storage {
 	 */
 	public XSSFSheet getPlayerSheet() {
 		try {
-			XSSFWorkbook wb = new XSSFWorkbook(instance.getProperties().getProperty("workbookPath"));
+			FileInputStream in = new FileInputStream(instance.getProperties().getProperty("workbookPath"));
+			XSSFWorkbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			XSSFSheet sheet = null;
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
@@ -62,7 +64,8 @@ public class Storage {
 	 */
 	public XSSFSheet getKeysSheet() {
 		try {
-			XSSFWorkbook wb = new XSSFWorkbook(instance.getProperties().getProperty("workbookPath"));
+			FileInputStream in = new FileInputStream(instance.getProperties().getProperty("workbookPath"));
+			XSSFWorkbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			XSSFSheet sheet = null;
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {

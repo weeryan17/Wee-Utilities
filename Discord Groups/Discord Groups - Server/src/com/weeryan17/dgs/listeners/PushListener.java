@@ -31,26 +31,29 @@ public class PushListener implements EventListener<PushEvent> {
 			embed.appendDesc("Commit " + commit.getId() + ":                           " + commit.getMessage());
 			
 			if(commit.getAdded().length > 0){
-				String added = "";
+				String added = "```Markdown\n";
 				for(String file: commit.getAdded()){
 					added = added + "* " + file + "\n";
 				}
+				added = added + "```";
 				embed.appendField("Added files", added, false);
 			}
 			
 			if(commit.getRemoved().length > 0){
-				String removed = "";
+				String removed = "```Markdown\n";
 				for(String file: commit.getRemoved()){
 					removed = removed + "* " + file + "\n";
 				}
+				removed = removed + "```";
 				embed.appendField("Removed files", removed, false);
 			}
 			
 			if(commit.getModified().length > 0){
-				String modified = "";
+				String modified = "```Markdown\n";
 				for(String file: commit.getModified()){
 					modified = modified + "* " + file + "\n";
 				}
+				modified = modified + "```";
 				embed.appendField("Modified files", modified, false);
 			}
 			

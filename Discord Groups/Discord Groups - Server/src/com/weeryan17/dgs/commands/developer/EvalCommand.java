@@ -38,6 +38,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			"sx.blah.discord.util.*",
 			"org.apache.poi.xssf.usermodel.*",
 			"org.apache.poi.ss.usermodel.*",
+			"org.apache.poi.hssf.usermodel.*",
 			"java.util.streams.*",
             "java.util.*",
             "java.text.*",
@@ -64,6 +65,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			engine.put("instance", instance);
 			engine.put("channel", channel);
 			engine.put("guild", channel.getGuild());
+			engine.put("sender", sender);
 			String result = "";
 			try {
 				result = String.valueOf(engine.eval(imports + code));
@@ -73,7 +75,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 					result = result + element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "()." + "\n";
 				}
 			}
-			if(result.length() >= 4000){
+			if(result.length() >= 1024){
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("Evaluation");
 				builder.appendField("Code", "```" + code + "```", false);
