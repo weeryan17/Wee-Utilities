@@ -25,16 +25,16 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			builder.withAuthorUrl("https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups");
 			builder.withThumbnail("https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1");
 			builder.withTitle("**Discord Groups**");
-			builder.appendDesc("A bot made by weeryan17 for linking groups to discord");
+			builder.appendDesc("```Markdown\nA bot made by weeryan17 for linking groups to discord```");
 			builder.appendField("\u200B", "\u200B", false);
 			builder.appendField("What is this?",
-					"This is a bot made by weeryan17 for linking groups from a minecraft server. The original plugin got a lot of attention so he re-wrote it",
+					"```This is a bot made by weeryan17 for linking groups from a minecraft server. The original plugin got a lot of attention so he re-wrote it```",
 					true);
-			builder.appendField("Who made it?", "If you didn't read above weeryan17 made it", true);
+			builder.appendField("Who made it?", "```Markdown\nIf you didn't read above weeryan17 made it```", true);
 			builder.appendField("Where can I found out more?",
-					"In our offical suport [discord guild](https://discord.gg/GkxJhFq)", true);
-			builder.appendField("How can I help?", "If you're a developer you can help out by making the changes you think are need by forking my project on [github](https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups). I plan on making an isolated repo later but for now you're going to get a lot of extra stuff", true);
-			builder.appendField("What am I'm not a developer and I want to help?", "You can suggest stuff in the offical guild, and later I plan on having donation links. I also need some artists", true);
+					"```In our offical suport discord guild```\n[link](https://discord.gg/GkxJhFq)", true);
+			builder.appendField("How can I help?", "```If you're a developer you can help out by making the changes you think are need by forking my project on github.```\n[link](https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups)\n```I plan on making an isolated repo later but for now you're going to get a lot of extra stuff.```", true);
+			builder.appendField("What am I'm not a developer and I want to help?", "```You can suggest stuff in the offical guild, and later I plan on having donation links. I also need some artists```", true);
 			builder.withFooterText("Command requested by " + sender.getDisplayName(channel.getGuild()));
 			if(!channel.isPrivate()){
 				IRole role = null;

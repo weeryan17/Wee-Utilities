@@ -26,14 +26,14 @@ public class PushListener implements EventListener<PushEvent> {
 			
 			embed.withAuthorName(authorName);
 			
-			embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)         ");
+			embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
 			
-			embed.appendDesc("Commit " + commit.getId() + ":                           " + commit.getMessage());
+			embed.appendDesc("Commit " + commit.getId() + ":                           \n```" + commit.getMessage() + "```");
 			
 			if(commit.getAdded().length > 0){
 				String added = "```Markdown\n";
 				for(String file: commit.getAdded()){
-					added = added + "* " + file + "\n";
+					added = added + "* " + file + "\n\n";
 				}
 				added = added + "```";
 				embed.appendField("Added files", added, false);
@@ -42,7 +42,7 @@ public class PushListener implements EventListener<PushEvent> {
 			if(commit.getRemoved().length > 0){
 				String removed = "```Markdown\n";
 				for(String file: commit.getRemoved()){
-					removed = removed + "* " + file + "\n";
+					removed = removed + "* " + file + "\n\n";
 				}
 				removed = removed + "```";
 				embed.appendField("Removed files", removed, false);
@@ -51,7 +51,7 @@ public class PushListener implements EventListener<PushEvent> {
 			if(commit.getModified().length > 0){
 				String modified = "```Markdown\n";
 				for(String file: commit.getModified()){
-					modified = modified + "* " + file + "\n";
+					modified = modified + "* " + file + "\n\n";
 				}
 				modified = modified + "```";
 				embed.appendField("Modified files", modified, false);
