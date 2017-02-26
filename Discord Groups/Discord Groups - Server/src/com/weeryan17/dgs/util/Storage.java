@@ -30,7 +30,7 @@ public class Storage {
 	 */
 	public Sheet getPlayerSheet() {
 		try {
-			FileInputStream in = new FileInputStream(instance.getProperties().getProperty("workbookPath"));
+			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
 			Workbook wb = new HSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
@@ -65,7 +65,7 @@ public class Storage {
 	 */
 	public Sheet getKeysSheet() {
 		try {
-			FileInputStream in = new FileInputStream(instance.getProperties().getProperty("workbookPath"));
+			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
 			Workbook wb = new HSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
@@ -102,7 +102,7 @@ public class Storage {
 			String folder = instance.getProperties().getProperty("resultFolder");
 			File dir = new File(folder);
 			dir.mkdirs();
-			file = new File(folder + "/" + time + ".result");
+			file = new File(instance.getJarLoc() + "/" + folder + "/" + time + ".result");
 			if (!file.exists()) {
 				file.createNewFile();
 			}

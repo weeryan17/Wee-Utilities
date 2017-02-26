@@ -10,7 +10,6 @@ import java.awt.TrayIcon.MessageType;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.Properties;
 //import java.util.logging.Level;
 
@@ -53,16 +52,8 @@ public class DiscordGroups {
 	Properties prop;
 	
 	public void init(){
-		try {
-			String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-			jarFile = file.substring(0, file.length() - 18);
-		} catch (URISyntaxException e) {
-			System.out.println("Getting jar location!");
-			System.out.println(e.getMessage());
-			for(StackTraceElement element: e.getStackTrace()){
-				System.out.println(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
-			}
-		}
+		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		jarFile = file.substring(0, file.length() - 18);
 		prop = new Properties();
 		try {
 			InputStream propIn = new FileInputStream(jarFile + "/bot.properties");
