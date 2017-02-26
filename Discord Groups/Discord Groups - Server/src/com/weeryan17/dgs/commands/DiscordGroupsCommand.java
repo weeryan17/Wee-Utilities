@@ -1,5 +1,8 @@
 package com.weeryan17.dgs.commands;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+
 import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -54,7 +57,37 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 		} else if(args.length == 1){
 			switch(args[0]){
 			case "stats" :{
-				
+				channel.setTypingStatus(true);
+				long bytesFree = Runtime.getRuntime().freeMemory();
+				long usedBytes = Runtime.getRuntime().totalMemory() - bytesFree;
+				long mbFree = bytesFree / 1024 / 1024;
+				long mbUsed = usedBytes / 1024 / 1024;
+				double cpu = (ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class).getSystemLoadAverage() * 10000) / 100f;
+				EmbedBuilder builder = new EmbedBuilder();
+				builder.withAuthorName("@Discord Groups#2320");
+				builder.withAuthorUrl("https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups");
+				builder.withThumbnail("https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1");
+				builder.withTitle("**Discord Groups Stats**");
+				builder.appendField("Cpu usage", cpu + "%", true);
+				builder.appendField("Version", "N/A", true);
+				builder.appendField("Memory Free", mbFree + "MB", true);
+				builder.appendField("Memory Used", mbUsed + "MB", true);
+				builder.withFooterText("Command requested by " + sender.getDisplayName(channel.getGuild()));
+				if(!channel.isPrivate()){
+					IRole role = null;
+					int pos = 0;
+					for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
+						int rawPos = rawRole.getPosition();
+						if(rawPos > pos){
+							role = rawRole;
+							pos = rawPos;
+						}
+					}
+					builder.withColor(role.getColor());
+				}
+				EmbedObject embed = builder.build();
+				channel.sendMessage(embed);
+				channel.setTypingStatus(false);
 			}
 			break;
 			default:{

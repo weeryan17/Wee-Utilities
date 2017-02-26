@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 //import java.util.logging.Level;
+import java.util.logging.Level;
 
 //import javax.imageio.ImageIO;
 
@@ -131,14 +132,15 @@ public class DiscordGroups {
 		*/
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
-		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret);//Port removed from github again security
+		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret).forRequest(prop.getProperty("requestSite"));//Port removed from github again security
 		web = web.addListener(new PushListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
 		try {
 			github = web.build();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log("Chouldn't build webhook", Level.SEVERE, e, true);
+			System.exit(1);
 		}
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
