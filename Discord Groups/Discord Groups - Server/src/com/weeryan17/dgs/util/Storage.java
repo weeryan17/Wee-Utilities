@@ -3,16 +3,20 @@ package com.weeryan17.dgs.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.weeryan17.dgs.DiscordGroups;
 
@@ -31,7 +35,7 @@ public class Storage {
 	public Sheet getPlayerSheet() {
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
-			Workbook wb = new HSSFWorkbook(in);
+			Workbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
@@ -66,7 +70,7 @@ public class Storage {
 	public Sheet getKeysSheet() {
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
-			Workbook wb = new HSSFWorkbook(in);
+			Workbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
@@ -90,6 +94,38 @@ public class Storage {
 			instance.getLogger().log("Chouldn't reed keys data sheet", Level.SEVERE, e, false);
 			System.exit(1);
 			return null;
+		}
+	}
+	
+	protected static int saveCount = 0;
+	
+	public void saveWorkbook(Workbook wb){
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
+			wb.write(out);
+			saveCount = 0;
+			out.close();
+			wb.close();
+		} catch (FileNotFoundException e) {
+			instance.getLogger().log("Chouldn't save workbook because file wasn't found", Level.SEVERE, e, false);
+			System.exit(1);
+		} catch (IOException e) {
+			if(saveCount >= 10){
+				instance.getLogger().log("Chouldn't save workbook 10 times in a row.", Level.SEVERE, e, false);
+				System.exit(1);
+			} else {
+				saveCount++;
+				instance.getLogger().log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds.", Level.WARNING, e, false);
+				new Timer().schedule(new TimerTask(){
+
+					@Override
+					public void run() {
+						saveWorkbook(wb);
+					}
+					
+				}, 100000L);
+			}
 		}
 	}
 

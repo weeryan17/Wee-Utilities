@@ -10,6 +10,6 @@ public class Sync {
 	}
 	
 	public void syncUsers(String key, String[][] user, String guild){
-		//TODO this. first i need data storage.
+		
 	}
 }
