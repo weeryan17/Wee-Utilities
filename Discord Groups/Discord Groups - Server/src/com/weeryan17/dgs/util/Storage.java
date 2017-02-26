@@ -10,8 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import com.weeryan17.dgs.DiscordGroups;
 
@@ -27,14 +28,14 @@ public class Storage {
 	 * 
 	 * @return The player sheet.
 	 */
-	public XSSFSheet getPlayerSheet() {
+	public Sheet getPlayerSheet() {
 		try {
 			FileInputStream in = new FileInputStream(instance.getProperties().getProperty("workbookPath"));
-			XSSFWorkbook wb = new XSSFWorkbook(in);
+			Workbook wb = new HSSFWorkbook(in);
 			boolean sheetExists = false;
-			XSSFSheet sheet = null;
+			Sheet sheet = null;
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
-				XSSFSheet rawSheet = wb.getSheetAt(i);
+				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
 				if (name.equals("Keys")) {
 					sheetExists = true;
@@ -62,14 +63,14 @@ public class Storage {
 	 * 
 	 * @return The player sheet.
 	 */
-	public XSSFSheet getKeysSheet() {
+	public Sheet getKeysSheet() {
 		try {
 			FileInputStream in = new FileInputStream(instance.getProperties().getProperty("workbookPath"));
-			XSSFWorkbook wb = new XSSFWorkbook(in);
+			Workbook wb = new HSSFWorkbook(in);
 			boolean sheetExists = false;
-			XSSFSheet sheet = null;
+			Sheet sheet = null;
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
-				XSSFSheet rawSheet = wb.getSheetAt(i);
+				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
 				if (name.equals("Keys")) {
 					sheetExists = true;

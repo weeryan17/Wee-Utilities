@@ -1,17 +1,20 @@
 package com.weeryan17.dgs;
 
-import java.awt.AWTException;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
+//import java.awt.AWTException;
+//import java.awt.MenuItem;
+//import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
-import java.io.File;
+//import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Properties;
-import java.util.logging.Level;
+//import java.util.logging.Level;
 
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
@@ -33,6 +36,8 @@ import sx.blah.discord.util.Image;
 
 public class DiscordGroups {
 	public IDiscordClient client;
+
+	String jarFile = "";
 	public static void main(String[] args) {
 		DiscordGroups discord = new DiscordGroups();
 		discord.init();
@@ -48,19 +53,37 @@ public class DiscordGroups {
 	Properties prop;
 	
 	public void init(){
+		try {
+			String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			jarFile = file.substring(0, file.length() - 18);
+		} catch (URISyntaxException e) {
+			System.out.println("Getting jar location!");
+			System.out.println(e.getMessage());
+			for(StackTraceElement element: e.getStackTrace()){
+				System.out.println(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+			}
+		}
 		prop = new Properties();
 		try {
-			prop.load(getClass().getClassLoader().getResourceAsStream("bot.properties"));
+			InputStream propIn = new FileInputStream(jarFile + "/bot.properties");
+			prop.load(propIn);
 		} catch (IOException e) {
-			getLogger().log("Error loading properties file!", Level.SEVERE, e, false);
+			System.out.println("Error enounter loading propeties file");
+			System.out.println(e.getMessage());
+			for(StackTraceElement element: e.getStackTrace()){
+				System.out.println(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+			}
 			System.exit(1);
 		}
 		token = prop.getProperty("token");
 		try {
 			client = new ClientBuilder().withToken(token).login();
 		} catch (DiscordException e) {
-			getLogger().log("Error Logging in!", Level.SEVERE, e, false);
-			System.exit(1);
+			System.out.println("Error Logging in!");
+			System.out.println(e.getMessage());
+			for(StackTraceElement element: e.getStackTrace()){
+				System.out.println(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+			}
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
@@ -82,7 +105,7 @@ public class DiscordGroups {
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
 		mainGuild = client.getGuildByID(guildId);
 		logger = new Logging(this);
-		if(SystemTray.isSupported()){
+		/*if(SystemTray.isSupported()){
 			getLogger().log("System tray is supported. Using!", true);
 			PopupMenu popup = new PopupMenu();
 			
@@ -114,6 +137,7 @@ public class DiscordGroups {
 		} else {
 			getLogger().log("System tray not supported. disableing system tray.", true);
 		}
+		*/
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret);//Port removed from github again security
@@ -158,6 +182,10 @@ public class DiscordGroups {
 	
 	public Storage getStorage(){
 		return storage;
+	}
+	
+	public String getJarLoc(){
+		return jarFile;
 	}
 	
 }

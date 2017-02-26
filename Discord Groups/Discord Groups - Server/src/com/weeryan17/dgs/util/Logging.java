@@ -74,9 +74,9 @@ public class Logging {
 		File file = null;
 		
 		try {
-			File dir = new File(logFolder + dayDate);
+			File dir = new File(instance.getJarLoc() + "/" + logFolder + "/" + dayDate);
 			dir.mkdirs();
-			file = new File(logFolder + dayDate + "/" + hourDate + ".log");
+			file = new File(instance.getJarLoc() + "/" + logFolder + "/" + dayDate + "/" + hourDate + ".log");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -133,9 +133,9 @@ public class Logging {
 		File file = null;
 		
 		try {
-			File dir = new File(logFolder + dayDate);
+			File dir = new File(instance.getJarLoc() + "/" + logFolder + "/" + dayDate);
 			dir.mkdirs();
-			file = new File(logFolder + dayDate + "/" + hourDate + ".log");
+			file = new File(instance.getJarLoc() + "/" + logFolder + "/" + dayDate + "/" + hourDate + ".log");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -193,9 +193,9 @@ public class Logging {
 		File file = null;
 		
 		try {
-			File dir = new File(logFolder + dayDate);
+			File dir = new File(instance.getJarLoc() + "/" + logFolder + "/" + dayDate);
 			dir.mkdirs();
-			file = new File(logFolder + dayDate + "/" + hourDate + ".log");
+			file = new File(instance.getJarLoc() + "/" + logFolder + "/" + dayDate + "/" + hourDate + ".log");
 			if(!file.exists()){
 				file.createNewFile();
 			}
@@ -204,6 +204,8 @@ public class Logging {
 			bw = new BufferedWriter(fw);
 			
 			bw.write("[" + secondsDate + "] " + "[" + level.getName() + "] " + message);
+			bw.write('\n');
+			bw.write(thrown.getMessage());
 			bw.write('\n');
 			for(StackTraceElement element: thrown.getStackTrace()){
 				bw.write(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
