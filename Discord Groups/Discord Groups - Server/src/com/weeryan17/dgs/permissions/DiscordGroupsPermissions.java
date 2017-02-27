@@ -3,6 +3,7 @@ package com.weeryan17.dgs.permissions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.util.GuildUser;
 
 import sx.blah.discord.handle.obj.IGuild;
@@ -12,12 +13,22 @@ import sx.blah.discord.handle.obj.Permissions;
 
 public class DiscordGroupsPermissions {
 	private static HashMap<GuildUser, DiscordGroupsPermissions> userPerms = new HashMap<GuildUser, DiscordGroupsPermissions>();
-	private static String[] allPerms = {"dg",
+	private static String[] allPerms = {
+			"dg",
 			"dg.server",
 			"dg.server.generate",
 			"dg.server.mannage",
 			"dg.server.stats",
-			"dg.server.web"};
+			"dg.server.web",
+			"dg.perm",
+			"dg.perm.add",
+			"dg.perm.remove",
+			"dg.perm.group",
+			"dg.perm.group.add",
+			"dg.perm.group.remove",
+			"dg.perm.group.modify"
+			};
+	
 	private String[] perms;
 	
 	private IUser user;
@@ -112,7 +123,7 @@ public class DiscordGroupsPermissions {
 	}
 	
 	
-	public static void updatePerms(GuildUser user){
-		//TODO check perms storage for the guild and set the class local perms
+	public static void updatePerms(GuildUser user, DiscordGroups instance){
+		
 	}
 }

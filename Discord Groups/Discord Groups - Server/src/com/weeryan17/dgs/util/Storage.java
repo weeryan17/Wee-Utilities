@@ -14,6 +14,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -98,12 +101,48 @@ public class Storage {
 	}
 	
 	/**
-	 * Get's the permission sheet for the specified guild.
+	 * Get's the permission user sheet for the specified guild.
 	 * 
 	 * @param guildID The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
-	public Sheet getGuildSheet(String guildID){
+	public Sheet getGuildUserSheet(String guildID){
+		try {
+			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
+			Workbook wb = new XSSFWorkbook(in);
+			boolean sheetExists = false;
+			Sheet sheet = null;
+			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
+				Sheet rawSheet = wb.getSheetAt(i);
+				String name = rawSheet.getSheetName();
+				if (name.equals(guildID)) {
+					sheetExists = true;
+					sheet = rawSheet;
+				}
+			}
+			if (sheetExists) {
+				wb.close();
+				return sheet;
+			} else {
+				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.", Level.WARNING, false);
+				sheet = wb.createSheet(guildID);
+				savePermsWorkbook(wb);
+				return sheet;
+			}
+		} catch (IOException e) {
+			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + guildID, Level.SEVERE, e, false);
+			System.exit(1);
+			return null;
+		}
+	}
+	
+	/**
+	 * Get's the permission role sheet for the specified guild.
+	 * 
+	 * @param guildID The guild id to get a sheet for.
+	 * @return The guild sheet.
+	 */
+	public Sheet getGuildRoleSheet(String guildID){
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
 			Workbook wb = new XSSFWorkbook(in);
@@ -229,5 +268,22 @@ public class Storage {
 		} catch (IOException e) {
 			instance.getLogger().log("Ran into a io exception when writting to result file", Level.WARNING, e, false);
 		}
+	}
+	
+	public String getUserIDFromSpigot(String UUID){
+		Sheet users = this.getPlayerSheet();
+		Row row = users.getRow(users.getFirstRowNum());
+		String discordID = "";
+		for(Cell cell : row){
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				if(cell.getStringCellValue().equals(UUID)){
+					int collum = cell.getColumnIndex();
+					Row discord = users.getRow(users.getFirstRowNum() + 1);
+					Cell userIDCell = discord.getCell(collum);
+					discordID = userIDCell.getStringCellValue();
+				}
+			}
+		}
+		return discordID;
 	}
 }
