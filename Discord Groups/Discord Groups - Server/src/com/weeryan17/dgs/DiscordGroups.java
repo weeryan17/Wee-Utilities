@@ -1,10 +1,10 @@
 package com.weeryan17.dgs;
 
 import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -12,16 +12,19 @@ import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 
 import com.weeryan17.dgs.commands.CommandMannager;
+import com.weeryan17.dgs.commands.CommandsCommand;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.TestCommand;
+import com.weeryan17.dgs.commands.admin.GenerateCommand;
+import com.weeryan17.dgs.commands.admin.PermissionsCommand;
 import com.weeryan17.dgs.commands.developer.EvalCommand;
 import com.weeryan17.dgs.listeners.PushListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
 import com.weeryan17.dgs.socket.SocketTimer;
 import com.weeryan17.dgs.util.Logging;
+import com.weeryan17.dgs.util.MessageUtil;
 import com.weeryan17.dgs.util.Storage;
-import com.weeryan17.dgs.util.SystemTrayUtil;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -90,10 +93,13 @@ public class DiscordGroups {
 	
 	String inviteLink;
 	
+	ArrayList<String> ids;
+	
 	public void readyInit(){
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
-		SystemTrayUtil trayUtil = new SystemTrayUtil(this);
-		icon = trayUtil.getIcon();
+		client.changePlayingText("^commands");
+		//SystemTrayUtil trayUtil = new SystemTrayUtil(this);
+		//icon = trayUtil.getIcon();
 		mainGuild = client.getGuildByID(guildId);
 		logger = new Logging(this);
 		secret = prop.getProperty("secret");
@@ -112,9 +118,13 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("test", new TestCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
+		cmdMannage.registerCommand("commands", new CommandsCommand(this));
+		cmdMannage.registerCommand("permissions", new PermissionsCommand());
+		cmdMannage.registerCommand("generate", new GenerateCommand(this));
+		ids.add("215644829969809421");
 		storage = new Storage(this);
 		if(hasTray){
-			trayUtil.getIcon().displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
+			//trayUtil.getIcon().displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
 		}
 		logger.log("Bot initlized", true);
 		BotInviteBuilder invite = new BotInviteBuilder(client);
@@ -159,4 +169,11 @@ public class DiscordGroups {
 		return hasTray;
 	}
 	
+	public MessageUtil getMessageUtil(){
+		return new MessageUtil(this);
+	}
+	
+	public ArrayList<String> getDevelopersIds(){
+		return ids;
+	}
 }

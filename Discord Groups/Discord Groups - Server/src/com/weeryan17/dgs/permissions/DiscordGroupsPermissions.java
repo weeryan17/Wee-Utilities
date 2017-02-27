@@ -40,7 +40,7 @@ public class DiscordGroupsPermissions {
 		this.guild = user.getGuild();
 	}
 	
-	public static DiscordGroupsPermissions getUserPermissionsGroup(GuildUser user){
+	public static DiscordGroupsPermissions getUserPermissions(GuildUser user){
 		return userPerms.get(user);
 	}
 	

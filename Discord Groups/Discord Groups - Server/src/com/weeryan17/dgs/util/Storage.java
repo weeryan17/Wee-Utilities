@@ -9,7 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -25,9 +27,42 @@ import com.weeryan17.dgs.DiscordGroups;
 
 public class Storage {
 	DiscordGroups instance;
-
+	
+	ArrayList<String> chars;
 	public Storage(DiscordGroups instance) {
 		this.instance = instance;
+		chars = new ArrayList<String>();
+		for(int i = 0; i <= 9; i++){
+			chars.add(String.valueOf(i));
+		}
+		chars.add("q");
+		chars.add("w");
+		chars.add("e");
+		chars.add("r");
+		chars.add("t");
+		chars.add("y");
+		chars.add("u");
+		chars.add("i");
+		chars.add("o");
+		chars.add("p");
+		chars.add("-");
+		chars.add("a");
+		chars.add("s");
+		chars.add("d");
+		chars.add("f");
+		chars.add("g");
+		chars.add("h");
+		chars.add("j");
+		chars.add("k");
+		chars.add("l");
+		chars.add(".");
+		chars.add("z");
+		chars.add("x");
+		chars.add("c");
+		chars.add("v");
+		chars.add("b");
+		chars.add("n");
+		chars.add("m");
 	}
 
 	/**
@@ -285,5 +320,41 @@ public class Storage {
 			}
 		}
 		return discordID;
+	}
+	
+	public String generateRandomID(String guildID){
+		Sheet keysSheet = this.getKeysSheet();
+		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
+		ArrayList<String> keys = new ArrayList<String>();
+		for(Cell cell: keysRow){
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				keys.add(cell.getStringCellValue());
+			}
+		}
+		String key = this.randomID();
+		if(!keys.contains(key)){
+			Cell cell = keysRow.createCell(keysRow.getPhysicalNumberOfCells() + 1);
+			cell.setCellValue(key);
+			Row idRow = keysSheet.getRow(keysSheet.getFirstRowNum() + 1);
+			idRow.createCell(cell.getColumnIndex()).setCellValue(guildID);
+			return key;
+		} else {
+			return this.generateRandomID(guildID);
+		}
+	}
+	
+	public String randomID(){
+		Random random = new Random();
+		String key = "";
+		for(int i = 0; i <= 40; i++){
+			int id = random.nextInt(38);
+			String part = getString(id);
+			key = key + part;
+		}
+		return key;
+	}
+	
+	public String getString(int id){
+		return chars.get(id);
 	}
 }
