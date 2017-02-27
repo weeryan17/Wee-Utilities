@@ -41,7 +41,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals("Keys")) {
+				if (name.equals("Users")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
