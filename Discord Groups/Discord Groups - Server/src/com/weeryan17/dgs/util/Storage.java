@@ -97,9 +97,50 @@ public class Storage {
 		}
 	}
 	
+	/**
+	 * Get's the permission sheet for the specified guild.
+	 * 
+	 * @param guildID The guild id to get a sheet for.
+	 * @return The guild sheet.
+	 */
+	public Sheet getGuildSheet(String guildID){
+		try {
+			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
+			Workbook wb = new XSSFWorkbook(in);
+			boolean sheetExists = false;
+			Sheet sheet = null;
+			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
+				Sheet rawSheet = wb.getSheetAt(i);
+				String name = rawSheet.getSheetName();
+				if (name.equals(guildID)) {
+					sheetExists = true;
+					sheet = rawSheet;
+				}
+			}
+			if (sheetExists) {
+				wb.close();
+				return sheet;
+			} else {
+				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.", Level.WARNING, false);
+				sheet = wb.createSheet(guildID);
+				savePermsWorkbook(wb);
+				return sheet;
+			}
+		} catch (IOException e) {
+			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + guildID, Level.SEVERE, e, false);
+			System.exit(1);
+			return null;
+		}
+	}
+	
 	protected static int saveCount = 0;
 	
-	public void saveWorkbook(Workbook wb){
+	/**
+	 * Saves the main data workbook
+	 * 
+	 * @param wb The data workbook to be saved
+	 */
+	public void saveDataWorkbook(Workbook wb){
 		FileOutputStream out;
 		try {
 			out = new FileOutputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
@@ -116,12 +157,47 @@ public class Storage {
 				System.exit(1);
 			} else {
 				saveCount++;
-				instance.getLogger().log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds.", Level.WARNING, e, false);
+				instance.getLogger().log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds. Retry #" + saveCount, Level.WARNING, e, false);
 				new Timer().schedule(new TimerTask(){
 
 					@Override
 					public void run() {
-						saveWorkbook(wb);
+						saveDataWorkbook(wb);
+					}
+					
+				}, 100000L);
+			}
+		}
+	}
+	
+	/**
+	 * Saves the permission workbook.
+	 * 
+	 * @param wb The permission workbook to be saved.
+	 */
+	public void savePermsWorkbook(Workbook wb){
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
+			wb.write(out);
+			saveCount = 0;
+			out.close();
+			wb.close();
+		} catch (FileNotFoundException e) {
+			instance.getLogger().log("Chouldn't save workbook because file wasn't found", Level.SEVERE, e, false);
+			System.exit(1);
+		} catch (IOException e) {
+			if(saveCount >= 10){
+				instance.getLogger().log("Chouldn't save workbook 10 times in a row.", Level.SEVERE, e, false);
+				System.exit(1);
+			} else {
+				saveCount++;
+				instance.getLogger().log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds. Retry #" + saveCount, Level.WARNING, e, false);
+				new Timer().schedule(new TimerTask(){
+
+					@Override
+					public void run() {
+						savePermsWorkbook(wb);
 					}
 					
 				}, 100000L);
