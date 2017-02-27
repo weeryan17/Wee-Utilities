@@ -217,7 +217,7 @@ public class Logging {
 			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n" + 
 					"Softly shutting down to prevent further problems", Level.SEVERE, e, false);
 		}
-		if(DiscordGroups.hasTray){
+		if(instance.hasTray()){
 			instance.getIcon().displayMessage("Discord Groups", message, MessageType.ERROR);
 		}
 		logger.log(level, secondsDate + " [DiscordGroups] " + message, thrown);

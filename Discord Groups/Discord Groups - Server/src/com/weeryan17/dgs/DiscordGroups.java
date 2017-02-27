@@ -1,23 +1,16 @@
 package com.weeryan17.dgs;
 
-//import java.awt.AWTException;
-//import java.awt.MenuItem;
-//import java.awt.PopupMenu;
-import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
-//import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-//import java.util.logging.Level;
 import java.util.logging.Level;
-
-//import javax.imageio.ImageIO;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
+
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.TestCommand;
@@ -28,6 +21,8 @@ import com.weeryan17.dgs.listeners.discord.RandomListener;
 import com.weeryan17.dgs.socket.SocketTimer;
 import com.weeryan17.dgs.util.Logging;
 import com.weeryan17.dgs.util.Storage;
+import com.weeryan17.dgs.util.SystemTrayUtil;
+
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
@@ -46,10 +41,6 @@ public class DiscordGroups {
 	
 	String token = "";
 	public String guildId = "280175962769850369"; //This is the id of the main guild.
-	
-	SystemTray tray;
-	public static boolean hasTray = false;
-	TrayIcon icon;
 	
 	Properties prop;
 	
@@ -94,45 +85,17 @@ public class DiscordGroups {
 	
 	Storage storage;
 	
+	boolean hasTray = false;
+	TrayIcon icon;
+	
 	String inviteLink;
 	
 	public void readyInit(){
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
+		SystemTrayUtil trayUtil = new SystemTrayUtil(this);
+		icon = trayUtil.getIcon();
 		mainGuild = client.getGuildByID(guildId);
 		logger = new Logging(this);
-		/*if(SystemTray.isSupported()){
-			getLogger().log("System tray is supported. Using!", true);
-			PopupMenu popup = new PopupMenu();
-			
-			tray = SystemTray.getSystemTray();
-			hasTray = true;
-			
-			java.awt.Image img = null;
-			try {
-				img = ImageIO.read(new File("C:/Users/developer/Dropbox/discordgroupstray.png"));
-			} catch (IOException e) {
-				getLogger().log("Choudln't read image", Level.SEVERE, e, false);
-			}
-			icon = new TrayIcon(img);
-			
-			MenuItem logItem = new MenuItem("Logs");
-			
-			popup.add(logItem);
-			
-			icon.setPopupMenu(popup);
-
-			icon.displayMessage("Discord Groups", "Bot initilizing", MessageType.INFO);
-			
-			try {
-				tray.add(icon);
-			} catch (AWTException e) {
-				getLogger().log("Error setting tray icon", Level.SEVERE, e, false);
-			}
-			
-		} else {
-			getLogger().log("System tray not supported. disableing system tray.", true);
-		}
-		*/
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret).forRequest(prop.getProperty("requestSite"));//Port removed from github again security
@@ -151,7 +114,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
 		storage = new Storage(this);
 		if(hasTray){
-			icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
+			trayUtil.getIcon().displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
 		}
 		logger.log("Bot initlized", true);
 		BotInviteBuilder invite = new BotInviteBuilder(client);
@@ -190,6 +153,10 @@ public class DiscordGroups {
 	
 	public String getInviteLink(){
 		return inviteLink;
+	}
+	
+	public boolean hasTray(){
+		return hasTray;
 	}
 	
 }
