@@ -31,6 +31,7 @@ import com.weeryan17.dgs.util.Storage;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.util.BotInviteBuilder;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.Image;
 
@@ -93,6 +94,8 @@ public class DiscordGroups {
 	
 	Storage storage;
 	
+	String inviteLink;
+	
 	public void readyInit(){
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
 		mainGuild = client.getGuildByID(guildId);
@@ -151,6 +154,10 @@ public class DiscordGroups {
 			icon.displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
 		}
 		logger.log("Bot initlized", true);
+		BotInviteBuilder invite = new BotInviteBuilder(client);
+		invite.withPermissions(client.getGuildByID(guildId).getRoleByID("285593733221711872").getPermissions());
+		inviteLink = invite.build();
+		logger.log("Invite link " + invite, true);
 	}
 	
 	public IGuild getMainGuild(){
@@ -179,6 +186,10 @@ public class DiscordGroups {
 	
 	public String getJarLoc(){
 		return jarFile;
+	}
+	
+	public String getInviteLink(){
+		return inviteLink;
 	}
 	
 }
