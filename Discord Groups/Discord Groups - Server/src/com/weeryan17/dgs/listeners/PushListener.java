@@ -18,58 +18,57 @@ public class PushListener implements EventListener<PushEvent> {
 	@Override
 	public void handle(PushEvent event) {
 		instance.getLogger().log("Push event recived", true);
+		EmbedBuilder embed =  new EmbedBuilder();
+		ShortUser author = event.getCommits()[0].getAuthor(); //Assuming commit 0 contains the only commiter
+		String authorName = author.getUsername();
+		embed.withAuthorName(authorName);
+		embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
 		for(Commit commit : event.getCommits()){
-			EmbedBuilder embed =  new EmbedBuilder();
-			
-			ShortUser author = commit.getAuthor();
-			String authorName = author.getUsername();
-			
-			embed.withAuthorName(authorName);
-			
-			embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
-			
-			embed.appendDesc("Commit `" + commit.getId() + "`                           \n```" + commit.getMessage() + "```");
-			
-			if(commit.getAdded().length > 0){
-				String added = "```Markdown\n";
+			embed.appendField(commit.getId().substring(0, 7), "```" + commit.getMessage() + "```", false);
+        	
+        	if(commit.getAdded().length > 0){
+                StringBuilder sb = new StringBuilder();
+                sb.append("```Markdown\n");
 				for(String file: commit.getAdded()){
-					added = added + "* " + file + "\n\n";
+					sb.append("* " + file + "\n\n");
 				}
-				added = added + "```";
+				String added = sb.toString() + "```";
 				embed.appendField("Added files", added, false);
 			}
-			
-			if(commit.getRemoved().length > 0){
-				String removed = "```Markdown\n";
+        	
+        	if(commit.getRemoved().length > 0){
+                StringBuilder sb = new StringBuilder();
+                sb.append("```Markdown\n");
 				for(String file: commit.getRemoved()){
-					removed = removed + "* " + file + "\n\n";
+					sb.append("* " + file + "\n\n");
 				}
-				removed = removed + "```";
+				String removed = sb.toString() + "```";
 				embed.appendField("Removed files", removed, false);
 			}
-			
-			if(commit.getModified().length > 0){
-				String modified = "```Markdown\n";
+        	
+        	if(commit.getModified().length > 0){
+                StringBuilder sb = new StringBuilder();
+                sb.append("```Markdown\n");
 				for(String file: commit.getModified()){
-					modified = modified + "* " + file + "\n\n";
+					sb.append("* " + file + "\n\n");
 				}
-				modified = modified + "```";
+				String modified = sb.toString() + "```";
 				embed.appendField("Modified files", modified, false);
 			}
 			
-			IRole role = null;
-			int pos = 0;
-			for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(instance.getMainGuild())){
-				int rawPos = rawRole.getPosition();
-				if(rawPos > pos){
-					role = rawRole;
-					pos = rawPos;
-				}
-			}
-			embed.withColor(role.getColor());
-			
-			instance.getMainGuild().getChannelByID("281978233468092416").sendMessage(embed.build());
 		}
+		IRole role = null;
+		int pos = 0;
+		for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(instance.getMainGuild())){
+			int rawPos = rawRole.getPosition();
+			if(rawPos > pos){
+				role = rawRole;
+				pos = rawPos;
+			}
+		}
+		embed.withColor(role.getColor());
+		
+		instance.getMainGuild().getChannelByID("281978233468092416").sendMessage(embed.build());
 	}
 	
 }
