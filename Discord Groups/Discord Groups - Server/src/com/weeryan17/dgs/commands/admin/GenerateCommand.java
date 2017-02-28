@@ -26,7 +26,8 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			switch(args[0]){
 			case "key":{
 				DiscordGroupsPermissions perms = DiscordGroupsPermissions.getUserPermissions(new GuildUser(sender, channel.getGuild()));
-				if(perms.hasPerm("dg.server.generate") || ids.contains(sender.getID())){
+				if(perms.hasPerm("dg.server.generate") || 
+						ids.contains(sender.getID())){
 					
 				} else {
 					channel.sendMessage(sender.mention() + " you don't have permission to use this");

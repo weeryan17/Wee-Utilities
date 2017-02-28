@@ -101,6 +101,8 @@ public class DiscordGroups {
 		//SystemTrayUtil trayUtil = new SystemTrayUtil(this);
 		//icon = trayUtil.getIcon();
 		mainGuild = client.getGuildByID(guildId);
+		ids = new ArrayList<String>();
+		ids.add("215644829969809421");
 		logger = new Logging(this);
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
@@ -121,7 +123,6 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("commands", new CommandsCommand(this));
 		cmdMannage.registerCommand("permissions", new PermissionsCommand());
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
-		ids.add("215644829969809421");
 		storage = new Storage(this);
 		if(hasTray){
 			//trayUtil.getIcon().displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);

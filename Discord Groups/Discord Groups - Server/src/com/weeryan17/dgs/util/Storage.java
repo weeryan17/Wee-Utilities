@@ -70,6 +70,7 @@ public class Storage {
 	 * 
 	 * @return The player sheet.
 	 */
+	@SuppressWarnings("resource")
 	public Sheet getPlayerSheet() {
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
@@ -85,7 +86,6 @@ public class Storage {
 				}
 			}
 			if (sheetExists) {
-				wb.close();
 				return sheet;
 			} else {
 				instance.getLogger().log("Players sheet wasn't found", Level.SEVERE, false);
@@ -105,6 +105,7 @@ public class Storage {
 	 * 
 	 * @return The player sheet.
 	 */
+	@SuppressWarnings("resource")
 	public Sheet getKeysSheet() {
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
@@ -120,7 +121,6 @@ public class Storage {
 				}
 			}
 			if (sheetExists) {
-				wb.close();
 				return sheet;
 			} else {
 				instance.getLogger().log("Keys sheet wasn't found", Level.SEVERE, false);
@@ -141,6 +141,7 @@ public class Storage {
 	 * @param guildID The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
+	@SuppressWarnings("resource")
 	public Sheet getGuildUserSheet(String guildID){
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
@@ -156,7 +157,6 @@ public class Storage {
 				}
 			}
 			if (sheetExists) {
-				wb.close();
 				return sheet;
 			} else {
 				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.", Level.WARNING, false);
@@ -177,6 +177,7 @@ public class Storage {
 	 * @param guildID The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
+	@SuppressWarnings("resource")
 	public Sheet getGuildRoleSheet(String guildID){
 		try {
 			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
@@ -192,7 +193,6 @@ public class Storage {
 				}
 			}
 			if (sheetExists) {
-				wb.close();
 				return sheet;
 			} else {
 				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.", Level.WARNING, false);
@@ -337,6 +337,7 @@ public class Storage {
 			cell.setCellValue(key);
 			Row idRow = keysSheet.getRow(keysSheet.getFirstRowNum() + 1);
 			idRow.createCell(cell.getColumnIndex()).setCellValue(guildID);
+			this.saveDataWorkbook(keysSheet.getWorkbook());
 			return key;
 		} else {
 			return this.generateRandomID(guildID);

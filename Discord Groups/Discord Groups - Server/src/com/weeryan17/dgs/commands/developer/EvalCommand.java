@@ -71,6 +71,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 				result = String.valueOf(engine.eval(imports + code));
 			} catch (ScriptException e) {
 				instance.getLogger().log("The script encountered an exception on eval", Level.WARNING, e, true);
+				result = e.getMessage() + '\n';
 				for(StackTraceElement element: e.getStackTrace()){
 					result = result + element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "()." + "\n";
 				}
