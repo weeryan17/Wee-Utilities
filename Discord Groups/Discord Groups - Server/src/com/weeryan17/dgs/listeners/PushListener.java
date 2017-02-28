@@ -24,7 +24,7 @@ public class PushListener implements EventListener<PushEvent> {
 		embed.withAuthorName(authorName);
 		embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
 		for(Commit commit : event.getCommits()){
-			embed.appendField("[" + commit.getId().substring(0, 7) + "](" + commit.getUrl() + ")", "```" + commit.getMessage() + "```", false);
+			embed.appendField("Commit:","[" + commit.getId().substring(0, 7) + "](" + commit.getUrl() + ")" + "```" + commit.getMessage() + "```", false);
         	
         	if(commit.getAdded().length > 0){
                 StringBuilder sb = new StringBuilder();
