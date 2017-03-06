@@ -22,12 +22,14 @@ public class RandomListener {
 	
 	@EventSubscriber
 	public void onRoleCreate(RoleCreateEvent e){
+		@SuppressWarnings("unused")
 		IRole role = e.getRole();
 		//TODO Interact with file system for perms.
 	}
 	
 	@EventSubscriber
 	public void onRoleDelete(RoleDeleteEvent e){
+		@SuppressWarnings("unused")
 		IRole role = e.getRole();
 		//TODO Interact with files system for perms.
 	}

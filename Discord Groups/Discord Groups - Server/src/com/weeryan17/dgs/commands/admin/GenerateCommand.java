@@ -28,7 +28,9 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 		} else if(args.length == 1){
 			switch(args[0]){
 			case "add":{
-				
+				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
+				embed.appendDesc("```\n^generate add key <optinal:key>\n```");
+				channel.sendMessage(sender.mention() + " correct usage:", embed.build());
 			}
 			break;
 			case "remove" :{
@@ -43,6 +45,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 					if(perms.hasPerm("dg.server.generate") || 
 							ids.contains(sender.getID())){
 						String key = instance.getStorage().generateRandomID(channel.getGuild().getID());
+						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
 					} else {
 						channel.sendMessage(sender.mention() + " you don't have permission to use this");
 					}
