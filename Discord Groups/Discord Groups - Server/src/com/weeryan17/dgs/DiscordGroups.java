@@ -18,6 +18,7 @@ import com.weeryan17.dgs.commands.TestCommand;
 import com.weeryan17.dgs.commands.admin.GenerateCommand;
 import com.weeryan17.dgs.commands.admin.PermissionsCommand;
 import com.weeryan17.dgs.commands.developer.EvalCommand;
+import com.weeryan17.dgs.commands.developer.UpdateCommand;
 import com.weeryan17.dgs.listeners.PushListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
@@ -123,6 +124,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("commands", new CommandsCommand(this));
 		cmdMannage.registerCommand("permissions", new PermissionsCommand());
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
+		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		storage = new Storage(this);
 		if(hasTray){
 			//trayUtil.getIcon().displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
