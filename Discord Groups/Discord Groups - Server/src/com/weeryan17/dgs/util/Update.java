@@ -68,5 +68,27 @@ public class Update {
             	instance.getLogger().log("Pull exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
             }
 		}
+		ProcessBuilder maven = new ProcessBuilder("nvm", "clean", "compile", "assembly:single");
+		File mvn = new File("Discord-Groups/Discord Groups/Discord Groups - Server" + File.separator);
+		maven.directory(mvn);
+		Process p = null;
+		try {
+			p = maven.start();
+		} catch (IOException e1) {
+			instance.getLogger().log("Error compiling project", Level.WARNING, e1, true);
+		}
+		BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		StringBuilder sb = new StringBuilder();
+		String line;
+        try {
+			if ((line = reader.readLine()) != null) {
+			    sb.append(line + '\n');
+			}
+		} catch (IOException e) {
+			instance.getLogger().log("Can't compile project", Level.WARNING, e, true);
+		}
+        if (p.exitValue() != 0) {
+        	instance.getLogger().log("Compiling project exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
+        }
 	}
 }

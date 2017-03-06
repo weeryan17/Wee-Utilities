@@ -9,6 +9,7 @@ import com.weeryan17.dgs.util.GuildUser;
 
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.EmbedBuilder;
 
 public class GenerateCommand implements DiscordGroupsCommandBase {
 	ArrayList<String> ids;
@@ -21,17 +22,37 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
 		if(args.length == 0){
-			channel.sendMessage(sender.mention() + " This command must have arguments. Check at the help for more.");
+			EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
+			embed.appendDesc("```\n^generate <add/remove> key <optinal:key>\nremove must have a key\n```");
+			channel.sendMessage(sender.mention() + " Improper usage: ", embed.build());
 		} else if(args.length == 1){
 			switch(args[0]){
-			case "key":{
-				DiscordGroupsPermissions perms = DiscordGroupsPermissions.getUserPermissions(new GuildUser(sender, channel.getGuild()));
-				if(perms.hasPerm("dg.server.generate") || 
-						ids.contains(sender.getID())){
-					
+			case "add":{
+				
+			}
+			break;
+			case "remove" :{
+				
+			}
+			}
+		} else if(args.length == 2){
+			switch(args[0]){
+			case "add" :{
+				if(args[1].equals("key")){
+					DiscordGroupsPermissions perms = DiscordGroupsPermissions.getUserPermissions(new GuildUser(sender, channel.getGuild()));
+					if(perms.hasPerm("dg.server.generate") || 
+							ids.contains(sender.getID())){
+						String key = instance.getStorage().generateRandomID(channel.getGuild().getID());
+					} else {
+						channel.sendMessage(sender.mention() + " you don't have permission to use this");
+					}
 				} else {
-					channel.sendMessage(sender.mention() + " you don't have permission to use this");
+					channel.sendMessage(sender.mention() + " You can only generate keys at this point anything else is invalid");
 				}
+			}
+			break;
+			case "remove" :{
+				
 			}
 			}
 		}
