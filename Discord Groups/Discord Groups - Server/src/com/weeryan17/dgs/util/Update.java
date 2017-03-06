@@ -34,6 +34,9 @@ public class Update {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			StringBuilder sb = new StringBuilder();
 			String line;
+			while(p.isAlive()){
+            	
+            }
             try {
 				if ((line = reader.readLine()) != null) {
 				    sb.append(line + '\n');
@@ -41,6 +44,7 @@ public class Update {
 			} catch (IOException e) {
 				instance.getLogger().log("Can't read clone output", Level.WARNING, e, true);
 			}
+            
             if (p.exitValue() != 0) {
             	instance.getLogger().log("Clone exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
             }
@@ -57,6 +61,9 @@ public class Update {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			StringBuilder sb = new StringBuilder();
 			String line;
+			while(p.isAlive()){
+            	
+            }
             try {
 				if ((line = reader.readLine()) != null) {
 				    sb.append(line + '\n');
@@ -64,6 +71,7 @@ public class Update {
 			} catch (IOException e) {
 				instance.getLogger().log("Can't read pull output", Level.WARNING, e, true);
 			}
+            
             if (p.exitValue() != 0) {
             	instance.getLogger().log("Pull exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
             }
@@ -80,6 +88,9 @@ public class Update {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		StringBuilder sb = new StringBuilder();
 		String line;
+		while(p.isAlive()){
+        	
+        }
         try {
 			if ((line = reader.readLine()) != null) {
 			    sb.append(line + '\n');
