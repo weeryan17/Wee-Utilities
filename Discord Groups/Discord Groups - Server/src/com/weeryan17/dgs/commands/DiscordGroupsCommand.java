@@ -45,7 +45,8 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 				long usedBytes = Runtime.getRuntime().totalMemory() - bytesFree;
 				long mbFree = bytesFree / 1024 / 1024;
 				long mbUsed = usedBytes / 1024 / 1024;
-				double cpu = (ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class).getSystemLoadAverage() * 10000) / 100f;
+				OperatingSystemMXBean mx = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+				double cpu = mx.getSystemLoadAverage()/mx.getAvailableProcessors();
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				builder.withTitle("**Discord Groups Stats**");
 				builder.appendField("Cpu usage", cpu + "%", true);
