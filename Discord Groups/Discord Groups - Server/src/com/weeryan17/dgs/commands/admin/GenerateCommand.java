@@ -29,7 +29,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			switch(args[0]){
 			case "add":{
 				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				embed.appendDesc("```\n^generate add key <optinal:key>\n```");
+				embed.appendDesc("```\n^generate add key\n```");
 				channel.sendMessage(sender.mention() + " correct usage:", embed.build());
 			}
 			break;
