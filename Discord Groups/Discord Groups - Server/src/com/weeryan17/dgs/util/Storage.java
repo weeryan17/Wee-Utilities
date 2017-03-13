@@ -358,4 +358,33 @@ public class Storage {
 	public String getString(int id){
 		return chars.get(id);
 	}
+	
+	public String getGuildIdFromKey(String key){
+		Sheet keys = instance.getStorage().getKeysSheet();
+		Row row = keys.getRow(keys.getFirstRowNum());
+		boolean hasKey = false;
+		int colum = -1;
+		for(Cell cell : row){
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				String cellValue = cell.getStringCellValue();
+				if(cellValue.equals(key)){
+					hasKey = true;
+					colum = cell.getAddress().getColumn();
+				}
+			}
+			
+		}
+		if(hasKey){
+			Row guilds = keys.getRow(keys.getFirstRowNum() + 1);
+			Cell cell = guilds.getCell(colum);
+			String guildId = "";
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				guildId = cell.getStringCellValue();
+			}
+			return guildId;
+		} else {
+			return "";
+		}
+	}
+	
 }

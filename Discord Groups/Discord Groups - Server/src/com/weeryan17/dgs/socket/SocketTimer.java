@@ -61,7 +61,7 @@ public class SocketTimer {
 							}
 						}
 					}
-					if(hasKey){ //TODO check key with data storage
+					if(hasKey){
 						String[][] values = Arrays.copyOfRange(stuff, 1, stuff.length);
 						if(process.equals(instance.getProperties().getProperty("userSyncProcess"))){
 							instance.getLogger().log("User sync process activated from ip " + socket.getRemoteSocketAddress(), true);

@@ -23,7 +23,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
 		if(args.length == 0){
 			EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-			embed.appendDesc("```\n^generate <add/remove> key <optinal:key>\nremove must have a key\n```");
+			embed.appendDesc("```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```");
 			channel.sendMessage(sender.mention() + " Improper usage: ", embed.build());
 		} else if(args.length == 1){
 			switch(args[0]){
@@ -34,7 +34,9 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			}
 			break;
 			case "remove" :{
-				
+				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
+				embed.appendDesc("```\n^generate remove key <key>\n```");
+				channel.sendMessage(sender.mention() + " correct usage:", embed.build());
 			}
 			}
 		} else if(args.length == 2){
@@ -42,8 +44,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			case "add" :{
 				if(args[1].equals("key")){
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions.getUserPermissions(new GuildUser(sender, channel.getGuild()));
-					if(perms.hasPerm("dg.server.generate") || 
-							ids.contains(sender.getID())){
+					if(perms.hasPerm("dg.server.generate")){
 						String key = instance.getStorage().generateRandomID(channel.getGuild().getID());
 						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
 					} else {
@@ -55,7 +56,19 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			}
 			break;
 			case "remove" :{
-				
+				if(args[1].equals("key")){
+					DiscordGroupsPermissions perms = DiscordGroupsPermissions.getUserPermissions(new GuildUser(sender, channel.getGuild()));
+					if(perms.hasPerm("dg.server.generate")){
+						String guildId = instance.getStorage().getGuildIdFromKey(args[2]);
+						if(guildId.equals(channel.getGuild().getID())){
+							
+						} else {
+							channel.sendMessage(sender.mention() + " That key doesn't exist for your guild");
+						}
+					}
+				} else {
+					channel.sendMessage(sender.mention() + " You can only remove keys at this time anything else is invalid");
+				}
 			}
 			}
 		}
