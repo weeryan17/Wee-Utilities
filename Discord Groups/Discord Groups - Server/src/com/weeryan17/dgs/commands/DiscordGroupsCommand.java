@@ -1,8 +1,5 @@
 package com.weeryan17.dgs.commands;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-
 import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
