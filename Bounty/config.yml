@@ -1,6 +1,0 @@
-#Max Bounty amount (set to -1 for infinite)
-MaxBounty: -1
-#Sets the plugin to either gui mode or command mode (false for command) (WIP) (not implemented)
-Gui: false
-#Sets if you want bounty additions to be dissplayed in chat.
-Chat: true
