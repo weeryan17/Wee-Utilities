@@ -29,8 +29,15 @@ public class PushListener implements EventListener<PushEvent> {
         	if(commit.getAdded().length > 0){
                 StringBuilder sb = new StringBuilder();
                 sb.append("```Markdown\n");
+                int i = 0;
 				for(String file: commit.getAdded()){
-					sb.append("* " + file + "\n\n");
+					if(!(i > 5)){
+						sb.append("* " + file + "\n\n");
+					}
+					i++;
+				}
+				if(commit.getAdded().length > 5){
+					sb.append("...");
 				}
 				String added = sb.toString() + "```";
 				embed.appendField("Added files", added, false);
@@ -39,8 +46,15 @@ public class PushListener implements EventListener<PushEvent> {
         	if(commit.getRemoved().length > 0){
                 StringBuilder sb = new StringBuilder();
                 sb.append("```Markdown\n");
+                int i = 0;
 				for(String file: commit.getRemoved()){
-					sb.append("* " + file + "\n\n");
+					if(!(i > 5)){
+						sb.append("* " + file + "\n\n");
+					}
+					i++;
+				}
+				if(commit.getRemoved().length > 5){
+					sb.append("...");
 				}
 				String removed = sb.toString() + "```";
 				embed.appendField("Removed files", removed, false);
@@ -49,8 +63,15 @@ public class PushListener implements EventListener<PushEvent> {
         	if(commit.getModified().length > 0){
                 StringBuilder sb = new StringBuilder();
                 sb.append("```Markdown\n");
+                int i = 0;
 				for(String file: commit.getModified()){
-					sb.append("* " + file + "\n\n");
+					if(!(i > 5)){
+						sb.append("* " + file + "\n\n");
+					}
+					i++;
+				}
+				if(commit.getModified().length > 5){
+					sb.append("...");
 				}
 				String modified = sb.toString() + "```";
 				embed.appendField("Modified files", modified, false);
