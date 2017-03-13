@@ -30,7 +30,7 @@ public class SocketTimer {
 		}
 		sync = new Sync(instance);
 	}
-	
+
 	public void initSocket() {
 		while (true) {
 			Socket socket = null;
@@ -40,7 +40,7 @@ public class SocketTimer {
 				instance.getLogger().log("Server socket generated an io Exception", Level.SEVERE, e, false);
 				System.exit(1);
 			}
-			
+
 			try {
 				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 				Object ob = in.readObject();
@@ -52,31 +52,38 @@ public class SocketTimer {
 					Row row = keys.getRow(keys.getFirstRowNum());
 					boolean hasKey = false;
 					int colum = -1;
-					for(Cell cell : row){
-						if(cell.getCellTypeEnum().equals(CellType.STRING)){
+					for (Cell cell : row) {
+						if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 							String cellValue = cell.getStringCellValue();
-							if(cellValue.equals(key)){
+							if (cellValue.equals(key)) {
 								hasKey = true;
 								colum = cell.getAddress().getColumn();
 							}
 						}
 					}
-					if(hasKey){
+					if (hasKey) {
 						String[][] values = Arrays.copyOfRange(stuff, 1, stuff.length);
-						if(process.equals(instance.getProperties().getProperty("userSyncProcess"))){
-							instance.getLogger().log("User sync process activated from ip " + socket.getRemoteSocketAddress(), true);
+						if (process.equals(instance.getProperties().getProperty("userSyncProcess"))) {
+							instance.getLogger().log(
+									"User sync process activated from ip " + socket.getRemoteSocketAddress(), true);
 							Row guildIds = keys.getRow(keys.getFirstRowNum() + 1);
 							sync.syncUsers(key, values, guildIds.getCell(colum).getStringCellValue());
-						} else if (process.equals(instance.getProperties().getProperty("roleSyncProcess"))){
-							instance.getLogger().log("Role sync process activated from ip " + socket.getRemoteSocketAddress(), true);
+						} else if (process.equals(instance.getProperties().getProperty("roleSyncProcess"))) {
+							instance.getLogger().log(
+									"Role sync process activated from ip " + socket.getRemoteSocketAddress(), true);
 						} else {
-							instance.getLogger().log("Recived an unknow process value from the ip " + socket.getRemoteSocketAddress(), Level.WARNING, true);
+							instance.getLogger().log(
+									"Recived an unknow process value from the ip " + socket.getRemoteSocketAddress(),
+									Level.WARNING, true);
 						}
 					} else {
-						instance.getLogger().log("Recived invalid key from the ip " + socket.getRemoteSocketAddress(), Level.WARNING, true);
+						instance.getLogger().log("Recived invalid key from the ip " + socket.getRemoteSocketAddress(),
+								Level.WARNING, true);
 					}
 				} else {
-					instance.getLogger().log("Object recived that wasn't a string list from ip " + socket.getRemoteSocketAddress(), Level.WARNING, true);
+					instance.getLogger().log(
+							"Object recived that wasn't a string list from ip " + socket.getRemoteSocketAddress(),
+							Level.WARNING, true);
 				}
 				socket.close();
 				in.close();
@@ -85,7 +92,7 @@ public class SocketTimer {
 			} catch (IOException e) {
 				instance.getLogger().log("Recived a IO exception on socket", Level.SEVERE, e, false);
 			}
-			
+
 		}
 	}
 

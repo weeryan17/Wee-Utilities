@@ -10,19 +10,21 @@ import com.weeryan17.dgs.DiscordGroups;
 
 public class Update {
 	DiscordGroups instance;
-	public Update(DiscordGroups instance){
+
+	public Update(DiscordGroups instance) {
 		this.instance = instance;
 	}
-	
+
 	/**
 	 * Updates the bot.
 	 * 
 	 * Borrowed most of this from FlareBot.
 	 */
-	public void update(){
+	public void update() {
 		File git = new File("Discord-Groups" + File.separator);
-		if(!git.exists() || git.isDirectory()){
-			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities", git.getAbsolutePath());
+		if (!git.exists() || git.isDirectory()) {
+			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities",
+					git.getAbsolutePath());
 			clone.redirectErrorStream(true);
 			Process p = null;
 			try {
@@ -30,24 +32,24 @@ public class Update {
 			} catch (IOException e) {
 				instance.getLogger().log("Chouldn't update", Level.WARNING, e, true);
 			}
-			
+
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			StringBuilder sb = new StringBuilder();
 			String line;
-			while(p.isAlive()){
-            	
-            }
-            try {
+			while (p.isAlive()) {
+
+			}
+			try {
 				if ((line = reader.readLine()) != null) {
-				    sb.append(line + '\n');
+					sb.append(line + '\n');
 				}
 			} catch (IOException e) {
 				instance.getLogger().log("Can't read clone output", Level.WARNING, e, true);
 			}
-            
-            if (p.exitValue() != 0) {
-            	instance.getLogger().log("Clone exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
-            }
+
+			if (p.exitValue() != 0) {
+				instance.getLogger().log("Clone exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
+			}
 		} else {
 			ProcessBuilder pull = new ProcessBuilder("git", "pull");
 			pull.directory(git);
@@ -57,24 +59,24 @@ public class Update {
 			} catch (IOException e) {
 				instance.getLogger().log("Chouldn't update", Level.WARNING, e, true);
 			}
-			
+
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			StringBuilder sb = new StringBuilder();
 			String line;
-			while(p.isAlive()){
-            	
-            }
-            try {
+			while (p.isAlive()) {
+
+			}
+			try {
 				if ((line = reader.readLine()) != null) {
-				    sb.append(line + '\n');
+					sb.append(line + '\n');
 				}
 			} catch (IOException e) {
 				instance.getLogger().log("Can't read pull output", Level.WARNING, e, true);
 			}
-            
-            if (p.exitValue() != 0) {
-            	instance.getLogger().log("Pull exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
-            }
+
+			if (p.exitValue() != 0) {
+				instance.getLogger().log("Pull exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
+			}
 		}
 		ProcessBuilder maven = new ProcessBuilder("nvm", "clean", "compile", "assembly:single");
 		File mvn = new File("Discord-Groups/Discord Groups/Discord Groups - Server" + File.separator);
@@ -88,18 +90,19 @@ public class Update {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		StringBuilder sb = new StringBuilder();
 		String line;
-		while(p.isAlive()){
-        	
-        }
-        try {
+		while (p.isAlive()) {
+
+		}
+		try {
 			if ((line = reader.readLine()) != null) {
-			    sb.append(line + '\n');
+				sb.append(line + '\n');
 			}
 		} catch (IOException e) {
 			instance.getLogger().log("Can't compile project", Level.WARNING, e, true);
 		}
-        if (p.exitValue() != 0) {
-        	instance.getLogger().log("Compiling project exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
-        }
+		if (p.exitValue() != 0) {
+			instance.getLogger().log("Compiling project exited with a non 0 status\n" + sb.toString(), Level.WARNING,
+					true);
+		}
 	}
 }

@@ -27,12 +27,13 @@ import com.weeryan17.dgs.DiscordGroups;
 
 public class Storage {
 	DiscordGroups instance;
-	
+
 	ArrayList<String> chars;
+
 	public Storage(DiscordGroups instance) {
 		this.instance = instance;
 		chars = new ArrayList<String>();
-		for(int i = 0; i <= 9; i++){
+		for (int i = 0; i <= 9; i++) {
 			chars.add(String.valueOf(i));
 		}
 		chars.add("q");
@@ -73,7 +74,8 @@ public class Storage {
 	@SuppressWarnings("resource")
 	public Sheet getPlayerSheet() {
 		try {
-			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
+			FileInputStream in = new FileInputStream(
+					instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
 			Workbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
@@ -108,7 +110,8 @@ public class Storage {
 	@SuppressWarnings("resource")
 	public Sheet getKeysSheet() {
 		try {
-			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
+			FileInputStream in = new FileInputStream(
+					instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
 			Workbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
@@ -134,17 +137,19 @@ public class Storage {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get's the permission user sheet for the specified guild.
 	 * 
-	 * @param guildID The guild id to get a sheet for.
+	 * @param guildID
+	 *            The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
 	@SuppressWarnings("resource")
-	public Sheet getGuildUserSheet(String guildID){
+	public Sheet getGuildUserSheet(String guildID) {
 		try {
-			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
+			FileInputStream in = new FileInputStream(
+					instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
 			Workbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
@@ -159,7 +164,8 @@ public class Storage {
 			if (sheetExists) {
 				return sheet;
 			} else {
-				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.", Level.WARNING, false);
+				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.",
+						Level.WARNING, false);
 				sheet = wb.createSheet(guildID);
 				savePermsWorkbook(wb);
 				return sheet;
@@ -170,17 +176,19 @@ public class Storage {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get's the permission role sheet for the specified guild.
 	 * 
-	 * @param guildID The guild id to get a sheet for.
+	 * @param guildID
+	 *            The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
 	@SuppressWarnings("resource")
-	public Sheet getGuildRoleSheet(String guildID){
+	public Sheet getGuildRoleSheet(String guildID) {
 		try {
-			FileInputStream in = new FileInputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
+			FileInputStream in = new FileInputStream(
+					instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
 			Workbook wb = new XSSFWorkbook(in);
 			boolean sheetExists = false;
 			Sheet sheet = null;
@@ -195,7 +203,8 @@ public class Storage {
 			if (sheetExists) {
 				return sheet;
 			} else {
-				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.", Level.WARNING, false);
+				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.",
+						Level.WARNING, false);
 				sheet = wb.createSheet(guildID);
 				savePermsWorkbook(wb);
 				return sheet;
@@ -206,18 +215,20 @@ public class Storage {
 			return null;
 		}
 	}
-	
+
 	protected static int saveCount = 0;
-	
+
 	/**
 	 * Saves the main data workbook
 	 * 
-	 * @param wb The data workbook to be saved
+	 * @param wb
+	 *            The data workbook to be saved
 	 */
-	public void saveDataWorkbook(Workbook wb){
+	public void saveDataWorkbook(Workbook wb) {
 		FileOutputStream out;
 		try {
-			out = new FileOutputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
+			out = new FileOutputStream(
+					instance.getJarLoc() + "/" + instance.getProperties().getProperty("workbookPath"));
 			wb.write(out);
 			saveCount = 0;
 			out.close();
@@ -226,33 +237,37 @@ public class Storage {
 			instance.getLogger().log("Chouldn't save workbook because file wasn't found", Level.SEVERE, e, false);
 			System.exit(1);
 		} catch (IOException e) {
-			if(saveCount >= 10){
+			if (saveCount >= 10) {
 				instance.getLogger().log("Chouldn't save workbook 10 times in a row.", Level.SEVERE, e, false);
 				System.exit(1);
 			} else {
 				saveCount++;
-				instance.getLogger().log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds. Retry #" + saveCount, Level.WARNING, e, false);
-				new Timer().schedule(new TimerTask(){
+				instance.getLogger()
+						.log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds. Retry #"
+								+ saveCount, Level.WARNING, e, false);
+				new Timer().schedule(new TimerTask() {
 
 					@Override
 					public void run() {
 						saveDataWorkbook(wb);
 					}
-					
+
 				}, 100000L);
 			}
 		}
 	}
-	
+
 	/**
 	 * Saves the permission workbook.
 	 * 
-	 * @param wb The permission workbook to be saved.
+	 * @param wb
+	 *            The permission workbook to be saved.
 	 */
-	public void savePermsWorkbook(Workbook wb){
+	public void savePermsWorkbook(Workbook wb) {
 		FileOutputStream out;
 		try {
-			out = new FileOutputStream(instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
+			out = new FileOutputStream(
+					instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
 			wb.write(out);
 			saveCount = 0;
 			out.close();
@@ -261,19 +276,21 @@ public class Storage {
 			instance.getLogger().log("Chouldn't save workbook because file wasn't found", Level.SEVERE, e, false);
 			System.exit(1);
 		} catch (IOException e) {
-			if(saveCount >= 10){
+			if (saveCount >= 10) {
 				instance.getLogger().log("Chouldn't save workbook 10 times in a row.", Level.SEVERE, e, false);
 				System.exit(1);
 			} else {
 				saveCount++;
-				instance.getLogger().log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds. Retry #" + saveCount, Level.WARNING, e, false);
-				new Timer().schedule(new TimerTask(){
+				instance.getLogger()
+						.log("Chouldn't save file. Assuming file is open else where so retrying in 100 seconds. Retry #"
+								+ saveCount, Level.WARNING, e, false);
+				new Timer().schedule(new TimerTask() {
 
 					@Override
 					public void run() {
 						savePermsWorkbook(wb);
 					}
-					
+
 				}, 100000L);
 			}
 		}
@@ -304,14 +321,14 @@ public class Storage {
 			instance.getLogger().log("Ran into a io exception when writting to result file", Level.WARNING, e, false);
 		}
 	}
-	
-	public String getUserIDFromSpigot(String UUID){
+
+	public String getUserIDFromSpigot(String UUID) {
 		Sheet users = this.getPlayerSheet();
 		Row row = users.getRow(users.getFirstRowNum());
 		String discordID = "";
-		for(Cell cell : row){
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
-				if(cell.getStringCellValue().equals(UUID)){
+		for (Cell cell : row) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+				if (cell.getStringCellValue().equals(UUID)) {
 					int collum = cell.getColumnIndex();
 					Row discord = users.getRow(users.getFirstRowNum() + 1);
 					Cell userIDCell = discord.getCell(collum);
@@ -321,18 +338,18 @@ public class Storage {
 		}
 		return discordID;
 	}
-	
-	public String generateRandomID(String guildID){
+
+	public String generateRandomID(String guildID) {
 		Sheet keysSheet = this.getKeysSheet();
 		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
 		ArrayList<String> keys = new ArrayList<String>();
-		for(Cell cell: keysRow){
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+		for (Cell cell : keysRow) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				keys.add(cell.getStringCellValue());
 			}
 		}
 		String key = this.randomID();
-		if(!keys.contains(key)){
+		if (!keys.contains(key)) {
 			Cell cell = keysRow.createCell(keysRow.getPhysicalNumberOfCells() + 1);
 			cell.setCellValue(key);
 			Row idRow = keysSheet.getRow(keysSheet.getFirstRowNum() + 1);
@@ -343,42 +360,42 @@ public class Storage {
 			return this.generateRandomID(guildID);
 		}
 	}
-	
-	public String randomID(){
+
+	public String randomID() {
 		Random random = new Random();
 		String key = "";
-		for(int i = 0; i <= 40; i++){
+		for (int i = 0; i <= 40; i++) {
 			int id = random.nextInt(38);
 			String part = getString(id);
 			key = key + part;
 		}
 		return key;
 	}
-	
-	public String getString(int id){
+
+	public String getString(int id) {
 		return chars.get(id);
 	}
-	
-	public String getGuildIdFromKey(String key){
+
+	public String getGuildIdFromKey(String key) {
 		Sheet keys = getKeysSheet();
 		Row row = keys.getRow(keys.getFirstRowNum());
 		boolean hasKey = false;
 		int colum = -1;
-		for(Cell cell : row){
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+		for (Cell cell : row) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				String cellValue = cell.getStringCellValue();
-				if(cellValue.equals(key)){
+				if (cellValue.equals(key)) {
 					hasKey = true;
 					colum = cell.getAddress().getColumn();
 				}
 			}
-			
+
 		}
-		if(hasKey){
+		if (hasKey) {
 			Row guilds = keys.getRow(keys.getFirstRowNum() + 1);
 			Cell cell = guilds.getCell(colum);
 			String guildId = "";
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				guildId = cell.getStringCellValue();
 			}
 			return guildId;
@@ -386,27 +403,27 @@ public class Storage {
 			return "";
 		}
 	}
-	
-	public void removeKey(String key){
+
+	public void removeKey(String key) {
 		Sheet keys = getKeysSheet();
 		Row row = keys.getRow(keys.getFirstRowNum());
 		boolean hasKey = false;
 		int colum = -1;
-		for(Cell cell : row){
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+		for (Cell cell : row) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				String cellValue = cell.getStringCellValue();
-				if(cellValue.equals(key)){
+				if (cellValue.equals(key)) {
 					hasKey = true;
 					colum = cell.getAddress().getColumn();
 					cell.setCellValue("");
 				}
 			}
-			
+
 		}
-		if(hasKey){
+		if (hasKey) {
 			Row guilds = keys.getRow(keys.getFirstRowNum() + 1);
 			Cell cell = guilds.getCell(colum);
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				cell.setCellValue("");
 			}
 		}

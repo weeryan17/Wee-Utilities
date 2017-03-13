@@ -9,7 +9,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		
+		//TODO acutely do stuff.
 	}
-	
+
 }

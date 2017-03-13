@@ -6,9 +6,10 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
 public class TestCommand implements DiscordGroupsCommandBase {
-	
+
 	DiscordGroups instance;
-	public TestCommand(DiscordGroups instance){
+
+	public TestCommand(DiscordGroups instance) {
 		this.instance = instance;
 	}
 

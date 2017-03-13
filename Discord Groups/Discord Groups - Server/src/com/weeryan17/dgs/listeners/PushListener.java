@@ -10,86 +10,91 @@ import sx.blah.discord.util.EmbedBuilder;
 
 public class PushListener implements EventListener<PushEvent> {
 	DiscordGroups instance;
-	public PushListener(DiscordGroups instance){
+
+	public PushListener(DiscordGroups instance) {
 		this.instance = instance;
 	}
-	
+
 	@Override
 	public void handle(PushEvent event) {
 		instance.getLogger().log("Push event recived", true);
-		EmbedBuilder embed =  new EmbedBuilder();
+		EmbedBuilder embed = new EmbedBuilder();
 		embed.withAuthorName(event.getSender().getLogin());
 		embed.withAuthorIcon(event.getSender().getAvatarUrl());
 		embed.withAuthorUrl(event.getSender().getProfile());
-		embed.withDesc(event.getSender().getLogin() + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
-		for(Commit commit : event.getCommits()){
-			embed.appendField("Commit:","[" + commit.getId().substring(0, 7) + "](" + commit.getUrl() + ")\n Branch `" + event.getRef().substring(event.getRef().lastIndexOf('/') + 1) + "` " + "```" + commit.getMessage() + "```", false);
-        	
-        	if(commit.getAdded().length > 0){
-                StringBuilder sb = new StringBuilder();
-                sb.append("```Markdown\n");
-                int i = 0;
-				for(String file: commit.getAdded()){
-					if(!(i > 5)){
+		embed.withDesc(event.getSender().getLogin()
+				+ " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
+		for (Commit commit : event.getCommits()) {
+			embed.appendField("Commit:",
+					"[" + commit.getId().substring(0, 7) + "](" + commit.getUrl() + ")\n Branch `"
+							+ event.getRef().substring(event.getRef().lastIndexOf('/') + 1) + "` " + "```"
+							+ commit.getMessage() + "```",
+					false);
+
+			if (commit.getAdded().length > 0) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("```Markdown\n");
+				int i = 0;
+				for (String file : commit.getAdded()) {
+					if (!(i > 5)) {
 						sb.append("* " + file + "\n\n");
 					}
 					i++;
 				}
-				if(commit.getAdded().length > 5){
+				if (commit.getAdded().length > 5) {
 					sb.append("...");
 				}
 				String added = sb.toString() + "```";
 				embed.appendField("Added files", added, false);
 			}
-        	
-        	if(commit.getRemoved().length > 0){
-                StringBuilder sb = new StringBuilder();
-                sb.append("```Markdown\n");
-                int i = 0;
-				for(String file: commit.getRemoved()){
-					if(!(i > 5)){
+
+			if (commit.getRemoved().length > 0) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("```Markdown\n");
+				int i = 0;
+				for (String file : commit.getRemoved()) {
+					if (!(i > 5)) {
 						sb.append("* " + file + "\n\n");
 					}
 					i++;
 				}
-				if(commit.getRemoved().length > 5){
+				if (commit.getRemoved().length > 5) {
 					sb.append("...");
 				}
 				String removed = sb.toString() + "```";
 				embed.appendField("Removed files", removed, false);
 			}
-        	
-        	if(commit.getModified().length > 0){
-                StringBuilder sb = new StringBuilder();
-                sb.append("```Markdown\n");
-                int i = 0;
-				for(String file: commit.getModified()){
-					if(!(i > 5)){
+
+			if (commit.getModified().length > 0) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("```Markdown\n");
+				int i = 0;
+				for (String file : commit.getModified()) {
+					if (!(i > 5)) {
 						sb.append("* " + file + "\n\n");
 					}
 					i++;
 				}
-				if(commit.getModified().length > 5){
+				if (commit.getModified().length > 5) {
 					sb.append("...");
 				}
 				String modified = sb.toString() + "```";
 				embed.appendField("Modified files", modified, false);
 			}
-			
+
 		}
 		IRole role = null;
 		int pos = 0;
-		for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(instance.getMainGuild())){
+		for (IRole rawRole : instance.client.getOurUser().getRolesForGuild(instance.getMainGuild())) {
 			int rawPos = rawRole.getPosition();
-			if(rawPos > pos){
+			if (rawPos > pos) {
 				role = rawRole;
 				pos = rawPos;
 			}
 		}
 		embed.withColor(role.getColor());
-		
+
 		instance.getMainGuild().getChannelByID("281978233468092416").sendMessage(embed.build());
 	}
-	
-}
 
+}

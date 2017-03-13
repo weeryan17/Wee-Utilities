@@ -1,6 +1,5 @@
 package com.weeryan17.dgs;
 
-import java.awt.TrayIcon;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,17 +38,19 @@ public class DiscordGroups {
 	public IDiscordClient client;
 
 	String jarFile = "";
+
 	public static void main(String[] args) {
 		DiscordGroups discord = new DiscordGroups();
 		discord.init();
 	}
-	
+
 	String token = "";
-	public String guildId = "280175962769850369"; //This is the id of the main guild.
-	
+	public String guildId = "280175962769850369"; // This is the id of the main
+													// guild.
+
 	Properties prop;
-	
-	public void init(){
+
+	public void init() {
 		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		jarFile = file.substring(0, file.length() - 18);
 		prop = new Properties();
@@ -59,8 +60,9 @@ public class DiscordGroups {
 		} catch (IOException e) {
 			System.out.println("Error enounter loading propeties file");
 			System.out.println(e.getMessage());
-			for(StackTraceElement element: e.getStackTrace()){
-				System.out.println(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+			for (StackTraceElement element : e.getStackTrace()) {
+				System.out.println(element.getClassName() + " class generated an error on line "
+						+ element.getLineNumber() + " in the method " + element.getMethodName() + "().");
 			}
 			System.exit(1);
 		}
@@ -70,8 +72,9 @@ public class DiscordGroups {
 		} catch (DiscordException e) {
 			System.out.println("Error Logging in!");
 			System.out.println(e.getMessage());
-			for(StackTraceElement element: e.getStackTrace()){
-				System.out.println(element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+			for (StackTraceElement element : e.getStackTrace()) {
+				System.out.println(element.getClassName() + " class generated an error on line "
+						+ element.getLineNumber() + " in the method " + element.getMethodName() + "().");
 			}
 		}
 		client.getDispatcher().registerListener(new ChatListener(this));
@@ -79,36 +82,35 @@ public class DiscordGroups {
 
 		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 	}
-	
+
 	IGuild mainGuild;
-	
+
 	Logging logger;
-	
+
 	String secret = "";
-	
+
 	CommandMannager cmdMannage;
-	
+
 	Storage storage;
-	
-	boolean hasTray = false;
-	TrayIcon icon;
-	
+
 	String inviteLink;
-	
+
 	ArrayList<String> ids;
-	
-	public void readyInit(){
+
+	public void readyInit() {
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1"));
 		client.changePlayingText("^commands");
-		//SystemTrayUtil trayUtil = new SystemTrayUtil(this);
-		//icon = trayUtil.getIcon();
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<String>();
 		ids.add("215644829969809421");
 		logger = new Logging(this);
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
-		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret).forRequest(prop.getProperty("requestSite"));//Port removed from github again security
+		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret)
+				.forRequest(prop.getProperty("requestSite"));// Port removed
+																// from github
+																// again
+																// security
 		web = web.addListener(new PushListener(this));
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
@@ -128,57 +130,46 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("pin", new PinCommand());
 		storage = new Storage(this);
-		if(hasTray){
-			//trayUtil.getIcon().displayMessage("Discord Groups", "Bot up and running", MessageType.INFO);
-		}
 		logger.log("Bot initlized", true);
 		BotInviteBuilder invite = new BotInviteBuilder(client);
 		invite.withPermissions(client.getGuildByID(guildId).getRoleByID("285593733221711872").getPermissions());
 		inviteLink = invite.build();
 		logger.log("Invite link " + invite, true);
 	}
-	
-	public IGuild getMainGuild(){
+
+	public IGuild getMainGuild() {
 		return mainGuild;
 	}
-	
-	public Logging getLogger(){
+
+	public Logging getLogger() {
 		return logger;
 	}
-	
-	public CommandMannager getCommandMannager(){
+
+	public CommandMannager getCommandMannager() {
 		return cmdMannage;
 	}
 	
-	public TrayIcon getIcon(){
-		return icon;
-	}
-	
-	public Properties getProperties(){
+	public Properties getProperties() {
 		return prop;
 	}
-	
-	public Storage getStorage(){
+
+	public Storage getStorage() {
 		return storage;
 	}
-	
-	public String getJarLoc(){
+
+	public String getJarLoc() {
 		return jarFile;
 	}
-	
-	public String getInviteLink(){
+
+	public String getInviteLink() {
 		return inviteLink;
 	}
 	
-	public boolean hasTray(){
-		return hasTray;
-	}
-	
-	public MessageUtil getMessageUtil(){
+	public MessageUtil getMessageUtil() {
 		return new MessageUtil(this);
 	}
-	
-	public ArrayList<String> getDevelopersIds(){
+
+	public ArrayList<String> getDevelopersIds() {
 		return ids;
 	}
 }
