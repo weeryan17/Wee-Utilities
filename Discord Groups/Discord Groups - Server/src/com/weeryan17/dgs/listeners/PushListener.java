@@ -3,7 +3,6 @@ package com.weeryan17.dgs.listeners;
 import com.arsenarsen.githubwebhooks4j.events.EventListener;
 import com.arsenarsen.githubwebhooks4j.events.PushEvent;
 import com.arsenarsen.githubwebhooks4j.objects.Commit;
-import com.arsenarsen.githubwebhooks4j.objects.ShortUser;
 import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.handle.obj.IRole;
@@ -19,10 +18,10 @@ public class PushListener implements EventListener<PushEvent> {
 	public void handle(PushEvent event) {
 		instance.getLogger().log("Push event recived", true);
 		EmbedBuilder embed =  new EmbedBuilder();
-		ShortUser author = event.getCommits()[0].getAuthor(); //Assuming commit 0 contains the only commiter
-		String authorName = author.getUsername();
-		embed.withAuthorName(authorName);
-		embed.withDesc(authorName + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
+		embed.withAuthorName(event.getSender().getLogin());
+		embed.withAuthorIcon(event.getSender().getAvatarUrl());
+		embed.withAuthorUrl(event.getSender().getProfile());
+		embed.withDesc(event.getSender().getLogin() + " commited to [Wee-Utilities](https://github.com/weeryan17/Wee-Utilities)\n");
 		for(Commit commit : event.getCommits()){
 			embed.appendField("Commit:","[" + commit.getId().substring(0, 7) + "](" + commit.getUrl() + ")\n Branch `" + event.getRef().substring(event.getRef().lastIndexOf('/') + 1) + "` " + "```" + commit.getMessage() + "```", false);
         	
