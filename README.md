@@ -1,3 +1,2 @@
-# Wee-Utilities
-This is a collection of all my plugins in my new linked system.
-You can make issuse about all of my linked plugins
+# Discord Groups
+This is a sprate branch for discord groups so it's better for cloning. This branch will only be updated when I feal things are in a stable posision.
