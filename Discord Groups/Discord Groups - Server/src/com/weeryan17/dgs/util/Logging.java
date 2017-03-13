@@ -1,6 +1,5 @@
 package com.weeryan17.dgs.util;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -111,10 +110,6 @@ public class Logging {
 		}
 		
 		writeToFile(sb.toString());
-		
-		if(instance.hasTray()){
-			instance.getIcon().displayMessage("Discord Groups", message, MessageType.ERROR);
-		}
 		
 		logger.log(level, secondsDate + " [DiscordGroups] " + message, thrown);
 	}
