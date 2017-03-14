@@ -74,4 +74,12 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 	public Updater getUpdater(){
 		return update;
 	}
+	
+	public Permission getPermissions(){
+		return perm;
+	}
+	
+	public String getKey(){
+		return "";
+	}
 }
