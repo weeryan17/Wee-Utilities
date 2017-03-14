@@ -51,13 +51,11 @@ public class SocketTimer {
 					Sheet keys = instance.getStorage().getKeysSheet();
 					Row row = keys.getRow(keys.getFirstRowNum());
 					boolean hasKey = false;
-					int colum = -1;
 					for (Cell cell : row) {
 						if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 							String cellValue = cell.getStringCellValue();
 							if (cellValue.equals(key)) {
 								hasKey = true;
-								colum = cell.getAddress().getColumn();
 							}
 						}
 					}
@@ -66,8 +64,7 @@ public class SocketTimer {
 						if (process.equals(instance.getProperties().getProperty("userSyncProcess"))) {
 							instance.getLogger().log(
 									"User sync process activated from ip " + socket.getRemoteSocketAddress(), true);
-							Row guildIds = keys.getRow(keys.getFirstRowNum() + 1);
-							sync.syncUsers(key, values, guildIds.getCell(colum).getStringCellValue());
+							sync.syncUsers(key, values);
 						} else if (process.equals(instance.getProperties().getProperty("roleSyncProcess"))) {
 							instance.getLogger().log(
 									"Role sync process activated from ip " + socket.getRemoteSocketAddress(), true);
