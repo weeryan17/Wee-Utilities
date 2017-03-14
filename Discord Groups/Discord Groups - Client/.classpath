@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/developer/Dropbox/spigot/BuildTools/spigot-1.11.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/developer/Desktop/jars/Wee Utilities.jar" sourcepath="/Base"/>
 	<classpathentry kind="lib" path="C:/Users/developer/Dropbox/spigot/BuildTools/Spigot/Spigot-API/target/spigot-api-1.11.2-R0.1-SNAPSHOT-shaded.jar" sourcepath="C:/Users/developer/Dropbox/spigot/BuildTools/Spigot/Spigot-API/src"/>
+	<classpathentry kind="lib" path="C:/Users/developer/Desktop/jars/Vault.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
