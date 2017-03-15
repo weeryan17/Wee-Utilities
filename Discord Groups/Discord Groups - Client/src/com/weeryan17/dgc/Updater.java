@@ -29,7 +29,7 @@ public class Updater implements Runnable{
 		
 		String[][] roleSync = {
 			(String[]) listGroup.toArray(),
-			{"REMOVED"} //removed from github. gotta love that security.
+			{"sync roles"} //removed from github. gotta love that security.
 		};
 		
 		try {

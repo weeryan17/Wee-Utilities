@@ -68,6 +68,9 @@ public class SocketTimer {
 						} else if (process.equals(instance.getProperties().getProperty("roleSyncProcess"))) {
 							instance.getLogger().log(
 									"Role sync process activated from ip " + socket.getRemoteSocketAddress(), true);
+							String[] rolesWithKey = stuff[0];
+							String[] roles = Arrays.copyOfRange(rolesWithKey, 1, rolesWithKey.length);
+							sync.syncRoles(key, roles);
 						} else {
 							instance.getLogger().log(
 									"Recived an unknow process value from the ip " + socket.getRemoteSocketAddress(),

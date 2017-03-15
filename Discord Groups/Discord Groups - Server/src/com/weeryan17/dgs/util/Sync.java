@@ -1,5 +1,6 @@
 package com.weeryan17.dgs.util;
 
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Sync {
 	 * @param users The user and their roles in a double list.
 	 */
 	public void syncUsers(String key, String[][] users) {
-		String guildId= instance.getStorage().getGuildIdFromKey(key);
+		String guildId = instance.getStorage().getGuildIdFromKey(key);
 		IGuild guild = instance.client.getGuildByID(guildId);
 		for(String[] userR: users){
 			String UUID = instance.getStorage().getUserIDFromSpigot(userR[0]);
@@ -36,6 +37,19 @@ public class Sync {
 				}
 			}
 			guild.editUserRoles(user, listRoles.toArray(new IRole[0]));
+		}
+	}
+	
+	public void syncRoles(String key, String[] roles){
+		String guildId = instance.getStorage().getGuildIdFromKey(key);
+		IGuild guild = instance.client.getGuildByID(guildId);
+		//TODO check storage and make sure the roles are their as well.
+		for(String role: roles){
+			if(guild.getRolesByName(role).size() == 0){
+				IRole iRole = guild.createRole();
+				iRole.changeName(role);
+				iRole.changeColor(Color.CYAN);
+			}
 		}
 	}
 }
