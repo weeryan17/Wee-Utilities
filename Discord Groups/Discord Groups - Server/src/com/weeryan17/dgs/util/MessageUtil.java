@@ -19,7 +19,7 @@ public class MessageUtil {
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withAuthorName("@Discord Groups#2320");
 		builder.withAuthorUrl("https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups");
-		builder.withThumbnail("https://www.dropbox.com/s/89k1iq87r59tfg5/discordgroups.png?dl=1");
+		builder.withThumbnail("https://www.dropbox.com/s/8w9zlhsllga4c4d/discordgroupsicon.png?dl=1");
 		builder.withFooterText("Command requested by " + sender.getDisplayName(channel.getGuild()));
 		if (!channel.isPrivate()) {
 			IRole role = null;

@@ -36,16 +36,17 @@ public class Update {
 			StringBuilder sb = new StringBuilder();
 			String line;
 			while (p.isAlive()) {
-
-			}
-			try {
-				if ((line = reader.readLine()) != null) {
-					sb.append(line + '\n');
+				try {
+					line = reader.readLine();
+					if(line != null){
+						instance.getLogger().log(line, false);
+						sb.append(line + '\n');
+					}
+				} catch (IOException e) {
+					instance.getLogger().log("Error reading line", Level.WARNING, e, false);
 				}
-			} catch (IOException e) {
-				instance.getLogger().log("Can't read clone output", Level.WARNING, e, true);
 			}
-
+			
 			if (p.exitValue() != 0) {
 				instance.getLogger().log("Clone exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
 			}
@@ -63,14 +64,15 @@ public class Update {
 			StringBuilder sb = new StringBuilder();
 			String line;
 			while (p.isAlive()) {
-
-			}
-			try {
-				if ((line = reader.readLine()) != null) {
-					sb.append(line + '\n');
+				try {
+					line = reader.readLine();
+					if(line != null){
+						instance.getLogger().log(line, false);
+						sb.append(line + '\n');
+					}
+				} catch (IOException e) {
+					instance.getLogger().log("Error reading line", Level.WARNING, e, false);
 				}
-			} catch (IOException e) {
-				instance.getLogger().log("Can't read pull output", Level.WARNING, e, true);
 			}
 
 			if (p.exitValue() != 0) {
@@ -90,15 +92,17 @@ public class Update {
 		StringBuilder sb = new StringBuilder();
 		String line;
 		while (p.isAlive()) {
-
-		}
-		try {
-			if ((line = reader.readLine()) != null) {
-				sb.append(line + '\n');
+			try {
+				line = reader.readLine();
+				if(line != null){
+					instance.getLogger().log(line, false);
+					sb.append(line + '\n');
+				}
+			} catch (IOException e) {
+				instance.getLogger().log("Error reading line", Level.WARNING, e, false);
 			}
-		} catch (IOException e) {
-			instance.getLogger().log("Can't compile project", Level.WARNING, e, true);
 		}
+		
 		if (p.exitValue() != 0) {
 			instance.getLogger().log("Compiling project exited with a non 0 status\n" + sb.toString(), Level.WARNING,
 					true);
