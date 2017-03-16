@@ -22,7 +22,7 @@ public class CommandMannager {
 	}
 
 	public boolean isCommand(String name) {
-		return commands.containsKey(name);
+		return commands.containsKey(name.toLowerCase());
 	}
 
 	public void dispatchCommand(String name, String[] args, IChannel channel, IUser user) {

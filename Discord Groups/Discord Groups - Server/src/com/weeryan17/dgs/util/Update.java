@@ -21,10 +21,9 @@ public class Update {
 	 * Borrowed most of this from FlareBot.
 	 */
 	public void update() {
-		File git = new File("Discord-Groups" + File.separator);
+		File git = new File("Wee-Utilities" + File.separator);
 		if (!git.exists() || git.isDirectory()) {
-			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities",
-					git.getAbsolutePath());
+			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities", "--branch", "discord-groups");
 			clone.redirectErrorStream(true);
 			Process p = null;
 			try {
@@ -79,7 +78,7 @@ public class Update {
 			}
 		}
 		ProcessBuilder maven = new ProcessBuilder("nvm", "clean", "compile", "assembly:single");
-		File mvn = new File("Discord-Groups/Discord Groups/Discord Groups - Server" + File.separator);
+		File mvn = new File("Wee-Utilities/Discord Groups - Server" + File.separator);
 		maven.directory(mvn);
 		Process p = null;
 		try {
