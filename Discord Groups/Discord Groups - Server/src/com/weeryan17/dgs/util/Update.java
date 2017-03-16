@@ -77,7 +77,7 @@ public class Update {
 				instance.getLogger().log("Pull exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
 			}
 		}
-		ProcessBuilder maven = new ProcessBuilder("nvm", "clean", "compile", "assembly:single");
+		ProcessBuilder maven = new ProcessBuilder("mvn", "clean", "compile", "assembly:single");
 		File mvn = new File("Wee-Utilities/Discord Groups - Server" + File.separator);
 		maven.directory(mvn);
 		Process p = null;
