@@ -13,7 +13,6 @@ import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.CommandsCommand;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
-import com.weeryan17.dgs.commands.TestCommand;
 import com.weeryan17.dgs.commands.admin.GenerateCommand;
 import com.weeryan17.dgs.commands.admin.PermissionsCommand;
 import com.weeryan17.dgs.commands.admin.PinCommand;
@@ -122,7 +121,6 @@ public class DiscordGroups {
 		}
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
-		cmdMannage.registerCommand("test", new TestCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
 		cmdMannage.registerCommand("commands", new CommandsCommand(this));
 		cmdMannage.registerCommand("permissions", new PermissionsCommand());
