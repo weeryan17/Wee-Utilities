@@ -1,8 +1,5 @@
 package com.weeryan17.dgs.commands;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-
 import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
@@ -32,14 +29,18 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			builder.appendField("Who made it?", "```Markdown\nIf you didn't read above weeryan17 made it```", true);
 			builder.appendField("Where can I found out more?",
 					"```In our offical suport discord guild```\n[link](https://discord.gg/GkxJhFq)", true);
-			builder.appendField("How can I help?", "```If you're a developer you can help out by making the changes you think are need by forking my project on github.```\n[link](https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups)\n```I plan on making an isolated repo later but for now you're going to get a lot of extra stuff.```", true);
-			builder.appendField("What am I'm not a developer and I want to help?", "```You can suggest stuff in the offical guild, and later I plan on having donation links. I also need some artists```", true);
+			builder.appendField("How can I help?",
+					"```If you're a developer you can help out by making the changes you think are need by forking my project on github.```\n[link](https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups)\n```I plan on making an isolated repo later but for now you're going to get a lot of extra stuff.```",
+					true);
+			builder.appendField("What am I'm not a developer and I want to help?",
+					"```You can suggest stuff in the offical guild, and later I plan on having donation links. I also need some artists```",
+					true);
 			EmbedObject embed = builder.build();
 			channel.sendMessage(embed);
 			channel.setTypingStatus(false);
-		} else if(args.length == 1){
-			switch(args[0]){
-			case "stats" :{
+		} else if (args.length == 1) {
+			switch (args[0]) {
+			case "stats": {
 				channel.setTypingStatus(true);
 				long bytesFree = Runtime.getRuntime().freeMemory();
 				long usedBytes = Runtime.getRuntime().totalMemory() - bytesFree;
@@ -47,11 +48,12 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 				long mbFree = bytesFree / 1024 / 1024;
 				long mbUsed = usedBytes / 1024 / 1024;
 				long mbTotal = bytesTotal / 1024 / 1024;
-				//OperatingSystemMXBean mx = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
-				//double cpu = mx.getSystemLoadAverage();
+				// OperatingSystemMXBean mx =
+				// ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+				// double cpu = mx.getSystemLoadAverage();
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				builder.withTitle("**Discord Groups Stats**");
-				//builder.appendField("Cpu usage", cpu + "%", true);
+				// builder.appendField("Cpu usage", cpu + "%", true);
 				builder.appendField("Version", "N/A", true);
 				builder.appendField("Memory Free", mbFree + "MB", true);
 				builder.appendField("Memory Used", mbUsed + "MB", true);
@@ -60,8 +62,8 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 				channel.sendMessage(embed);
 				channel.setTypingStatus(false);
 			}
-			break;
-			default:{
+				break;
+			default: {
 				channel.sendMessage("<@" + sender.getID() + "> Invalid argument.");
 			}
 			}
