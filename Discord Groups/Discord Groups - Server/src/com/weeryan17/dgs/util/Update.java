@@ -22,7 +22,7 @@ public class Update {
 	 */
 	public void update() {
 		File git = new File("Wee-Utilities" + File.separator);
-		if (!git.exists() || git.isDirectory()) {
+		if (!git.exists() || !git.isDirectory()) {
 			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities", "--branch", "discord-groups");
 			clone.redirectErrorStream(true);
 			Process p = null;
