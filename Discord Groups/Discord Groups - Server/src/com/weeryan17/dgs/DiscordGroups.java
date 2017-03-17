@@ -97,7 +97,7 @@ public class DiscordGroups {
 	ArrayList<String> ids;
 
 	public void readyInit() {
-		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/8w9zlhsllga4c4d/discordgroupsicon.png?dl=1"));
+		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/ly3s749g2om8o7x/discordgroupsicon.png?dl=1"));
 		client.changePlayingText("^commands");
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<String>();
