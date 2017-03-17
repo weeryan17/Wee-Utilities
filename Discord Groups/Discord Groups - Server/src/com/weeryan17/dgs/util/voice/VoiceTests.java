@@ -3,7 +3,6 @@ package com.weeryan17.dgs.util.voice;
 import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.handle.audio.IAudioManager;
-import sx.blah.discord.handle.audio.IAudioReceiver;
 
 public class VoiceTests {
 	DiscordGroups instance;
@@ -13,6 +12,7 @@ public class VoiceTests {
 	
 	IAudioManager man;
 	public void test(){
+		instance.getMainGuild().getVoiceChannelByID("282221746629771264").join();
 		man = instance.getMainGuild().getAudioManager();
 		man.subscribeReceiver(new DiscordGroupsReceiver(instance));
 	}
