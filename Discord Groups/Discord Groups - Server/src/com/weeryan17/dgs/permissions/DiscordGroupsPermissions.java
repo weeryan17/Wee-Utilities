@@ -17,7 +17,7 @@ public class DiscordGroupsPermissions {
 			"dg",
 			"dg.server",
 			"dg.server.generate",
-			"dg.server.mannage",
+			"dg.server.manage",
 			"dg.server.stats",
 			"dg.server.web",
 			"dg.perm",

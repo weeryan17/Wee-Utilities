@@ -329,9 +329,9 @@ public class Storage {
 		for (Cell cell : row) {
 			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				if (cell.getStringCellValue().equals(UUID)) {
-					int collum = cell.getColumnIndex();
+					int column = cell.getColumnIndex();
 					Row discord = users.getRow(users.getFirstRowNum() + 1);
-					Cell userIDCell = discord.getCell(collum);
+					Cell userIDCell = discord.getCell(column);
 					discordID = userIDCell.getStringCellValue();
 				}
 			}

@@ -95,7 +95,6 @@ public class DiscordGroups {
 	String inviteLink;
 
 	ArrayList<String> ids;
-
 	public void readyInit() {
 		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/ly3s749g2om8o7x/discordgroupsicon.png?dl=1"));
 		client.changePlayingText("^commands");

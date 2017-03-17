@@ -43,12 +43,12 @@ public class Sync {
 	public void syncRoles(String key, String[] roles){
 		String guildId = instance.getStorage().getGuildIdFromKey(key);
 		IGuild guild = instance.client.getGuildByID(guildId);
-		//TODO check storage and make sure the roles are their as well.
 		for(String role: roles){
 			if(guild.getRolesByName(role).size() == 0){
 				IRole iRole = guild.createRole();
 				iRole.changeName(role);
 				iRole.changeColor(Color.CYAN);
+				//TODO check storage and make sure the roles are their as well.
 			}
 		}
 	}

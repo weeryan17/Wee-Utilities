@@ -29,7 +29,9 @@ public class Updater implements Runnable{
 		
 		String[][] roleSync = {
 			(String[]) listGroup.toArray(),
-			{"sync roles"} //removed from github. gotta love that security.
+			{"REMOVED"} //removed from github. gotta love that security.
+			//TODO double check this because i might have been stupid
+			//(I forgot if I did it in rows rather then columns
 		};
 		
 		try {
@@ -40,6 +42,8 @@ public class Updater implements Runnable{
 		}
 		for(Player p: Bukkit.getOnlinePlayers()){
 			String[] playerGroups = perm.getPlayerGroups(p);
+			String UUID = p.getUniqueId().toString();
+			
 		}
 	}
 
