@@ -14,6 +14,6 @@ public class VoiceTests {
 	IAudioManager man;
 	public void test(){
 		man = instance.getMainGuild().getAudioManager();
-		man.subscribeReceiver(new DiscordGroupsReceiver());
+		man.subscribeReceiver(new DiscordGroupsReceiver(instance));
 	}
 }
