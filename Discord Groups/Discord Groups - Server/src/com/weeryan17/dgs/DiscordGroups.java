@@ -9,7 +9,6 @@ import java.util.logging.Level;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
-
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.CommandsCommand;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
@@ -25,6 +24,7 @@ import com.weeryan17.dgs.socket.SocketTimer;
 import com.weeryan17.dgs.util.Logging;
 import com.weeryan17.dgs.util.MessageUtil;
 import com.weeryan17.dgs.util.Storage;
+import com.weeryan17.dgs.util.voice.VoiceTests;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -101,7 +101,6 @@ public class DiscordGroups {
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<String>();
 		ids.add("215644829969809421");
-		logger = new Logging(this);
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret)
@@ -110,6 +109,8 @@ public class DiscordGroups {
 																// again
 																// security
 		web = web.addListener(new PushListener(this));
+		logger = new Logging(this);
+		getLogger().log("Bot initilizing", true);
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
 		try {
@@ -127,6 +128,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("pin", new PinCommand());
 		storage = new Storage(this);
+		new VoiceTests(this).test();
 		logger.log("Bot initlized", true);
 		BotInviteBuilder invite = new BotInviteBuilder(client);
 		invite.withPermissions(client.getGuildByID(guildId).getRoleByID("285593733221711872").getPermissions());
