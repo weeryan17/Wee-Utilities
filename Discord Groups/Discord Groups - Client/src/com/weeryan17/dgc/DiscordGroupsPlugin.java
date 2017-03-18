@@ -49,7 +49,7 @@ public class DiscordGroupsPlugin extends JavaPlugin {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
 		perm = rsp.getProvider();
 		
-		//Acctuly stating stuff goes here
+		//Actual stating stuff goes here
 		update = new Updater(this);
 		new SocketListener(this).initSocket();
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, update, 0, 1000L);

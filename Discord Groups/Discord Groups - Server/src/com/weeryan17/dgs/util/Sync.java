@@ -48,7 +48,6 @@ public class Sync {
 				IRole iRole = guild.createRole();
 				iRole.changeName(role);
 				iRole.changeColor(Color.CYAN);
-				//TODO check storage and make sure the roles are their as well.
 			}
 		}
 	}

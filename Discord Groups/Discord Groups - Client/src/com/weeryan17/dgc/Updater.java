@@ -2,10 +2,9 @@ package com.weeryan17.dgc;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -22,16 +21,13 @@ public class Updater implements Runnable{
 		String[] groups = perm.getGroups();
 		
 		ArrayList<String> listGroup = new ArrayList<String>();
-		listGroup.add(instance.getKey());
 		for(String group: groups){
 			listGroup.add(group);
 		}
 		
 		String[][] roleSync = {
-			(String[]) listGroup.toArray(),
-			{"REMOVED"} //removed from github. gotta love that security.
-			//TODO double check this because i might have been stupid
-			//(I forgot if I did it in rows rather then columns
+			{instance.getKey(), "REMOVED"}, //removed from github. gotta love that security.
+			(String[]) listGroup.toArray()
 		};
 		
 		try {
@@ -40,10 +36,27 @@ public class Updater implements Runnable{
 			instance.getLogger().log(Level.SEVERE, "Error while writing to output stream", e);
 			Bukkit.getPluginManager().disablePlugin(instance);
 		}
+		ArrayList<String[]> rawUserSync = new ArrayList<String[]>();
+		String[] process = {
+				instance.getKey(),
+				"Removed"
+		};
+		rawUserSync.add(process);
 		for(Player p: Bukkit.getOnlinePlayers()){
 			String[] playerGroups = perm.getPlayerGroups(p);
 			String UUID = p.getUniqueId().toString();
-			
+			String[] UUIDArray = {
+					UUID
+			};
+			rawUserSync.add(ArrayUtils.addAll(UUIDArray, playerGroups));
+		}
+		String[][] userSync = null;
+		userSync = rawUserSync.toArray(userSync);
+		try {
+			instance.getOutputStream().writeObject(userSync);
+		} catch (IOException e) {
+			instance.getLogger().log(Level.SEVERE, "Error while writing to output stream", e);
+			Bukkit.getPluginManager().disablePlugin(instance);
 		}
 	}
 
