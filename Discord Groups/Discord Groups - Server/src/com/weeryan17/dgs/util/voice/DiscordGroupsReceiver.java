@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,38 +19,40 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class DiscordGroupsReceiver implements IAudioReceiver {
 	DiscordGroups instance;
-	SpeakingUser speaking;
+	SpeakingUser speakers;
 	public DiscordGroupsReceiver(DiscordGroups instance){
 		this.instance = instance;
-		speaking = new SpeakingUser();
+		speakers = new SpeakingUser();
 	}
-	ArrayList<Byte> bytes;
+	ArrayList<byte[]> bytes;
+	boolean speaking = false;
 	@Override
 	public void receive(byte[] audio, IUser user) {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask(){
-
-			@Override
-			public void run() {
-				if(speaking.isSpeaking(user)){
-					if(bytes == null){
-						 bytes = new ArrayList<Byte>();
-						 for(byte rawByte: audio){
-							 bytes.add(rawByte);
-						 }
-					}
-				} else {
-					instance.getLogger().log("User " + user.getName() +" is done speaking", true);
-					if(bytes != null){
-						Byte[] arrayBytes = (Byte[]) bytes.toArray();
-						speachToText(ArrayUtils.toPrimitive(arrayBytes), user);
-						bytes = null;
+		handleRecive(audio, user);
+	}
+	
+	public void handleRecive(byte[] audio, IUser user){
+		if(!speaking){
+			bytes = new ArrayList<byte[]>();
+			bytes.add(audio);
+			while(speakers.isSpeaking(user)){
+				speaking = true;
+			}
+			if(speaking){
+				byte[] stt = null;
+				for(byte[] rawAudio: bytes){
+					if(stt == null){
+						stt = rawAudio;
+					} else {
+						stt = ArrayUtils.addAll(stt, rawAudio);
 					}
 				}
+				speachToText(stt, user);
+				speaking = false;
 			}
-			
-		}, 100L);
-		
+		} else {
+			bytes.add(audio);
+		}
 	}
 	
 	public void speachToText(byte[] audio, IUser user){

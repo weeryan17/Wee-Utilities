@@ -43,6 +43,8 @@ public class RandomListener {
 		while(e.isSpeaking()){
 			user.setUserSpeaking(e.getUser(), true);
 		}
-		user.setUserSpeaking(e.getUser(), false);
+		if(user.isSpeaking(e.getUser())){
+			user.setUserSpeaking(e.getUser(), false);
+		}
 	}
 }
