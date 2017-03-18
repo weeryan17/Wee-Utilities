@@ -42,10 +42,8 @@ public class RandomListener {
 		SpeakingUser user = new SpeakingUser();
 		if(e.isSpeaking()){
 			user.setUserSpeaking(e.getUser(), true);
-			discord.getLogger().log("User " + e.getUser().getName() + " started speaking", true);
 		} else {
 			user.setUserSpeaking(e.getUser(), false);
-			discord.getLogger().log("User " + e.getUser().getName() + " stoped speaking", true);
 		}
 	}
 }

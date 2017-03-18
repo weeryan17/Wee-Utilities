@@ -28,27 +28,23 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 	boolean speaking = false;
 	@Override
 	public void receive(byte[] audio, IUser user) {
-		instance.getLogger().log("recived fired", true);
-		instance.getLogger().log("Audio length " + audio.length, true);
 		StringBuilder sb = new StringBuilder();
 		for(byte thing: audio){
 			sb.append(thing + " ");
 		}
-		instance.getLogger().log("Bytes\n" + sb.toString(), false);
-		handleRecive(audio, user);
+		//instance.getLogger().log("Bytes\n" + sb.toString(), false);
+		//handleRecive(audio, user);
 	}
 	
 	public void handleRecive(byte[] audio, IUser user){
 		if(!speaking){
 			speaking = true;
-			//instance.getLogger().log("Creating new speaking stuff", true);
 			bytes = new ArrayList<byte[]>();
 			bytes.add(audio);
 			while(speakers.isSpeaking(user)){
 				
 			}
 			if(speaking){
-				//instance.getLogger().log("Sending bytes to voice reconition", true);
 				byte[] stt = null;
 				for(byte[] rawAudio: bytes){
 					if(stt == null){
@@ -61,7 +57,6 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 				speaking = false;
 			}
 		} else {
-			//instance.getLogger().log("Adding bytes to phrase", true);
 			bytes.add(audio);
 		}
 	}
