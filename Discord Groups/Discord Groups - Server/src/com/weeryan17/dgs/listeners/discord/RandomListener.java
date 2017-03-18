@@ -40,11 +40,12 @@ public class RandomListener {
 	@EventSubscriber
 	public void onSpeak(UserSpeakingEvent e){
 		SpeakingUser user = new SpeakingUser();
-		while(e.isSpeaking()){
+		if(e.isSpeaking()){
 			user.setUserSpeaking(e.getUser(), true);
-		}
-		if(user.isSpeaking(e.getUser())){
+			discord.getLogger().log("User " + e.getUser().getName() + " started speaking", true);
+		} else {
 			user.setUserSpeaking(e.getUser(), false);
+			discord.getLogger().log("User " + e.getUser().getName() + " stoped speaking", true);
 		}
 	}
 }

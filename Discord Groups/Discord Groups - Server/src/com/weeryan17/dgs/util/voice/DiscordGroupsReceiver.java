@@ -33,12 +33,15 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 	
 	public void handleRecive(byte[] audio, IUser user){
 		if(!speaking){
+			speaking = true;
+			instance.getLogger().log("Creating new speaking stuff", true);
 			bytes = new ArrayList<byte[]>();
 			bytes.add(audio);
 			while(speakers.isSpeaking(user)){
-				speaking = true;
+				
 			}
 			if(speaking){
+				instance.getLogger().log("Sending bytes to voice reconition", true);
 				byte[] stt = null;
 				for(byte[] rawAudio: bytes){
 					if(stt == null){
@@ -51,10 +54,17 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 				speaking = false;
 			}
 		} else {
+			instance.getLogger().log("Adding bytes to phrase", true);
 			bytes.add(audio);
 		}
 	}
 	
+	/**
+	 * Sends the data to voice reconition
+	 * 
+	 * @param audio The byte[] audio
+	 * @param user The user who spoke
+	 */
 	public void speachToText(byte[] audio, IUser user){
 		instance.getLogger().log("Audio recived", true);
 		InputStream input = new ByteArrayInputStream(audio);
@@ -71,9 +81,11 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 		}
 		recon.startRecognition(input);
 		SpeechResult result;
+		StringBuilder sb = new StringBuilder();
 		while((result = recon.getResult()) != null) {
-			instance.getLogger().log("Speach Result: " + result + "\nFrom user " + user.getName(), true);
+			sb.append(result.getHypothesis());
 		}
+		instance.getLogger().log("Speach Result: " + sb.toString() + "\nFrom user " + user.getName(), true);
 	}
 
 }
