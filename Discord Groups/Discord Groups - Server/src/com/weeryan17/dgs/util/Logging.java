@@ -55,6 +55,8 @@ public class Logging {
 		String secondsDate = secoondsf.format(dateobj);
 
 		System.out.println(secondsDate + " [DiscordGroups] " + message);
+		
+		this.writeToFile(message);
 	}
 
 	/**
