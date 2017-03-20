@@ -29,7 +29,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					"Permissions with a star at the end do work so like `dg.server` will give them all the dg.server.<something> perms. You can find what the permissions do on the wiki.",
 					false);
 			channel.sendMessage(builder.build());
-		} else if(args.length == 1){
+		} else if(args.length == 1 || args.length == 2 || args.length >= 4){
 			switch(args[0]){
 			case "add" :{
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
@@ -40,6 +40,28 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			case "remove" :{
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				builder.appendField("Usage", "```^permissions remove <user/group> <permission>```", false);
+				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+			}
+			break;
+			default :{
+				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
+				builder.appendField("Usage", "```^permissions <add/remove> <userID/groupID> <permission>```", false);
+				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+			}
+			}
+		} else {
+			switch(args[0]){
+			case "add" :{
+				//TODO write perm to storage
+			}
+			break;
+			case "remove" :{
+				//TODO remove perm from storage
+			}
+			break;
+			default :{
+				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
+				builder.appendField("Usage", "```^permissions <add/remove> <userID/groupID> <permission>```", false);
 				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
 			}
 			}

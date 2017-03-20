@@ -53,7 +53,7 @@ public class PushListener implements EventListener<PushEvent> {
 				StringBuilder sb = new StringBuilder();
 				sb.append("```Markdown\n");
 				int i = 0;
-				for (String filePath : commit.getAdded()) {
+				for (String filePath : commit.getRemoved()) {
                     if (i++ <= 5) {
                         String file = filePath.substring(filePath.lastIndexOf("/") + 1);
                         sb.append("* " + file + "\n\n");
@@ -71,7 +71,7 @@ public class PushListener implements EventListener<PushEvent> {
 				StringBuilder sb = new StringBuilder();
 				sb.append("```Markdown\n");
 				int i = 0;
-				for (String filePath : commit.getAdded()) {
+				for (String filePath : commit.getModified()) {
                     if (i++ <= 5) {
                         String file = filePath.substring(filePath.lastIndexOf("/") + 1);
                         sb.append("* " + file + "\n\n");
