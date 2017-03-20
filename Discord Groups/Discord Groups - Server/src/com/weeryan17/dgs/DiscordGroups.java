@@ -68,7 +68,7 @@ public class DiscordGroups {
 		}
 		token = prop.getProperty("token");
 		try {
-			client = new ClientBuilder().withToken(token).withRecommendedShardCount(true).login();
+			client = new ClientBuilder().withToken(token).withRecommendedShardCount().login();
 		} catch (DiscordException e) {
 			System.out.println("Error Logging in!");
 			System.out.println(e.getMessage());
@@ -125,7 +125,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
 		cmdMannage.registerCommand("commands", new CommandsCommand(this));
-		cmdMannage.registerCommand("permissions", new PermissionsCommand());
+		cmdMannage.registerCommand("permissions", new PermissionsCommand(this));
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("pin", new PinCommand());

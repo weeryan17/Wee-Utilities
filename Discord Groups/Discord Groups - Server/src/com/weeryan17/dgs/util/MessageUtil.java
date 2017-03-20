@@ -20,7 +20,7 @@ public class MessageUtil {
 		builder.withAuthorName("@Discord Groups#2320");
 		builder.withAuthorUrl("https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups");
 		builder.withThumbnail("https://www.dropbox.com/s/ly3s749g2om8o7x/discordgroupsicon.png?dl=1");
-		builder.withFooterText("Command requested by " + sender.getDisplayName(channel.getGuild()));
+		builder.withFooterText("Command requested by " + sender.getName() + "#" + sender.getDiscriminator());
 		if (!channel.isPrivate()) {
 			IRole role = null;
 			int pos = 0;
