@@ -6,7 +6,6 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.role.RoleCreateEvent;
 import sx.blah.discord.handle.impl.events.guild.role.RoleDeleteEvent;
-import sx.blah.discord.handle.impl.events.guild.voice.user.UserSpeakingEvent;
 import sx.blah.discord.handle.obj.IRole;
 
 public class RandomListener {

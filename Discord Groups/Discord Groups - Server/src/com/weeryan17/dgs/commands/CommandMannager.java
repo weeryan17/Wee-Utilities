@@ -26,6 +26,6 @@ public class CommandMannager {
 	}
 
 	public void dispatchCommand(String name, String[] args, IChannel channel, IUser user) {
-		commands.get(name).onCommand(args, channel, user);
+		commands.get(name.toLowerCase()).onCommand(args, channel, user);
 	}
 }

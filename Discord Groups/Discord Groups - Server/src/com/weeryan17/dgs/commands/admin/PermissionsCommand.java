@@ -1,5 +1,7 @@
 package com.weeryan17.dgs.commands.admin;
 
+import org.apache.poi.ss.usermodel.Sheet;
+
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
 
@@ -19,7 +21,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 		if (args.length == 0) {
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.withTitle("^permissions");
-			builder.appendField("Usage", "```^permissions <add/remove> <user/group> <permission>```", false);
+			builder.appendField("Usage", "```^permissions <add/remove> <user/group> <Id> <permission>```", false);
 			builder.appendField("Permissions",
 					"```dg.server.generate\n" + "dg.server.manage\n" + "dg.server.stats\n" + "dg.server.web\n"
 							+ "dg.perm.add\n" + "dg.perm.remove\n" + "dg.perm.group.add\n" + "dg.perm.group.remove\n"
@@ -29,42 +31,80 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					"Permissions with a star at the end do work so like `dg.server` will give them all the dg.server.<something> perms. You can find what the permissions do on the wiki.",
 					false);
 			channel.sendMessage(builder.build());
-		} else if(args.length == 1 || args.length == 2 || args.length >= 4){
-			switch(args[0]){
+		} else if(args.length != 4){
+			String add;
+			String group;
+			switch(args[0].toLowerCase()){
 			case "add" :{
-				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				builder.appendField("Usage", "```^permissions add <user/group> <permission>```", false);
-				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+				add = "add";
 			}
 			break;
 			case "remove" :{
-				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				builder.appendField("Usage", "```^permissions remove <user/group> <permission>```", false);
-				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+				add = "remove";
+			}
+			break;
+			default :{
+				add = "<add/remove>";
+			}
+			
+			switch(args[1].toLowerCase()){
+			case "user" :{
+				group = "user";
+			}
+			break;
+			case "group" :{
+				group = "group";
+			}
+			break;
+			default :{
+				group = "<user/group>";
+			}
+			}
+			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
+			builder.appendField("Usage", "```^permissions" + add + group + "<Id> <permission>```", false);
+			channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+			
+			}
+		}  else {
+			boolean add;
+			boolean group;
+			switch(args[0].toLowerCase()){
+			case "add" :{
+				add = true;
+			}
+			break;
+			case "remove" :{
+				add = false;
 			}
 			break;
 			default :{
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				builder.appendField("Usage", "```^permissions <add/remove> <userID/groupID> <permission>```", false);
 				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+				return;
 			}
 			}
-		} else {
-			switch(args[0]){
-			case "add" :{
-				//TODO write perm to storage
+			
+			switch(args[1].toLowerCase()){
+			case "user" :{
+				group = false;
 			}
 			break;
-			case "remove" :{
-				//TODO remove perm from storage
+			case "group" :{
+				group = true;
 			}
 			break;
 			default :{
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				builder.appendField("Usage", "```^permissions <add/remove> <userID/groupID> <permission>```", false);
 				channel.sendMessage(sender.mention() + " incorect usage", builder.build());
+				return;
 			}
 			}
+			
+			Sheet sheet = group ? instance.getStorage().getGuildRoleSheet(channel.getGuild().getID()) : instance.getStorage().getGuildUserSheet(channel.getGuild().getID());
+			
+			
 		}
 	}
 

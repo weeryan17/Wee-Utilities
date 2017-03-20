@@ -57,13 +57,13 @@ public class ChatListener {
 				String[] command = text.split(" ");
 				String name = command[1];
 				String[] args = Arrays.copyOfRange(command, 2, command.length);
-				if (instance.getCommandMannager().isCommand(name)) {
+				if (instance.getCommandMannager().isCommand(name.toLowerCase())) {
 					if (!message.getChannel().isPrivate()) {
 						message.delete();
 					}
 					instance.getCommandMannager().dispatchCommand(name, args, e.getChannel(), e.getAuthor());
 					String compressedArgs = "";
-					if (!name.equals("eval")) {
+					if (!name.toLowerCase().equals("eval")) {
 						for (String arg : args) {
 							compressedArgs = compressedArgs + "\n" + space + " * " + arg;
 						}
