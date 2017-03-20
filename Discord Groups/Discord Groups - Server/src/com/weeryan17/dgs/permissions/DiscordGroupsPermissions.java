@@ -3,8 +3,14 @@ package com.weeryan17.dgs.permissions;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.util.GuildUser;
+import com.weeryan17.dgs.util.Storage;
 
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
@@ -122,8 +128,61 @@ public class DiscordGroupsPermissions {
 		}
 	}
 	
-	
 	public static void updatePerms(GuildUser user, DiscordGroups instance){
+		Storage sto = instance.getStorage();
+		Sheet personSheet = sto.getGuildUserSheet(user.getGuild().getID());
+		Sheet groupSheet = sto.getGuildRoleSheet(user.getGuild().getID());
 		
+		ArrayList<String> permsList = new ArrayList<String>();
+		
+		//Start user sheet perm checking.
+		Row userIdRow = personSheet.getRow(personSheet.getFirstRowNum());
+		int column = 0;
+		for(Cell cell: userIdRow){
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				String value = cell.getStringCellValue();
+				if(value.equals(user.getUser().getID())){
+					column = cell.getColumnIndex();
+				}
+			}
+		}
+		
+		for(Row row: personSheet){
+			Cell cell = row.getCell(column);
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				String value = cell.getStringCellValue();
+				if(!value.equals(user.getUser().getID())){
+					permsList.add(value);
+				}
+			}
+		}
+		
+		//Start roles sheet perm checking.
+		for(IRole role: user.getGuild().getRolesForUser(user.getUser())){
+			Row roleIdRow = groupSheet.getRow(groupSheet.getFirstRowNum());
+			column = 0;
+			for(Cell cell: roleIdRow){
+				if(cell.getCellTypeEnum().equals(CellType.STRING)){
+					String value = cell.getStringCellValue();
+					if(value.equals(role.getID())){
+						column = cell.getColumnIndex();
+					}
+				}
+			}
+			
+			for(Row row: groupSheet){
+				Cell cell = row.getCell(column);
+				if(cell.getCellTypeEnum().equals(CellType.STRING)){
+					String value = cell.getStringCellValue();
+					if(!value.equals(role.getID())){
+						permsList.add(value);
+					}
+				}
+			}
+		}
+		
+		String[] perms = (String[]) permsList.toArray();
+		DiscordGroupsPermissions permissions = DiscordGroupsPermissions.getUserPermissions(user);
+		permissions.setLocalPerms(perms);
 	}
 }
