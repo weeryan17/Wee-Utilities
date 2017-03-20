@@ -1,7 +1,6 @@
 package com.weeryan17.dgs.listeners.discord;
 
 import com.weeryan17.dgs.DiscordGroups;
-import com.weeryan17.dgs.util.SpeakingUser;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
@@ -37,13 +36,4 @@ public class RandomListener {
 		// TODO Interact with files system for perms.
 	}
 	
-	@EventSubscriber
-	public void onSpeak(UserSpeakingEvent e){
-		SpeakingUser user = new SpeakingUser();
-		if(e.isSpeaking()){
-			user.setUserSpeaking(e.getUser(), true);
-		} else {
-			user.setUserSpeaking(e.getUser(), false);
-		}
-	}
 }

@@ -4,12 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.weeryan17.dgs.DiscordGroups;
-import com.weeryan17.dgs.util.SpeakingUser;
 
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
@@ -19,31 +20,57 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class DiscordGroupsReceiver implements IAudioReceiver {
 	DiscordGroups instance;
-	SpeakingUser speakers;
+	//SpeakingUser speakers;
 	public DiscordGroupsReceiver(DiscordGroups instance){
 		this.instance = instance;
-		speakers = new SpeakingUser();
+		//speakers = new SpeakingUser();
 	}
 	ArrayList<byte[]> bytes;
 	boolean speaking = false;
+	boolean reciving = false;
+	Timer timer = null;
 	@Override
 	public void receive(byte[] audio, IUser user) {
+		instance.getLogger().log("Reciving audio", false);
+		reciving = true;
 		StringBuilder sb = new StringBuilder();
 		for(byte thing: audio){
 			sb.append(thing + " ");
 		}
-		//instance.getLogger().log("Bytes\n" + sb.toString(), false);
-		//handleRecive(audio, user);
+		if(timer == null){
+			timer = new Timer();
+		} else {
+			timer.cancel();
+			timer = new Timer();
+		}
+		new Thread(){
+			@Override
+			public void run(){
+				handleRecive(audio, user);
+			}
+		}.start();
+		timer.schedule(new TimerTask(){
+
+			@Override
+			public void run() {
+				instance.getLogger().log("User done speaking", false);
+				reciving = false;
+			}
+			
+		}, 3000L);
 	}
 	
 	public void handleRecive(byte[] audio, IUser user){
+		instance.getLogger().log("Handling reciving", false);
 		if(!speaking){
 			speaking = true;
+			instance.getLogger().log("Creating new bytes list", false);
 			bytes = new ArrayList<byte[]>();
 			bytes.add(audio);
-			while(speakers.isSpeaking(user)){
-				
+			while(reciving){
+				instance.getLogger().log("Still reciving", false);
 			}
+			instance.getLogger().log("Done reciving", false);
 			if(speaking){
 				byte[] stt = null;
 				for(byte[] rawAudio: bytes){
@@ -57,6 +84,7 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 				speaking = false;
 			}
 		} else {
+			instance.getLogger().log("Adding bytes to list", false);
 			bytes.add(audio);
 		}
 	}
@@ -68,7 +96,7 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 	 * @param user The user who spoke
 	 */
 	public void speachToText(byte[] audio, IUser user){
-		//instance.getLogger().log("Audio recived", true);
+		instance.getLogger().log("Audio recived", false);
 		InputStream input = new ByteArrayInputStream(audio);
 		Configuration config = new Configuration();
 		config.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
