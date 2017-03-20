@@ -46,6 +46,7 @@ public class DiscordGroups {
 	String token = "";
 	public String guildId = "280175962769850369"; // This is the id of the main
 													// guild.
+	int shards;
 
 	Properties prop;
 
@@ -67,7 +68,7 @@ public class DiscordGroups {
 		}
 		token = prop.getProperty("token");
 		try {
-			client = new ClientBuilder().withToken(token).login();
+			client = new ClientBuilder().withToken(token).withRecommendedShardCount(true).login();
 		} catch (DiscordException e) {
 			System.out.println("Error Logging in!");
 			System.out.println(e.getMessage());
@@ -76,6 +77,7 @@ public class DiscordGroups {
 						+ element.getLineNumber() + " in the method " + element.getMethodName() + "().");
 			}
 		}
+		shards = client.getShardCount();
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
 
@@ -170,5 +172,9 @@ public class DiscordGroups {
 
 	public ArrayList<String> getDevelopersIds() {
 		return ids;
+	}
+	
+	public int getShards(){
+		return shards;
 	}
 }
