@@ -180,9 +180,11 @@ public class DiscordGroupsPermissions {
 				}
 			}
 		}
-		
-		String[] perms = (String[]) permsList.toArray();
+		String[] perms = new String[permsList.size()];
+		perms = permsList.toArray(perms);
 		DiscordGroupsPermissions permissions = DiscordGroupsPermissions.getUserPermissions(user);
+		instance.getLogger().log("Perms to set: " + perms, false);
 		permissions.setLocalPerms(perms);
+		
 	}
 }

@@ -156,7 +156,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals(guildID)) {
+				if (name.equals(guildID + " - Users")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
@@ -166,7 +166,13 @@ public class Storage {
 			} else {
 				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.",
 						Level.WARNING, false);
-				sheet = wb.createSheet(guildID);
+				sheet = wb.createSheet(guildID + " - Users");
+				for(int i = 0; i <= 50; i++){
+					Row row = sheet.createRow(i);//Populate rows
+					for(int i2 = 0; i <= 1000; i++){
+						row.createCell(i2);
+					}
+				}
 				savePermsWorkbook(wb);
 				return sheet;
 			}
@@ -195,7 +201,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals(guildID)) {
+				if (name.equals(guildID + " - Roles")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
@@ -205,10 +211,17 @@ public class Storage {
 			} else {
 				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.",
 						Level.WARNING, false);
-				sheet = wb.createSheet(guildID);
+				sheet = wb.createSheet(guildID + " - Roles");
+				for(int i = 0; i <= 50; i++){
+					Row row = sheet.createRow(i);//Populate rows
+					for(int i2 = 0; i <= 1000; i++){
+						row.createCell(i2);
+					}
+				}
 				savePermsWorkbook(wb);
 				return sheet;
 			}
+			
 		} catch (IOException e) {
 			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + guildID, Level.SEVERE, e, false);
 			System.exit(1);
