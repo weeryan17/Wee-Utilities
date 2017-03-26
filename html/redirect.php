@@ -100,14 +100,52 @@ $bearer = DiscordAuth::getBearerToken ( $_GET ['code'] );
 $data = DiscordAuth::getUserDataByBearer ( $bearer );
 $guildData = DiscordAuth::getGuildDataByBearer ( $bearer );
 $guildDataString = json_encode ( $guildData );
+$dataString = json_encode($data);
 
-$sql = "INSERT INTO tolkens_table". "(tolken, userData, guildData, guildDataString)". "VALUES ('$test', '$data', '$guildData', '$guildDataString')";
+$guildJson = json_decode($guildDataString);
+$dataJson = json_decode($dataString);
 
-if ($conn->query ( $sql ) === TRUE) {
-	echo "Data inserted successfully";
-} else {
-	echo "Error creating table: " . $conn->error;
+$id = "";
+$username = "";
+foreach ($guildJson as $feild => $value){
+	echo("Feild: " . print_r($feild, true) . "<br>");
+	echo("Value: " . print_r($value, true) . "<br>");
 }
 
+foreach ($dataJson as $feild => $value){
+	echo("Feild: " . print_r($feild, true) . "<br>");
+	echo("Value: " . print_r($value, true) . "<br>");
+	if(strcmp(print_r($feild, true), "id") == 0){
+		$id = print_r($value, true);
+	} elseif (strcmp(print_r($feild, true), "username") == 0){
+		$username = print_r($value, true);
+	}
+}
+
+echo("User name: " . print_r($username, true) . "<br>");
+echo("User id: " . print_r($id, true) . "<br>");
+
+setcookie("Discord Groups", $bearer);
+
+?>
+<body>
+<img src="https://cdn.discordapp.com/avatars/<?php echo ($dataJson['id'])?>/<?php echo ($dataJson['avatar'])?>.png">
+</body>
+<?php 
+
+//echo(print_r($dataJson, true));
+
+//echo(print_r($guildJson, true));
+
+
+
+/*$sql = "INSERT INTO tolkens_table". "(tolken, userDataString, guildDataString)". "VALUES ('$bearer', '$dataString', '$guildDataString')";
+*
+*if ($conn->query ( $sql ) === TRUE) {
+*	echo "Data inserted successfully";
+*} else {
+*	echo "Error inserting data: " . $conn->error;
+*}
+*/
 $conn->close ();
 ?>
