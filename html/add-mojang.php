@@ -4,8 +4,18 @@ $user = MojangAPI::authenticate($_POST ["email"], $_POST ["pass"]);
 echo ("Email: " . htmlspecialchars ( $_POST ["email"] ) . "<br>");
 echo ("Pass: " . htmlspecialchars ( $_POST ["pass"] ) . "<br>");
 ?>
-
 <body>
+<?php
+if(!isset($_COOKIE["Discord_Groups"])){
+?>
+<h1>You need to be logged in to add mojang accout!</h1>
+<?php 
+} else {
+	$mojangTolken = $user['tolken'];
+	$id = $user['id'];
+	$tolken = $_COOKIE["Discord_Groups"];
+	$sql = "INSERT INTO mojang_table". "(tolken, mojangTolken, mojangId)". "VALUES ('$tolken', '$mojangTolken', '$id')";
+?>
 	<img src="https://minotar.net/cube/<?php echo ($user['name'])?>.png"
 		alt="<?php echo ($user['name'])?>" />
 	<br>
@@ -14,4 +24,6 @@ echo ("Pass: " . htmlspecialchars ( $_POST ["pass"] ) . "<br>");
 	?>
 	<br>
 	<?php echo ("ID: " . $user['id'])?>
+	
+<?php }?>
 </body>

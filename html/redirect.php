@@ -105,6 +105,8 @@ $dataString = json_encode($data);
 $guildJson = json_decode($guildDataString);
 $dataJson = json_decode($dataString);
 
+echo("Tolken: " . $bearer . "<br>");
+
 $id = "";
 $username = "";
 foreach ($guildJson as $feild => $value){
@@ -125,7 +127,7 @@ foreach ($dataJson as $feild => $value){
 echo("User name: " . print_r($username, true) . "<br>");
 echo("User id: " . print_r($id, true) . "<br>");
 
-setcookie("Discord Groups", $bearer);
+setcookie("Discord_Groups", $bearer);
 
 ?>
 <body>
@@ -139,13 +141,13 @@ setcookie("Discord Groups", $bearer);
 
 
 
-/*$sql = "INSERT INTO tolkens_table". "(tolken, userDataString, guildDataString)". "VALUES ('$bearer', '$dataString', '$guildDataString')";
-*
-*if ($conn->query ( $sql ) === TRUE) {
-*	echo "Data inserted successfully";
-*} else {
-*	echo "Error inserting data: " . $conn->error;
-*}
-*/
+$sql = "INSERT INTO tolkens_table". "(tolken, id)". "VALUES ('$bearer', '$id')";
+
+if ($conn->query ( $sql ) === TRUE) {
+	echo "Data inserted successfully";
+} else {
+	echo "Error inserting data: " . $conn->error;
+}
+
 $conn->close ();
 ?>
