@@ -1,4 +1,0 @@
-name: Elevators
-main: com.weeryan17.elv.Elevators
-version: 1.0.0
-depend: [weeUtilities]
