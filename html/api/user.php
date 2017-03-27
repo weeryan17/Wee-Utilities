@@ -1,8 +1,9 @@
 <?php
-define("SERVER_NAME", "");
-define("USER_NAME", "");
-define("PASSWORD", "");
-define("DATABASE", "");
+require ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
+define("SERVER_NAME", $database['name']);
+define("USER_NAME", $database['user']);
+define("PASSWORD", $database['pass']);
+define("DATABASE", $database['database']);
 
 class UserApi {
 

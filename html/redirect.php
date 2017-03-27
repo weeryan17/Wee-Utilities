@@ -1,15 +1,17 @@
 <?php
 header ( 'Content-Type: text/html' );
+require ($_SERVER['DOCUMENT_ROOT'].'/util/client.php');
+require ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
 //Man the flarebot devs are awsome
-$servername = "";
-$username = "";
-$password = "";
-$dbname = "";
+$servername = $database['server'];
+$username = $database['user'];
+$password = $database['pass'];
+$dbname = $database['database'];
 
 if (! class_exists ( "DiscordAuth" )) {
-	define ( "DISCORDAUTH_CLIENTID", "" );
-	define ( "DISCORDAUTH_CLIENTSECRET", "" );
-	define ( "DISCORDAUTH_OAUTH2_REDIRECTURI", "" );
+	define ( "DISCORDAUTH_CLIENTID", $client['id'] );
+	define ( "DISCORDAUTH_CLIENTSECRET", $client['secret'] );
+	define ( "DISCORDAUTH_OAUTH2_REDIRECTURI", $client['redirect'] );
 	class DiscordAuth {
 		
 		/**
