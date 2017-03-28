@@ -10,7 +10,7 @@ class UserApi {
 	public static function getDiscord($tolken) {
 		$conn = new mysqli ( SERVER_NAME, USER_NAME, PASSWORD, DATABASE );
 		
-		$sql = "SELECT * FROM auth_tokens WHERE token = '$tolken' LIMIT 1";
+		$sql = "SELECT * FROM tolkens_table WHERE token = '$tolken' LIMIT 1";
 		
 		$result = $conn->querrty($sql);
 		if ($result->num_rows > 0) {
