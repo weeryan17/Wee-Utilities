@@ -123,6 +123,8 @@ foreach ($dataJson as $feild => $value){
 		$id = print_r($value, true);
 	} elseif (strcmp(print_r($feild, true), "username") == 0){
 		$username = print_r($value, true);
+	} elseif (strcmp(print_r($feild, true), "avatar") == 0){
+		$avatar = print_r($value, true);
 	}
 }
 
@@ -133,7 +135,7 @@ setcookie("Discord_Groups", $bearer);
 
 ?>
 <body>
-<img src="https://cdn.discordapp.com/avatars/<?php echo ($dataJson['id'])?>/<?php echo ($dataJson['avatar'])?>.png">
+<img src="https://cdn.discordapp.com/avatars/<?php echo (print_r($id, true))?>/<?php echo (print_r($avatar, true))?>.png">
 </body>
 <?php 
 
@@ -143,7 +145,7 @@ setcookie("Discord_Groups", $bearer);
 
 
 
-$sql = "INSERT INTO tolkens_table". "(tolken, id)". "VALUES ('$bearer', '$id')";
+$sql = "INSERT INTO tolkens_table". "(tolken, id, avatar)". "VALUES ('$bearer', '$id', '$avatar')";
 
 if ($conn->query ( $sql ) === TRUE) {
 	echo "Data inserted successfully";
