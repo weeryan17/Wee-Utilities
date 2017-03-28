@@ -60,6 +60,7 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 				builder.appendField("Memory Total", mbTotal + "MB", true);
 				builder.appendField("Shards", String.valueOf(instance.getShards()), true);
 				builder.appendField("Guilds", String.valueOf(instance.client.getGuilds().size()), true);
+				builder.appendField("Users", String.valueOf(instance.client.getUsers().size()), true);
 				EmbedObject embed = builder.build();
 				channel.sendMessage(embed);
 				channel.setTypingStatus(false);
