@@ -13,10 +13,14 @@ if (! isset ( $_COOKIE ["Discord_Groups"] )) {
 <?php
 } else {
 	$tolken = $_COOKIE ["Discord_Groups"];
-	if (UserApi::getDiscord ( $tolken ) == false) {
+	if (strcmp ( UserApi::getDiscord ( $tolken ) ['status'], "rows" ) == 0) {
 		?>
 <h1>Invalid login!</h1>
 <?php
+	} else if (strcmp ( UserApi::getDiscord ( $tolken ) ['status'], "operation" ) == 0) {
+		?>
+		<h1>Recived error while running mysql: <?php echo (UserApi::getDiscord ( $tolken ) ['result'])?></h1>
+	<?php
 	} else {
 		?>
 
