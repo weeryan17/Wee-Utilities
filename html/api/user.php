@@ -1,5 +1,5 @@
 <?php
-require ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
 define("SERVER_NAME", $database['name']);
 define("USER_NAME", $database['user']);
 define("PASSWORD", $database['pass']);
@@ -7,43 +7,41 @@ define("DATABASE", $database['database']);
 
 class UserApi {
 
-	public static function getDiscord($tolk) {
+	public static function getDiscord($tolken) {
 		$conn = new mysqli ( SERVER_NAME, USER_NAME, PASSWORD, DATABASE );
 		
-		$tolken = '"'.$tolk.'"';
+		$array;
+		
+		if ($conn->connect_error) {
+			$array = array(
+					"status"=>"conection",
+					"result"=>"connection failed"
+			);
+		}
 		
 		$sql = "SELECT * FROM tolkens_table WHERE tolken = '$tolken' LIMIT 1;";
 		
-		if ($conn->query ( $sql ) === TRUE) {
-			$result = $conn->query($sql);
+		$result = $conn->query($sql);
 			
-			if ($result->num_rows > 0) {
-				// output data of each row
-				$row = $result->fetch_assoc();
-				
-				$stmt->close();
-				$conn->close();
-				
-				$array = array(
-						"status"=>"sucess",
-						"result"=>$row['id']
-				);
-				
-				return $array;
-			} else {
-				$array = array(
-						"status"=>"rows",
-						"result"=>"no rows found"
-				);
-				return $array;
-			}
+		if ($result->num_rows > 0) {
+			$output = $result->fetch_assoc();
+			
+			$array = array(
+					"status"=>"sucess",
+					"result"=>array(
+							"id"=>$output['id'],
+							"avatar"=>$output['avatar']
+					)
+			);
+			
 		} else {
 			$array = array(
-					"status"=>"operation",
-					"result"=>$conn->error
+					"status"=>"rows",
+					"result"=>"no rows found"
 			);
-			return $array;
 		}
-		
+		$conn->close();
+		return($array);
 	}
+		
 }

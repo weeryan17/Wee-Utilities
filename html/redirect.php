@@ -131,7 +131,7 @@ foreach ($dataJson as $feild => $value){
 echo("User name: " . print_r($username, true) . "<br>");
 echo("User id: " . print_r($id, true) . "<br>");
 
-setcookie("Discord_Groups", $bearer);
+setcookie("discord_groups", $bearer, time() + 100000 , "/", ".weeryan17.tk");
 
 ?>
 <body>
