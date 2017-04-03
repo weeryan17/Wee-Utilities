@@ -103,6 +103,7 @@ public class DiscordGroups {
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<String>();
 		ids.add("215644829969809421");
+		ids.add("207629082257653760");
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret)
