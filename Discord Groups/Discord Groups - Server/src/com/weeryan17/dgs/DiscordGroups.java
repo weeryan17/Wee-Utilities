@@ -126,7 +126,7 @@ public class DiscordGroups {
 			logger.log("Chouldn't build webhook", Level.SEVERE, e, true);
 			System.exit(1);
 		}
-		this.initServlet(4000, "/java");
+		this.initServlet(0, "");
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
