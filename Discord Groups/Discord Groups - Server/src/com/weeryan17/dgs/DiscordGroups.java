@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.weeryan17.dgs.commands.CommandMannager;
@@ -18,6 +21,7 @@ import com.weeryan17.dgs.commands.admin.PinCommand;
 import com.weeryan17.dgs.commands.developer.EvalCommand;
 import com.weeryan17.dgs.commands.developer.UpdateCommand;
 import com.weeryan17.dgs.listeners.PushListener;
+import com.weeryan17.dgs.listeners.WebServlet;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
 import com.weeryan17.dgs.socket.SocketTimer;
@@ -122,6 +126,7 @@ public class DiscordGroups {
 			logger.log("Chouldn't build webhook", Level.SEVERE, e, true);
 			System.exit(1);
 		}
+		this.initServlet(4000, "/java");
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
@@ -137,6 +142,20 @@ public class DiscordGroups {
 		invite.withPermissions(client.getGuildByID(guildId).getRoleByID("285593733221711872").getPermissions());
 		inviteLink = invite.build();
 		logger.log("Invite link " + invite, true);
+	}
+	
+	public void initServlet(int port, String path){
+		getLogger().log("Initilizing servlet", true);
+		Server server = new Server(port);
+		ServletContextHandler handler = new ServletContextHandler(server, path);
+		handler.addServlet(WebServlet.class, "/");
+		try {
+			server.start();
+		} catch (Exception e) {
+			getLogger().log("Error initlizing servlet!", Level.SEVERE, e, false);
+			return;
+		}
+		getLogger().log("Servlet Initlized!", true);
 	}
 
 	public IGuild getMainGuild() {
