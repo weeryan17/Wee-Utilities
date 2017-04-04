@@ -39,7 +39,8 @@ public class WebServlet extends HttpServlet {
 	    while(keys.hasNext()){
 	    	Object key = keys.next();
 	    	if(key instanceof String){
-	    		
+	    		Object obj = json.get(key.toString());
+	    		System.out.println("Object from json: " + obj.toString());
 	    	}
 	    }
 	}
