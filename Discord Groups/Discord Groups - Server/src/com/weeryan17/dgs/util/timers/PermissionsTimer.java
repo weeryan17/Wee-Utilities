@@ -54,7 +54,7 @@ public class PermissionsTimer extends TimerTask {
 			}
 			
 			for(IRole roles: guild.getRoles()){
-				
+				//TODO How haven't I done this yet
 			}
 		}
 	}
