@@ -30,7 +30,7 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			builder.appendField("Source code", "[link](https://github.com/weeryan17/Wee-Utilities/tree/discord-groups)",
 					true);
 			builder.appendField("Twitter", "[link](https://twitter.com/DiscordGroups)", true);
-			builder.appendField("Support discord", "[link](https://discord.gg/GkxJhFq)", true);
+			builder.appendField("Support Discord", "[link](https://discord.gg/GkxJhFq)", true);
 			builder.appendField("\u200B", "\u200B", false);
 			builder.appendField("QnA",
 					"```> I want to help!\nSubmit feature requests in the Support Discord.```\n\n"
