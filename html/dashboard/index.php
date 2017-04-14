@@ -34,14 +34,14 @@
 	  <div id="login-page">
 	  	<div class="container">
 	  	
-		      <form class="form-login" action="index.html">
+		      <form class="form-login">
 		        <h2 class="form-login-heading">Dashboard</h2>
 		        
 		        <div class="login-social-link centered">
 		            <p>Discord Groups Dashboard</p>
-		            <p class="btn btn-theme" href="../"><i class="fa fa-dashboard"></i> Home</p>
-		            <p class="btn btn-theme" hres="link/"><i class="fa fa-cogs"></i> Link</p>
-		            <p class="btn btn-theme04" href=""><i class="fa fa-cogs"></i> Log Out</p>
+					<a class="btn btn-theme" href="../"><i class="fa fa-dashboard"></i> Home</a>
+		            <a class="btn btn-theme" hres="link/"><i class="fa fa-cogs"></i> Link</a>
+		            <a class="btn btn-theme04" href=""><i class="fa fa-cogs"></i> Log Out</a>
 		        </div>
 		        <hr>
 		        
@@ -67,15 +67,15 @@
 		                          <h4 class="modal-title">Links</h4>
 		                      </div>
 		                      <div class="modal-body">
-		                          <p class="btn btn-theme" href="https://twitter.com/DiscordGroups"><i class="fa fa-dashboard"></i> Twitter</p>
-		                          <p class="btn btn-theme" href="https://discordapp.com/oauth2/authorize?client_id=280192562583699458&scope=bot&permissions=372505664"><i class="fa fa-dashboard"></i> Discord Bot Invite</p>
-		                          <p class="btn btn-theme" href="https://discord.gg/GkxJhFq"><i class="fa fa-dashboard"></i> Support Discord</p>
-		                          <p class="btn btn-theme" href="https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki/"><i class="fa fa-dashboard"></i> Wiki</p>
-		                          <p class="btn btn-theme" href="https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups"><i class="fa fa-dashboard"></i> Source Code</p>
+		                          <a class="btn btn-theme" href="httas://twitter.com/DiscordGroups"><i class="fa fa-dashboard"></i> Twitter</a>
+		                          <a class="btn btn-theme" href="https://discordapp.com/oauth2/authorize?client_id=280192562583699458&scope=bot&permissions=372505664"><i class="fa fa-dashboard"></i> Discord Bot Invite</a>
+		                          <a class="btn btn-theme" href="https://discord.gg/GkxJhFq"><i class="fa fa-dashboard"></i> Support Discord</a>
+		                          <a class="btn btn-theme" href="https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki/"><i class="fa fa-dashboard"></i> Wiki</a>
+		                          <a class="btn btn-theme" href="https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups"><i class="fa fa-dashboard"></i> Source Code</a>
 		
 		                      </div>
 		                      <div class="modal-footer">
-		                          <p data-dismiss="modal" class="btn btn-theme">Close</p>
+		                          <a data-dismiss="modal" class="btn btn-theme">Close</a>
 		                      </div>
 		                  </div>
 		              </div>

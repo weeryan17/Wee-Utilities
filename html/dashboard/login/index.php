@@ -34,14 +34,14 @@
 	  <div id="login-page">
 	  	<div class="container">
 	  	
-		      <form class="form-login" action="../index.html">
+		      <form class="form-login">
 		        <h2 class="form-login-heading">Sign In</h2>
 		        
 		        <div class="login-social-link centered">
 		            <p>Discord Groups Dashboard</p>
-		                <p class="btn btn-theme" href="../"><i class="fa fa-dashboard"></i> Home</p>
+		                <a class="btn btn-theme" href="../"><i class="fa fa-dashboard"></i> Home</a>
 		                
-		                <p class="btn btn-theme03"><i class="fa fa-cogs"></i> Log In</p>
+		                <a class="btn btn-theme03"><i class="fa fa-cogs"></i> Log In</a>
 		        </div>
 		        <hr>
 		        
