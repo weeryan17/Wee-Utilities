@@ -30,7 +30,6 @@ import com.weeryan17.dgs.util.voice.VoiceTests;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.util.BotInviteBuilder;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.Image;
 

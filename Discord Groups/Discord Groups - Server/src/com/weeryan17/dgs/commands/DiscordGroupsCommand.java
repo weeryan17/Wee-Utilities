@@ -4,6 +4,7 @@ import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IEmbed.IEmbedField;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 
@@ -21,19 +22,20 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			channel.setTypingStatus(true);
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.withTitle("**Discord Groups**");
-			builder.appendDesc("```Markdown\nA bot made by weeryan17 for linking groups to discord```");
+			builder.appendDesc("```Markdown\nA bot made by weeryan17 for linking groups to Discord```");
 			builder.appendField("\u200B", "\u200B", false);
-			builder.appendField("What is this?",
-					"```This is a bot made by weeryan17 for linking groups from a minecraft server. The original plugin got a lot of attention so he re-wrote it```",
+			builder.appendField("Website", "[link](https://discordgroups.weeryan17.tk/)", true);
+			builder.appendField("Dashboard (Part of site)", "[link](https://discordgroups.weeryan17.tk/dashboard/)", true);
+			builder.appendField("Wiki", "[link](https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki)", true);
+			builder.appendField("Source code", "[link](https://github.com/weeryan17/Wee-Utilities/tree/discord-groups)",
 					true);
-			builder.appendField("Who made it?", "```Markdown\nIf you didn't read above weeryan17 made it```", true);
-			builder.appendField("Where can I found out more?",
-					"```In our offical suport discord guild```\n[link](https://discord.gg/GkxJhFq)", true);
-			builder.appendField("How can I help?",
-					"```If you're a developer you can help out by making the changes you think are need by forking my project on github.```\n[link](https://github.com/weeryan17/Wee-Utilities/tree/master/Discord%20Groups)\n```I plan on making an isolated repo later but for now you're going to get a lot of extra stuff.```",
-					true);
-			builder.appendField("What am I'm not a developer and I want to help?",
-					"```You can suggest stuff in the offical guild, and later I plan on having donation links. I also need some artists```",
+			builder.appendField("Twitter", "[link](https://twitter.com/DiscordGroups)", true);
+			builder.appendField("Support discord", "[link](https://discord.gg/GkxJhFq)", true);
+			builder.appendField("\u200B", "\u200B", false);
+			builder.appendField("QnA",
+					"```> I want to help!\nSubmit feature requests in the Support Discord.```\n\n"
+							+ "```> I need help setting this up!\nHelp can be recieved at the Support Discord.```\n\n"
+							+ "```> Who is it by?\nThe main plugin and server work was by weeryan17 and the dashboard was by CodeCo.```",
 					true);
 			EmbedObject embed = builder.build();
 			channel.sendMessage(embed);

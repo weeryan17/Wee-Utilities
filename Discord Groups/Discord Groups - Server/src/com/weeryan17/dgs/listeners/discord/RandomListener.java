@@ -6,6 +6,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.role.RoleCreateEvent;
 import sx.blah.discord.handle.impl.events.guild.role.RoleDeleteEvent;
+import sx.blah.discord.handle.impl.events.shard.ReconnectSuccessEvent;
 import sx.blah.discord.handle.obj.IRole;
 
 public class RandomListener {
@@ -35,4 +36,9 @@ public class RandomListener {
 		// TODO Interact with files system for perms.
 	}
 	
+	@EventSubscriber
+	public void onReconect(ReconnectSuccessEvent e){
+		e.getShard().changePlayingText("^commands");
+		discord.getMainGuild().getVoiceChannelByID("282221746629771264").join();
+	}
 }
