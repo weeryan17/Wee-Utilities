@@ -49,8 +49,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 	ScriptEngine engine;
 	public EvalCommand(DiscordGroups instance){
 		this.instance = instance;
-		ids = new ArrayList<String>();
-		ids.add("215644829969809421");
+		ids = instance.getDevelopersIds();
 		ScriptEngineManager scriptMan = new ScriptEngineManager();
 		engine = scriptMan.getEngineByName("groovy");
 	}
