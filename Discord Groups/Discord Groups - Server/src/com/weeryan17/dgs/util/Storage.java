@@ -141,12 +141,12 @@ public class Storage {
 	/**
 	 * Get's the permission user sheet for the specified guild.
 	 * 
-	 * @param guildID
+	 * @param l
 	 *            The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
 	@SuppressWarnings("resource")
-	public Sheet getGuildUserSheet(String guildID) {
+	public Sheet getGuildUserSheet(long l) {
 		try {
 			FileInputStream in = new FileInputStream(
 					instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
@@ -156,7 +156,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals(guildID + " - Users")) {
+				if (name.equals(l + " - Users")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
@@ -164,9 +164,9 @@ public class Storage {
 			if (sheetExists) {
 				return sheet;
 			} else {
-				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.",
+				instance.getLogger().log("Guild sheet wasn't found for guild " + l + ". Going to try an make it.",
 						Level.WARNING, false);
-				sheet = wb.createSheet(guildID + " - Users");
+				sheet = wb.createSheet(l + " - Users");
 				for(int i = 0; i <= 50; i++){
 					Row row = sheet.createRow(i);//Populate rows
 					for(int i2 = 0; i <= 1000; i++){
@@ -177,7 +177,7 @@ public class Storage {
 				return sheet;
 			}
 		} catch (IOException e) {
-			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + guildID, Level.SEVERE, e, false);
+			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + l, Level.SEVERE, e, false);
 			System.exit(1);
 			return null;
 		}
@@ -186,12 +186,12 @@ public class Storage {
 	/**
 	 * Get's the permission role sheet for the specified guild.
 	 * 
-	 * @param guildID
+	 * @param l
 	 *            The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
 	@SuppressWarnings("resource")
-	public Sheet getGuildRoleSheet(String guildID) {
+	public Sheet getGuildRoleSheet(long l) {
 		try {
 			FileInputStream in = new FileInputStream(
 					instance.getJarLoc() + "/" + instance.getProperties().getProperty("permsWorkbook"));
@@ -201,7 +201,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals(guildID + " - Roles")) {
+				if (name.equals(l + " - Roles")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
@@ -209,9 +209,9 @@ public class Storage {
 			if (sheetExists) {
 				return sheet;
 			} else {
-				instance.getLogger().log("Guild sheet wasn't found for guild " + guildID + ". Going to try an make it.",
+				instance.getLogger().log("Guild sheet wasn't found for guild " + l + ". Going to try an make it.",
 						Level.WARNING, false);
-				sheet = wb.createSheet(guildID + " - Roles");
+				sheet = wb.createSheet(l + " - Roles");
 				for(int i = 0; i <= 50; i++){
 					Row row = sheet.createRow(i);//Populate rows
 					for(int i2 = 0; i <= 1000; i++){
@@ -223,7 +223,7 @@ public class Storage {
 			}
 			
 		} catch (IOException e) {
-			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + guildID, Level.SEVERE, e, false);
+			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + l, Level.SEVERE, e, false);
 			System.exit(1);
 			return null;
 		}
@@ -352,12 +352,12 @@ public class Storage {
 		return discordID;
 	}
 
-	public String generateRandomID(String guildID) {
+	public String generateRandomID(Long guildID) {
 		Sheet keysSheet = this.getKeysSheet();
 		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
 		ArrayList<String> keys = new ArrayList<String>();
 		for (Cell cell : keysRow) {
-			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+			if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
 				keys.add(cell.getStringCellValue());
 			}
 		}

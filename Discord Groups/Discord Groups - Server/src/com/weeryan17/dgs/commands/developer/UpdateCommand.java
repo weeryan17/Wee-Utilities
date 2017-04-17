@@ -10,7 +10,7 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
 public class UpdateCommand implements DiscordGroupsCommandBase {
-	ArrayList<String> ids;
+	ArrayList<Long> ids;
 	DiscordGroups instance;
 
 	public UpdateCommand(DiscordGroups instance) {
@@ -19,7 +19,7 @@ public class UpdateCommand implements DiscordGroupsCommandBase {
 
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		if (ids.contains(sender.getID())) {
+		if (ids.contains(sender.getLongID())) {
 			if (args.length >= 1) {
 				channel.sendMessage(sender.mention() + " learn how your own command works");
 			}

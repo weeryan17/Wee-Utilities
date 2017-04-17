@@ -10,7 +10,7 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class StopCommand implements DiscordGroupsCommandBase {
 	DiscordGroups instance;
-	ArrayList<String> ids;
+	ArrayList<Long> ids;
 	public StopCommand(DiscordGroups instance){
 		this.instance = instance;
 		ids = instance.getDevelopersIds();
@@ -18,7 +18,7 @@ public class StopCommand implements DiscordGroupsCommandBase {
 	
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		if(ids.contains(sender.getID())){
+		if(ids.contains(sender.getLongID())){
 			instance.getLogger().log("Stoping bot", true);
 			System.exit(0);
 		}

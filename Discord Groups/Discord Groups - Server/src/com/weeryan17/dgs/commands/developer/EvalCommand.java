@@ -27,7 +27,7 @@ import sx.blah.discord.util.EmbedBuilder;
  */
 public class EvalCommand implements DiscordGroupsCommandBase {
 	DiscordGroups instance;
-	ArrayList<String> ids;
+	ArrayList<Long> ids;
 	
 	List<String> imports = Arrays.asList("com.weeryan17.dgs.*",
 			"com.weeryan17.dgs.commands.*",
@@ -56,8 +56,8 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 	
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		instance.getLogger().log("Discord user with the id of " + sender.getID() + " tried to use the eval command", true);
-		if(ids.contains(sender.getID())){
+		instance.getLogger().log("Discord user with the id of " + sender.getLongID() + " tried to use the eval command", true);
+		if(ids.contains(sender.getLongID())){
 			channel.setTypingStatus(true);
 			String code = Arrays.stream(args).collect(Collectors.joining(" "));
 			String imports = this.imports.stream().map(s -> "import " + s + ';').collect(Collectors.joining("\n"));

@@ -130,18 +130,18 @@ public class DiscordGroupsPermissions {
 	
 	public static void updatePerms(GuildUser user, DiscordGroups instance){
 		Storage sto = instance.getStorage();
-		Sheet personSheet = sto.getGuildUserSheet(user.getGuild().getID());
-		Sheet groupSheet = sto.getGuildRoleSheet(user.getGuild().getID());
+		Sheet personSheet = sto.getGuildUserSheet(user.getGuild().getLongID());
+		Sheet groupSheet = sto.getGuildRoleSheet(user.getGuild().getLongID());
 		
-		ArrayList<String> permsList = new ArrayList<String>();
+		ArrayList<Long> permsList = new ArrayList<Long>();
 		
 		//Start user sheet perm checking.
 		Row userIdRow = personSheet.getRow(personSheet.getFirstRowNum());
 		int column = 0;
 		for(Cell cell: userIdRow){
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
-				String value = cell.getStringCellValue();
-				if(value.equals(user.getUser().getID())){
+			if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
+				long value = (long) cell.getNumericCellValue();
+				if(value == user.getUser().getLongID()){
 					column = cell.getColumnIndex();
 				}
 			}
@@ -149,9 +149,9 @@ public class DiscordGroupsPermissions {
 		
 		for(Row row: personSheet){
 			Cell cell = row.getCell(column);
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
-				String value = cell.getStringCellValue();
-				if(!value.equals(user.getUser().getID())){
+			if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
+				long value = (long) cell.getNumericCellValue();
+				if(value != user.getUser().getLongID()){
 					permsList.add(value);
 				}
 			}
@@ -164,7 +164,7 @@ public class DiscordGroupsPermissions {
 			for(Cell cell: roleIdRow){
 				if(cell.getCellTypeEnum().equals(CellType.STRING)){
 					String value = cell.getStringCellValue();
-					if(value.equals(role.getID())){
+					if(value.equals(role.getLongID())){
 						column = cell.getColumnIndex();
 					}
 				}
@@ -172,9 +172,9 @@ public class DiscordGroupsPermissions {
 			
 			for(Row row: groupSheet){
 				Cell cell = row.getCell(column);
-				if(cell.getCellTypeEnum().equals(CellType.STRING)){
-					String value = cell.getStringCellValue();
-					if(!value.equals(role.getID())){
+				if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
+					long value = (long) cell.getNumericCellValue();
+					if(value != role.getLongID()){
 						permsList.add(value);
 					}
 				}

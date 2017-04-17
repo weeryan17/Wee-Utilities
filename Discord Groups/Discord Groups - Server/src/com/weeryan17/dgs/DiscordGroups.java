@@ -16,6 +16,7 @@ import com.weeryan17.dgs.commands.admin.GenerateCommand;
 import com.weeryan17.dgs.commands.admin.PermissionsCommand;
 import com.weeryan17.dgs.commands.admin.PinCommand;
 import com.weeryan17.dgs.commands.developer.EvalCommand;
+import com.weeryan17.dgs.commands.developer.StopCommand;
 import com.weeryan17.dgs.commands.developer.UpdateCommand;
 import com.weeryan17.dgs.listeners.PushListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
@@ -31,7 +32,6 @@ import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.Image;
 
 public class DiscordGroups {
 	public IDiscordClient client;
@@ -44,7 +44,7 @@ public class DiscordGroups {
 	}
 
 	String token = "";
-	public String guildId = "280175962769850369"; // This is the id of the main
+	public Long guildId = 280175962769850369L; // This is the id of the main
 													// guild.
 	int shards;
 
@@ -96,14 +96,13 @@ public class DiscordGroups {
 
 	String inviteLink;
 
-	ArrayList<String> ids;
+	ArrayList<Long> ids;
 	public void readyInit() {
-		client.changeAvatar(Image.forUrl("png", "https://www.dropbox.com/s/ly3s749g2om8o7x/discordgroupsicon.png?dl=1"));
 		client.changePlayingText("^commands");
-		mainGuild = client.getGuildByID(guildId);
-		ids = new ArrayList<String>();
-		ids.add("215644829969809421");
-		ids.add("207629082257653760");
+		mainGuild = client.getGuildByID(String.valueOf(guildId));
+		ids = new ArrayList<Long>();
+		ids.add(215644829969809421L);
+		ids.add(207629082257653760L);
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret)
@@ -130,6 +129,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("pin", new PinCommand());
+		cmdMannage.registerCommand("stop", new StopCommand(this));
 		storage = new Storage(this);
 		new VoiceTests(this).test();
 		TwitterUtil twitter = new TwitterUtil(this);
@@ -169,7 +169,7 @@ public class DiscordGroups {
 		return new MessageUtil(this);
 	}
 
-	public ArrayList<String> getDevelopersIds() {
+	public ArrayList<Long> getDevelopersIds() {
 		return ids;
 	}
 	

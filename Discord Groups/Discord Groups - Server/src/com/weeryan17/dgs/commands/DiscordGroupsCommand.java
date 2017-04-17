@@ -4,7 +4,6 @@ import com.weeryan17.dgs.DiscordGroups;
 
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IEmbed.IEmbedField;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 
@@ -69,11 +68,11 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			}
 				break;
 			default: {
-				channel.sendMessage("<@" + sender.getID() + "> Invalid argument.");
+				channel.sendMessage("<@" + sender.getLongID() + "> Invalid argument.");
 			}
 			}
 		} else {
-			channel.sendMessage("<@" + sender.getID() + "> I don't have that many args.");
+			channel.sendMessage("<@" + sender.getLongID() + "> I don't have that many args.");
 		}
 	}
 

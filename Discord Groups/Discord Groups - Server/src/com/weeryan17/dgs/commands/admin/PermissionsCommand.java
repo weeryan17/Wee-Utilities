@@ -130,15 +130,15 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 			}
 
-			Sheet sheet = group ? instance.getStorage().getGuildRoleSheet(channel.getGuild().getID())
-					: instance.getStorage().getGuildUserSheet(channel.getGuild().getID());
+			Sheet sheet = group ? instance.getStorage().getGuildRoleSheet(channel.getGuild().getLongID())
+					: instance.getStorage().getGuildUserSheet(channel.getGuild().getLongID());
 
-			String id = "";
+			long id = 0;
 
 			if (group) {
 				IRole role = channel.getGuild().getRoleByID(args[2]);
 				if (role != null) {
-					id = role.getID();
+					id = role.getLongID();
 				} else {
 					channel.sendMessage(sender.mention() + " that isn't a valid role!");
 					return;
@@ -146,7 +146,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			} else {
 				IUser user = channel.getGuild().getUserByID(args[2]);
 				if (user != null) {
-					id = user.getID();
+					id = user.getLongID();
 				} else {
 					channel.sendMessage(sender.mention() + " that isn't a valid user");
 					return;

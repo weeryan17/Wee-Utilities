@@ -19,6 +19,7 @@ public class WebReciver {
 		post("/java", (req, res) -> {
 			JsonParser parser = new JsonParser();
 			Object obj = parser.parse(req.body());
+			@SuppressWarnings("unused")
 			JSONArray array = (JSONArray)obj;
 			
 			return "";

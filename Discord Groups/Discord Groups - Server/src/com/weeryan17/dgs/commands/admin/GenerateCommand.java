@@ -12,7 +12,7 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 
 public class GenerateCommand implements DiscordGroupsCommandBase {
-	ArrayList<String> ids;
+	ArrayList<Long> ids;
 	DiscordGroups instance;
 
 	public GenerateCommand(DiscordGroups instance) {
@@ -47,7 +47,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
 							.getUserPermissions(new GuildUser(sender, channel.getGuild()));
 					if (perms.hasPerm("dg.server.generate")) {
-						String key = instance.getStorage().generateRandomID(channel.getGuild().getID());
+						String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
 						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
 					} else {
 						channel.sendMessage(sender.mention() + " you don't have permission to use this");
@@ -64,7 +64,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 							.getUserPermissions(new GuildUser(sender, channel.getGuild()));
 					if (perms.hasPerm("dg.server.generate")) {
 						String guildId = instance.getStorage().getGuildIdFromKey(args[2]);
-						if (guildId.equals(channel.getGuild().getID())) {
+						if (guildId.equals(channel.getGuild().getLongID())) {
 							instance.getStorage().removeKey(args[2]);
 						} else {
 							channel.sendMessage(sender.mention() + " That key doesn't exist for your guild");

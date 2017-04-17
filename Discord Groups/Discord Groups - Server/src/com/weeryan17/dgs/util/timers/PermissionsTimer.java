@@ -25,14 +25,14 @@ public class PermissionsTimer extends TimerTask {
 	public void run() {
 		instance.getLogger().log("Updating permissions in case event missed something", false);
 		for(IGuild guild: instance.client.getGuilds()){
-			String guildId = guild.getID();
+			Long guildId = guild.getLongID();
 			for(IUser user: guild.getUsers()){
 				Sheet userSheet = instance.getStorage().getGuildUserSheet(guildId);
 				Row userRow = userSheet.getRow(userSheet.getFirstRowNum());
 				boolean hasUser = false;
 				for(Cell cell: userRow){
 					if(cell.getCellTypeEnum().equals(CellType.STRING)){
-						if(cell.getStringCellValue().equals(user.getID())){
+						if(cell.getStringCellValue().equals(user.getLongID())){
 							hasUser = true;
 						}
 					}
@@ -53,7 +53,7 @@ public class PermissionsTimer extends TimerTask {
 				}
 			}
 			
-			for(IRole roles: guild.getRoles()){
+			for(@SuppressWarnings("unused") IRole roles: guild.getRoles()){
 				//TODO How haven't I done this yet
 			}
 		}
