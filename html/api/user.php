@@ -1,6 +1,6 @@
 <?php
 require_once ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
-define("SERVER_NAME", $database['name']);
+define("SERVER_NAME", $database['server']);
 define("USER_NAME", $database['user']);
 define("PASSWORD", $database['pass']);
 define("DATABASE", $database['database']);

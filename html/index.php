@@ -24,7 +24,7 @@
 			<li class="cd-label">Navigation</li>
 			<li><a href="">Home</a></li>
 			<li></li>
-			<li><a href="Dashboard">Dashboard</a></li>
+			<li><a href="dashboard">Dashboard</a></li>
 			<li class="cd-label">External Links</li>
 			<li><a href="https://twitter.com/DiscordGroups">Twitter</a></li>
 			<li><a href="https://discordapp.com/oauth2/authorize?client_id=280192562583699458&scope=bot&permissions=372505664">Discord Bot Invite</a></li>
