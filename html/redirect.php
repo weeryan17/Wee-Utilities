@@ -1,12 +1,8 @@
 <?php
 header ( 'Content-Type: text/html' );
 require_once ($_SERVER['DOCUMENT_ROOT'].'/util/client.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
-//Man the flarebot devs are awsome
-$servername = $database['server'];
-$username = $database['user'];
-$password = $database['pass'];
-$dbname = $database['database'];
+require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+//Man the flarebot devs are so bae <3
 
 if (! class_exists ( "DiscordAuth" )) {
 	define ( "DISCORDAUTH_CLIENTID", $client['id'] );
@@ -95,8 +91,6 @@ if (! class_exists ( "DiscordAuth" )) {
 	}
 }
 
-$conn = new mysqli ( $servername, $username, $password, $dbname );
-
 $bearer = DiscordAuth::getBearerToken ( $_GET ['code'] );
 
 $data = DiscordAuth::getUserDataByBearer ( $bearer );
@@ -107,18 +101,18 @@ $dataString = json_encode($data);
 $guildJson = json_decode($guildDataString);
 $dataJson = json_decode($dataString);
 
-echo("Tolken: " . $bearer . "<br>");
+//echo("Tolken: " . $bearer . "<br>");
 
 $id = "";
 $username = "";
 foreach ($guildJson as $feild => $value){
-	echo("Feild: " . print_r($feild, true) . "<br>");
-	echo("Value: " . print_r($value, true) . "<br>");
+	//echo("Feild: " . print_r($feild, true) . "<br>");
+	//echo("Value: " . print_r($value, true) . "<br>");
 }
 
 foreach ($dataJson as $feild => $value){
-	echo("Feild: " . print_r($feild, true) . "<br>");
-	echo("Value: " . print_r($value, true) . "<br>");
+	//echo("Feild: " . print_r($feild, true) . "<br>");
+	//echo("Value: " . print_r($value, true) . "<br>");
 	if(strcmp(print_r($feild, true), "id") == 0){
 		$id = print_r($value, true);
 	} elseif (strcmp(print_r($feild, true), "username") == 0){
@@ -128,33 +122,21 @@ foreach ($dataJson as $feild => $value){
 	}
 }
 
-echo("User name: " . print_r($username, true) . "<br>");
-echo("User id: " . print_r($id, true) . "<br>");
+//echo("User name: " . print_r($username, true) . "<br>");
+//echo("User id: " . print_r($id, true) . "<br>");
 
 setcookie("discord_groups", $bearer, time() + 31556926, "/");
 
-?>
-<body>
-<img src="https://cdn.discordapp.com/avatars/<?php echo (print_r($id, true))?>/<?php echo (print_r($avatar, true))?>.png">
-</body>
-<?php 
+//echo "<img src='https://cdn.discordapp.com/avatars/$id/$avatar.png'>"; 
 
-//echo(print_r($dataJson, true));
-
-//echo(print_r($guildJson, true));
-
-
-
-$sql = "INSERT INTO tolkens_table". "(tolken, id, avatar) VALUES (?, ?, ?)";
+$sql = "INSERT INTO tolkens_table (tolken, id, avatar) VALUES (?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sss", $bearer, $id, $avatar);
-
 $stmt->execute();
-
 $stmt->close();
-$conn->close ();
+
+$conn->close();
+
+header('Location: https://' . $_SERVER['DOCUMENT_ROOT'] . '/dashboard');
 ?>
-<head>
-<meta http-equiv="refresh" content="0; url=dashboard" />
-</head>
