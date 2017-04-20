@@ -1,0 +1,24 @@
+/**
+ * 
+ */
+var $document = $(document);
+
+var time = 0;
+
+$('.hours').html('<p>' + time);
+
+function up(dir){
+	if(!(time + 1 >= 25)){
+		time++;
+		$('.hours').html('<p>' + time + ":00");
+		$('.go').html('<a href="?dir=' + dir + '&file=' + (time) + '.00.log">GO!</a>');
+	}
+}
+
+function down(dir){
+	if(!(time - 1 <= -1)){
+		time--;
+		$('.hours').html('<p>' + time + ":00");
+		$('.go').html('<a href="?dir=' + dir + '&file=' + (time) + '.00.log">GO!</a>');
+	}
+}

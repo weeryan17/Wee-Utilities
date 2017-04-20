@@ -21,6 +21,8 @@ body {
     background-image: url(img-2.jpg);
     color: #dddddd;
     font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 p {
     margin: 5px;
