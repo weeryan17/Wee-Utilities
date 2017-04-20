@@ -1,7 +1,7 @@
 <?php
 header ( 'Content-Type: text/html' );
-require ($_SERVER['DOCUMENT_ROOT'].'/util/client.php');
-require ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/util/client.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/util/database.php');
 //Man the flarebot devs are awsome
 $servername = $database['server'];
 $username = $database['user'];
@@ -157,4 +157,4 @@ $conn->close ();
 ?>
 <head>
 <meta http-equiv="refresh" content="0; url=dashboard" />
-</head>>
+</head>
