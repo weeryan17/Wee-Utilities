@@ -131,7 +131,7 @@ foreach ($dataJson as $feild => $value){
 echo("User name: " . print_r($username, true) . "<br>");
 echo("User id: " . print_r($id, true) . "<br>");
 
-setcookie("discord_groups", $bearer, time() + 100000 , "/", "discordgroups.weeryan17.tk");
+setcookie("discord_groups", $bearer, time() + 31556926, "/");
 
 ?>
 <body>
@@ -145,14 +145,14 @@ setcookie("discord_groups", $bearer, time() + 100000 , "/", "discordgroups.weery
 
 
 
-$sql = "INSERT INTO tolkens_table". "(tolken, id, avatar)". "VALUES ('$bearer', '$id', '$avatar')";
+$sql = "INSERT INTO tolkens_table". "(tolken, id, avatar) VALUES (?, ?, ?)";
 
-if ($conn->query ( $sql ) === TRUE) {
-	echo "Data inserted successfully";
-} else {
-	echo "Error inserting data: " . $conn->error;
-}
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sss", $bearer, $id, $avatar);
 
+$stmt->execute();
+
+$stmt->close();
 $conn->close ();
 ?>
 <head>
