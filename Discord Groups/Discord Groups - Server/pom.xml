@@ -123,5 +123,15 @@
 			<artifactId>twitter4j-core</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>rome</groupId>
+			<artifactId>rome</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.patreon</groupId>
+			<artifactId>patreon</artifactId>
+			<version>0.0.3</version>
+		</dependency>
 	</dependencies>
 </project>

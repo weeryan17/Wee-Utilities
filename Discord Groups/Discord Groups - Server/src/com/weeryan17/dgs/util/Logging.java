@@ -140,7 +140,7 @@ public class Logging {
 	public void writeToFile(String message) {
 		Date dateobj = new Date();
 
-		DateFormat dayf = new SimpleDateFormat("MM.dd.yy");
+		DateFormat dayf = new SimpleDateFormat("yyyy-MM-dd");
 		String dayDate = dayf.format(dateobj);
 
 		DateFormat hourf = new SimpleDateFormat("HH");

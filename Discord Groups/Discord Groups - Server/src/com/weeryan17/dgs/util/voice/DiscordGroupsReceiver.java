@@ -29,36 +29,6 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 	boolean speaking = false;
 	boolean reciving = false;
 	Timer timer = null;
-	@Override
-	public void receive(byte[] audio, IUser user) {
-		instance.getLogger().log("Reciving audio", false);
-		reciving = true;
-		StringBuilder sb = new StringBuilder();
-		for(byte thing: audio){
-			sb.append(thing + " ");
-		}
-		if(timer == null){
-			timer = new Timer();
-		} else {
-			timer.cancel();
-			timer = new Timer();
-		}
-		new Thread(){
-			@Override
-			public void run(){
-				handleRecive(audio, user);
-			}
-		}.start();
-		timer.schedule(new TimerTask(){
-
-			@Override
-			public void run() {
-				instance.getLogger().log("User done speaking", false);
-				reciving = false;
-			}
-			
-		}, 3000L);
-	}
 	
 	public void handleRecive(byte[] audio, IUser user){
 		instance.getLogger().log("Handling reciving", false);
@@ -116,6 +86,37 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 			sb.append(result.getHypothesis());
 		}
 		instance.getLogger().log("Speach Result: " + sb.toString() + "\nFrom user " + user.getName(), true);
+	}
+
+	@Override
+	public void receive(byte[] audio, IUser user, char sequence, int timestamp) {
+		instance.getLogger().log("Reciving audio", false);
+		reciving = true;
+		StringBuilder sb = new StringBuilder();
+		for(byte thing: audio){
+			sb.append(thing + " ");
+		}
+		if(timer == null){
+			timer = new Timer();
+		} else {
+			timer.cancel();
+			timer = new Timer();
+		}
+		new Thread(){
+			@Override
+			public void run(){
+				handleRecive(audio, user);
+			}
+		}.start();
+		timer.schedule(new TimerTask(){
+
+			@Override
+			public void run() {
+				instance.getLogger().log("User done speaking", false);
+				reciving = false;
+			}
+			
+		}, 3000L);
 	}
 
 }

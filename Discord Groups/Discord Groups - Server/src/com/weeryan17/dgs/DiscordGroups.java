@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.json.JSONObject;
+
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
+import com.patreon.API;
 import com.weeryan17.dgs.commands.CommandMannager;
 import com.weeryan17.dgs.commands.CommandsCommand;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
@@ -131,10 +134,26 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("pin", new PinCommand());
 		cmdMannage.registerCommand("stop", new StopCommand(this));
 		storage = new Storage(this);
+		this.initPatreon();
 		new VoiceTests(this).test();
 		TwitterUtil twitter = new TwitterUtil(this);
 		twitter.tweet("Bot is up and running!");
 		logger.log("Bot initlized", true);
+	}
+	
+	public void initPatreon(){
+		String accesTolken = getProperties().getProperty("parteonAccess");
+		
+		API api = new API(accesTolken);
+		JSONObject user = api.fetchUser();
+		JSONObject campain = api.fetchCampaignAndPatrons();
+		
+		getLogger().log("User: " + user.toString(), false);
+		getLogger().log("campain: " + campain.toString(), false);
+	}
+	
+	public void continuePatreon(){
+		
 	}
 
 	public IGuild getMainGuild() {
