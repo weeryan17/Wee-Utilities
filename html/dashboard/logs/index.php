@@ -72,7 +72,9 @@ if (!isset($_COOKIE["discord_groups"])) { ?>
 	<div class="scrollbar" id="style-1" style="overflow-y: auto; height: 35%;">
 	
 		<?php
-			$file = fopen ( $logFolder . $dir . "/" . $_GET ['file'], "r" );
+		$file = $_GET ['file'];
+		
+			$file = fopen ( $logFolder . $dir . "/" . $file, "r" );
 			while ( ! feof ( $file ) ) {
 				echo (fgets ( $file ) . "<br>");
 			}
