@@ -389,7 +389,7 @@ public class Storage {
 		return chars.get(id);
 	}
 
-	public String getGuildIdFromKey(String key) {
+	public Long getGuildIdFromKey(String key) {
 		Sheet keys = getKeysSheet();
 		Row row = keys.getRow(keys.getFirstRowNum());
 		boolean hasKey = false;
@@ -407,13 +407,13 @@ public class Storage {
 		if (hasKey) {
 			Row guilds = keys.getRow(keys.getFirstRowNum() + 1);
 			Cell cell = guilds.getCell(colum);
-			String guildId = "";
+			Long guildId = 0L;
 			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
-				guildId = cell.getStringCellValue();
+				guildId = (long) cell.getNumericCellValue();
 			}
 			return guildId;
 		} else {
-			return "";
+			return 0L;
 		}
 	}
 

@@ -23,7 +23,7 @@ public class Logging {
 
 	IChannel logChannel;
 	
-	long channelId;
+	Long channelId;
 
 	Logger logger;
 

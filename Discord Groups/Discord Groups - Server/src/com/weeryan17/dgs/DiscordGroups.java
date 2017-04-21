@@ -54,15 +54,18 @@ public class DiscordGroups {
 	int shards;
 
 	Properties prop;
+	
+	static DiscordGroups instance;
 
 	public void init() {
 		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		jarFile = file.substring(0, file.length() - 18);
-		logger = new Logging(this);
+		jarFile = "C:/Users/developer/Desktop/test";
+		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		
 		prop = new Properties();
 		try {
-			InputStream propIn = new FileInputStream("hidden/bot.properties");
+			InputStream propIn = classloader.getResourceAsStream("hidden/bot.properties");
 			prop.load(propIn);
 		} catch (IOException e) {
 			System.out.println("Error enounter loading propeties file");
@@ -73,6 +76,9 @@ public class DiscordGroups {
 			}
 			System.exit(1);
 		}
+		logger = new Logging(this);
+		logger.log("jar loc: " + jarFile, false);
+		instance = this;
 		token = prop.getProperty("token");
 		try {
 			client = new ClientBuilder().withToken(token).withRecommendedShardCount().login();
@@ -195,5 +201,9 @@ public class DiscordGroups {
 	
 	public int getShards(){
 		return shards;
+	}
+	
+	public static DiscordGroups getStaticInstance(){
+		return instance;
 	}
 }

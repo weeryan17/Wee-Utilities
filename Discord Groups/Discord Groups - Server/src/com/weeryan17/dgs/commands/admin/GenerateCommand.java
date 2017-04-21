@@ -63,8 +63,8 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
 							.getUserPermissions(new GuildUser(sender, channel.getGuild()));
 					if (perms.hasPerm("dg.server.generate")) {
-						String guildId = instance.getStorage().getGuildIdFromKey(args[2]);
-						if (guildId.equals(channel.getGuild().getLongID())) {
+						Long guildId = instance.getStorage().getGuildIdFromKey(args[2]);
+						if (guildId == channel.getGuild().getLongID()) {
 							instance.getStorage().removeKey(args[2]);
 						} else {
 							channel.sendMessage(sender.mention() + " That key doesn't exist for your guild");

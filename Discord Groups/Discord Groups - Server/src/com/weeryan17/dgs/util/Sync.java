@@ -24,7 +24,7 @@ public class Sync {
 	 * @param users The user and their roles in a double list.
 	 */
 	public void syncUsers(String key, String[][] users) {
-		String guildId = instance.getStorage().getGuildIdFromKey(key);
+		Long guildId = instance.getStorage().getGuildIdFromKey(key);
 		IGuild guild = instance.client.getGuildByID(guildId);
 		for(String[] userR: users){
 			String UUID = instance.getStorage().getUserIDFromSpigot(userR[0]);
@@ -41,7 +41,7 @@ public class Sync {
 	}
 	
 	public void syncRoles(String key, String[] roles){
-		String guildId = instance.getStorage().getGuildIdFromKey(key);
+		Long guildId = instance.getStorage().getGuildIdFromKey(key);
 		IGuild guild = instance.client.getGuildByID(guildId);
 		for(String role: roles){
 			if(guild.getRolesByName(role).size() == 0){
