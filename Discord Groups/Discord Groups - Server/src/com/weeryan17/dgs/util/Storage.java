@@ -335,17 +335,17 @@ public class Storage {
 		}
 	}
 
-	public String getUserIDFromSpigot(String UUID) {
+	public Long getUserIDFromSpigot(String UUID) {
 		Sheet users = this.getPlayerSheet();
 		Row row = users.getRow(users.getFirstRowNum());
-		String discordID = "";
+		Long discordID = 0L;
 		for (Cell cell : row) {
 			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				if (cell.getStringCellValue().equals(UUID)) {
 					int column = cell.getColumnIndex();
 					Row discord = users.getRow(users.getFirstRowNum() + 1);
 					Cell userIDCell = discord.getCell(column);
-					discordID = userIDCell.getStringCellValue();
+					discordID = (long) userIDCell.getNumericCellValue();
 				}
 			}
 		}

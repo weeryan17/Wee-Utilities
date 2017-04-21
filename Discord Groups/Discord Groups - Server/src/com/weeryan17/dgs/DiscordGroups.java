@@ -1,6 +1,5 @@
 package com.weeryan17.dgs;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -60,7 +59,6 @@ public class DiscordGroups {
 	public void init() {
 		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		jarFile = file.substring(0, file.length() - 18);
-		jarFile = "C:/Users/developer/Desktop/test";
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		
 		prop = new Properties();

@@ -97,7 +97,7 @@ public class PushListener implements EventListener<PushEvent> {
 		}
 		embed.withColor(role.getColor());
 
-		instance.getMainGuild().getChannelByID("281978233468092416").sendMessage(embed.build());
+		instance.getMainGuild().getChannelByID(281978233468092416L).sendMessage(embed.build());
 	}
 
 }

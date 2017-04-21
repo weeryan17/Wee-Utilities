@@ -27,7 +27,7 @@ public class Sync {
 		Long guildId = instance.getStorage().getGuildIdFromKey(key);
 		IGuild guild = instance.client.getGuildByID(guildId);
 		for(String[] userR: users){
-			String UUID = instance.getStorage().getUserIDFromSpigot(userR[0]);
+			Long UUID = instance.getStorage().getUserIDFromSpigot(userR[0]);
 			IUser user = guild.getUserByID(UUID);
 			String[] roles = Arrays.copyOfRange(userR, 1, userR.length - 1);
 			List<IRole> listRoles = user.getRolesForGuild(guild);

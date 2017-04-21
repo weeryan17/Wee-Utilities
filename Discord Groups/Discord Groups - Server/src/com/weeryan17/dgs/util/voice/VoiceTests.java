@@ -13,7 +13,7 @@ public class VoiceTests {
 	IAudioManager man;
 	public void test(){
 		instance.getLogger().log("Audio initilizing", true);
-		instance.getMainGuild().getVoiceChannelByID("282221746629771264").join();
+		instance.getMainGuild().getVoiceChannelByID(282221746629771264L).join();
 		man = instance.getMainGuild().getAudioManager();
 		man.subscribeReceiver(new DiscordGroupsReceiver(instance));
 		instance.getLogger().log("Audio initilized", true);

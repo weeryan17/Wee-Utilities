@@ -16,7 +16,7 @@ public class PinCommand implements DiscordGroupsCommandBase {
 		if (args.length == 0) {
 			channel.sendMessage(sender.mention() + " Usage: ^pin <id>");
 		} else if (args.length == 1) {
-			IMessage message = channel.getMessageByID(args[0]);
+			IMessage message = channel.getMessageByID(Long.valueOf(args[0]));
 			if (message != null) {
 				channel.pin(message);
 				new Timer().schedule(new TimerTask(){

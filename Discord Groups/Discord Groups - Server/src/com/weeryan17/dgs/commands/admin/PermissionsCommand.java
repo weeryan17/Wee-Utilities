@@ -136,7 +136,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			long id = 0;
 
 			if (group) {
-				IRole role = channel.getGuild().getRoleByID(args[2]);
+				IRole role = channel.getGuild().getRoleByID(Long.valueOf(args[2]));
 				if (role != null) {
 					id = role.getLongID();
 				} else {
@@ -144,7 +144,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					return;
 				}
 			} else {
-				IUser user = channel.getGuild().getUserByID(args[2]);
+				IUser user = channel.getGuild().getUserByID(Long.valueOf(args[2]));
 				if (user != null) {
 					id = user.getLongID();
 				} else {
