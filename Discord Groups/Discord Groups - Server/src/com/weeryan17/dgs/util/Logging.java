@@ -22,6 +22,8 @@ public class Logging {
 	DiscordGroups instance;
 
 	IChannel logChannel;
+	
+	long channelId;
 
 	Logger logger;
 
@@ -29,8 +31,7 @@ public class Logging {
 
 	public Logging(DiscordGroups instance) {
 		this.instance = instance;
-		String channelId = "280177651392708608";
-		logChannel = instance.getMainGuild().getChannelByID(channelId);
+		channelId = 280177651392708608L;
 		logger = Logger.getLogger("com.weeryan17");
 		logFolder = instance.getProperties().getProperty("logFolder");
 	}
@@ -127,6 +128,9 @@ public class Logging {
 
 	public void sendMessage(String message) {
 		try {
+			if(logChannel == null){
+				logChannel = instance.getMainGuild().getChannelByID(channelId);
+			}
 			logChannel.sendMessage(message);
 		} catch (MissingPermissionsException e) {
 			this.log("Discord bot is missing permisions", Level.WARNING, e, false);

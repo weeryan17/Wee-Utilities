@@ -39,6 +39,8 @@ import sx.blah.discord.util.DiscordException;
 public class DiscordGroups {
 	public IDiscordClient client;
 
+	Logging logger;
+
 	String jarFile = "";
 
 	public static void main(String[] args) {
@@ -56,9 +58,11 @@ public class DiscordGroups {
 	public void init() {
 		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		jarFile = file.substring(0, file.length() - 18);
+		logger = new Logging(this);
+		
 		prop = new Properties();
 		try {
-			InputStream propIn = new FileInputStream(jarFile + "/bot.properties");
+			InputStream propIn = new FileInputStream("hidden/bot.properties");
 			prop.load(propIn);
 		} catch (IOException e) {
 			System.out.println("Error enounter loading propeties file");
@@ -89,8 +93,6 @@ public class DiscordGroups {
 
 	IGuild mainGuild;
 
-	Logging logger;
-
 	String secret = "";
 
 	CommandMannager cmdMannage;
@@ -102,7 +104,7 @@ public class DiscordGroups {
 	ArrayList<Long> ids;
 	public void readyInit() {
 		client.changePlayingText("^commands");
-		mainGuild = client.getGuildByID(String.valueOf(guildId));
+		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<Long>();
 		ids.add(215644829969809421L);
 		ids.add(207629082257653760L);
@@ -114,7 +116,6 @@ public class DiscordGroups {
 																// again
 																// security
 		web = web.addListener(new PushListener(this));
-		logger = new Logging(this);
 		getLogger().log("Bot initilizing", true);
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;

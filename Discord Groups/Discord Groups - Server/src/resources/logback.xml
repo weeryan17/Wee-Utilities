@@ -1,0 +1,3 @@
+<configuration>
+	<filter class="com.weeryan17.dgs.listeners.LogListener"/>
+</configuration>
