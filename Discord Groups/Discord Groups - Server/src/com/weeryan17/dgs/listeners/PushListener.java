@@ -40,7 +40,6 @@ public class PushListener implements EventListener<PushEvent> {
                         String file = filePath.substring(filePath.lastIndexOf("/") + 1);
                         sb.append("* " + file + "\n\n");
                     }
-					i++;
 				}
 				if (commit.getAdded().length > 5) {
 					sb.append("...");
@@ -58,7 +57,6 @@ public class PushListener implements EventListener<PushEvent> {
                         String file = filePath.substring(filePath.lastIndexOf("/") + 1);
                         sb.append("* " + file + "\n\n");
                     }
-					i++;
 				}
 				if (commit.getRemoved().length > 5) {
 					sb.append("...");
@@ -76,7 +74,6 @@ public class PushListener implements EventListener<PushEvent> {
                         String file = filePath.substring(filePath.lastIndexOf("/") + 1);
                         sb.append("* " + file + "\n\n");
                     }
-					i++;
 				}
 				if (commit.getModified().length > 5) {
 					sb.append("...");
