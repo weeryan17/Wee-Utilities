@@ -23,7 +23,9 @@ import com.weeryan17.dgs.commands.developer.UpdateCommand;
 import com.weeryan17.dgs.listeners.PushListener;
 import com.weeryan17.dgs.listeners.discord.ChatListener;
 import com.weeryan17.dgs.listeners.discord.RandomListener;
+import com.weeryan17.dgs.permissions.DiscordGroupsPermissions;
 import com.weeryan17.dgs.socket.SocketTimer;
+import com.weeryan17.dgs.util.GuildUser;
 import com.weeryan17.dgs.util.Logging;
 import com.weeryan17.dgs.util.MessageUtil;
 import com.weeryan17.dgs.util.Storage;
@@ -33,6 +35,7 @@ import com.weeryan17.dgs.util.voice.VoiceTests;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 
 public class DiscordGroups {
@@ -49,18 +52,18 @@ public class DiscordGroups {
 
 	String token = "";
 	public Long guildId = 280175962769850369L; // This is the id of the main
-													// guild.
+												// guild.
 	int shards;
 
 	Properties prop;
-	
+
 	static DiscordGroups instance;
 
 	public void init() {
 		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		jarFile = file.substring(0, file.length() - 18);
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		
+
 		prop = new Properties();
 		try {
 			InputStream propIn = classloader.getResourceAsStream("hidden/bot.properties");
@@ -106,6 +109,7 @@ public class DiscordGroups {
 	String inviteLink;
 
 	ArrayList<Long> ids;
+
 	public void readyInit() {
 		client.changePlayingText("^commands");
 		mainGuild = client.getGuildByID(guildId);
@@ -129,6 +133,24 @@ public class DiscordGroups {
 			logger.log("Chouldn't build webhook", Level.SEVERE, e, true);
 			System.exit(1);
 		}
+		new Thread() {
+			@Override
+			public void run(){
+				instance.getLogger().log("Updating all the perms!", true);
+				for(IGuild guild: client.getGuilds()){
+					for(IUser user: guild.getUsers()){
+						instance.getLogger().log("Creating perms for " + user.getName() + "#" + user.getDiscriminator() + ". In the guild " + guild.getName() + " (" + guild.getLongID() + ")", false);
+						new DiscordGroupsPermissions(new GuildUser(user, guild));
+						instance.getLogger().log("Updating perms for " + user.getName() + "#" + user.getDiscriminator() + ". In the guild " + guild.getName() + " (" + guild.getLongID() + ")", false);
+						try{
+							DiscordGroupsPermissions.updatePerms(new GuildUser(user, guild), instance);
+						} catch (Exception e) {
+							instance.getLogger().log("Error updating perms!", Level.WARNING, e, false);
+						}
+					}
+				}
+			}
+		}.start();
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
@@ -145,20 +167,20 @@ public class DiscordGroups {
 		twitter.tweet("Bot is up and running!");
 		logger.log("Bot initlized", true);
 	}
-	
-	public void initPatreon(){
+
+	public void initPatreon() {
 		String accesTolken = getProperties().getProperty("parteonAccess");
-		
+
 		API api = new API(accesTolken);
 		JSONObject user = api.fetchUser();
 		JSONObject campain = api.fetchCampaignAndPatrons();
-		
+
 		getLogger().log("User: " + user.toString(), false);
 		getLogger().log("campain: " + campain.toString(), false);
 	}
-	
-	public void continuePatreon(){
-		
+
+	public void continuePatreon() {
+
 	}
 
 	public IGuild getMainGuild() {
@@ -172,7 +194,7 @@ public class DiscordGroups {
 	public CommandMannager getCommandMannager() {
 		return cmdMannage;
 	}
-	
+
 	public Properties getProperties() {
 		return prop;
 	}
@@ -188,7 +210,7 @@ public class DiscordGroups {
 	public String getInviteLink() {
 		return inviteLink;
 	}
-	
+
 	public MessageUtil getMessageUtil() {
 		return new MessageUtil(this);
 	}
@@ -196,12 +218,12 @@ public class DiscordGroups {
 	public ArrayList<Long> getDevelopersIds() {
 		return ids;
 	}
-	
-	public int getShards(){
+
+	public int getShards() {
 		return shards;
 	}
-	
-	public static DiscordGroups getStaticInstance(){
+
+	public static DiscordGroups getStaticInstance() {
 		return instance;
 	}
 }

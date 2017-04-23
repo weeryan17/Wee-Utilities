@@ -47,7 +47,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			default :{
 				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				embed.appendDesc("```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```");
-				channel.sendMessage(sender.mention() + "Invalid ussage!" + embed.build());
+				channel.sendMessage(sender.mention() + "Invalid ussage!" , embed.build());
 				channel.setTypingStatus(false);
 			}
 			}
@@ -57,8 +57,11 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 				if (args[1].equals("key")) {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
 							.getUserPermissions(new GuildUser(sender, channel.getGuild()));
+					instance.getLogger().log("Checking if sender has permission", false);
 					if (perms.hasPerm("dg.server.generate")) {
+						instance.getLogger().log("Sender had perm trying to get key", false);
 						String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
+						instance.getLogger().log("Got key!", false);
 						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
 						channel.setTypingStatus(false);
 					} else {

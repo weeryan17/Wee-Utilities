@@ -156,7 +156,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals(l + " - Users")) {
+				if (name.equals(String.valueOf(l) + " - Users")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
@@ -201,7 +201,7 @@ public class Storage {
 			for (int i = 0; i <= wb.getNumberOfSheets() - 1; i++) {
 				Sheet rawSheet = wb.getSheetAt(i);
 				String name = rawSheet.getSheetName();
-				if (name.equals(l + " - Roles")) {
+				if (name.equals(String.valueOf(l) + " - Roles")) {
 					sheetExists = true;
 					sheet = rawSheet;
 				}
