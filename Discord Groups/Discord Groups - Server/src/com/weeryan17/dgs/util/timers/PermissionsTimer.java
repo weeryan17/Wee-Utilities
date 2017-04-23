@@ -39,7 +39,7 @@ public class PermissionsTimer extends TimerTask {
 				}
 				
 				if(!hasUser){
-					new DiscordGroupsPermissions(new GuildUser(user, guild));
+					new DiscordGroupsPermissions(GuildUser.getGuildUser(user, guild));
 					int firstBlankCell = -1;
 					for(Cell cell: userRow){
 						if(cell.getCellTypeEnum().equals(CellType.BLANK) && firstBlankCell != -1){
@@ -47,8 +47,8 @@ public class PermissionsTimer extends TimerTask {
 						}
 					}
 				} else {
-					if(DiscordGroupsPermissions.getUserPermissions(new GuildUser(user, guild)) == null){
-						new DiscordGroupsPermissions(new GuildUser(user, guild));
+					if(DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(user, guild)) == null){
+						new DiscordGroupsPermissions(GuildUser.getGuildUser(user, guild));
 					}
 				}
 			}

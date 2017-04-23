@@ -24,7 +24,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		DiscordGroupsPermissions perms = new DiscordGroupsPermissions(new GuildUser(sender, channel.getGuild()));
+		DiscordGroupsPermissions perms = new DiscordGroupsPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
 		if (args.length == 0) {
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.withTitle("^permissions");
@@ -172,7 +172,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 							cell.setCellValue(args[3]);
 						}
 					}
-					DiscordGroupsPermissions.updatePerms(new GuildUser(sender, channel.getGuild()), instance);
+					DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(sender, channel.getGuild()), instance);
 				} else {
 					Row row = sheet.getRow(sheet.getFirstRowNum());
 					int column = 0;
@@ -193,7 +193,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					}
 				}
 				instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
-				DiscordGroupsPermissions.updatePerms(new GuildUser(sender, channel.getGuild()), instance);
+				DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(sender, channel.getGuild()), instance);
 			}
 		}
 	}

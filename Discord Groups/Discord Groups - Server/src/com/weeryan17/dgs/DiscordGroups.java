@@ -139,7 +139,7 @@ public class DiscordGroups {
 				instance.getLogger().log("Updating all the perms!", true);
 				for(IGuild guild: client.getGuilds()){
 					for(IUser user: guild.getUsers()){
-						GuildUser guildUser = new GuildUser(user, guild);
+						GuildUser guildUser = GuildUser.getGuildUser(user, guild);
 						instance.getLogger().log("Creating perms for " + user.getName() + "#" + user.getDiscriminator() + ". In the guild " + guild.getName() + " (" + guild.getLongID() + ")", false);
 						new DiscordGroupsPermissions(guildUser);
 						instance.getLogger().log("Updating perms for " + user.getName() + "#" + user.getDiscriminator() + ". In the guild " + guild.getName() + " (" + guild.getLongID() + ")", false);

@@ -12,7 +12,8 @@ public class GuildUser {
 	private IUser user;
 
 	private IGuild guild;
-
+	
+	@Deprecated
 	public GuildUser(IUser user, IGuild guild) {
 		this.user = user;
 		this.guild = guild;

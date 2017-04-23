@@ -80,7 +80,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			case "remove": {
 				if (args[1].equals("key")) {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
-							.getUserPermissions(new GuildUser(sender, channel.getGuild()));
+							.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
 					if (perms.hasPerm("dg.server.generate")) {
 						Long guildId = instance.getStorage().getGuildIdFromKey(args[2]);
 						if (guildId == channel.getGuild().getLongID()) {
