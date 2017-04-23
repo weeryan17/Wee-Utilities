@@ -1,6 +1,7 @@
 package com.weeryan17.dgs.commands.admin;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
@@ -56,17 +57,18 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 			case "add": {
 				if (args[1].equals("key")) {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
-							.getUserPermissions(new GuildUser(sender, channel.getGuild()));
-					instance.getLogger().log("Checking if sender has permission", false);
-					if (perms.hasPerm("dg.server.generate")) {
-						instance.getLogger().log("Sender had perm trying to get key", false);
-						String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
-						instance.getLogger().log("Got key!", false);
-						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
-						channel.setTypingStatus(false);
-					} else {
-						channel.sendMessage(sender.mention() + " you don't have permission to use this");
-						channel.setTypingStatus(false);
+							.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
+					try {
+						if (perms.hasPerm("dg.server.generate")) {
+							String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
+							channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
+							channel.setTypingStatus(false);
+						} else {
+							channel.sendMessage(sender.mention() + " you don't have permission to use this");
+							channel.setTypingStatus(false);
+						}
+					} catch (Exception e){
+						instance.getLogger().log("Exception on generate command!", Level.WARNING, e, false);
 					}
 				} else {
 					channel.sendMessage(

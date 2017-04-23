@@ -55,12 +55,10 @@ public class DiscordGroupsPermissions {
 		boolean hasPerm = false;
 		for(IRole role: guild.getRolesForUser(user)){
 			if(role.getPermissions().contains(Permissions.MANAGE_SERVER)){
-				DiscordGroups.getStaticInstance().getLogger().log("Sender did have mannage server!", false);
 				hasPerm = true;
 			}
 		}
 		if(!hasPerm){
-			DiscordGroups.getStaticInstance().getLogger().log("Sender didn't have mannage server!", false);
 			for(String permsPerm: perms){
 				if(hasRecursive(permsPerm)){
 					for(String recursivePerm: getRecursive(permsPerm)){
