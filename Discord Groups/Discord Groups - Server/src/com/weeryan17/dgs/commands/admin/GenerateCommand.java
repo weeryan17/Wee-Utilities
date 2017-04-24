@@ -1,7 +1,6 @@
 package com.weeryan17.dgs.commands.admin;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
@@ -26,49 +25,41 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 		channel.setTypingStatus(true);
 		if (args.length == 0) {
 			EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-			embed.appendDesc("```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```");
-			channel.sendMessage(sender.mention() + " Improper usage: ", embed.build());
+			embed.appendField("Usage", "```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```",
+					false);
+			channel.sendMessage(embed.build());
 			channel.setTypingStatus(false);
 		} else if (args.length == 1) {
+			EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			switch (args[0]) {
 			case "add": {
-				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				embed.appendDesc("```\n^generate add key\n```");
-				channel.sendMessage(sender.mention() + " correct usage:", embed.build());
-				channel.setTypingStatus(false);
+				embed.appendField("Usage", "```\n^generate add key\n```", false);
 			}
 				break;
 			case "remove": {
-				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				embed.appendDesc("```\n^generate remove key <key>\n```");
-				channel.sendMessage(sender.mention() + " correct usage:", embed.build());
-				channel.setTypingStatus(false);
+				embed.appendField("Usage", "```\n^generate remove key <key>\n```", false);
 			}
-			break;
-			default :{
-				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				embed.appendDesc("```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```");
-				channel.sendMessage(sender.mention() + "Invalid ussage!" , embed.build());
-				channel.setTypingStatus(false);
+				break;
+			default: {
+				embed.appendField("Usage", "```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```",
+						true);
 			}
 			}
+			channel.sendMessage(embed.build());
+			channel.setTypingStatus(false);
 		} else if (args.length == 2) {
 			switch (args[0]) {
 			case "add": {
 				if (args[1].equals("key")) {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
 							.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
-					try {
-						if (perms.hasPerm("dg.server.generate")) {
-							String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
-							channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
-							channel.setTypingStatus(false);
-						} else {
-							channel.sendMessage(sender.mention() + " you don't have permission to use this");
-							channel.setTypingStatus(false);
-						}
-					} catch (Exception e){
-						instance.getLogger().log("Exception on generate command!", Level.WARNING, e, false);
+					if (perms.hasPerm("dg.server.generate")) {
+						String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
+						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
+						channel.setTypingStatus(false);
+					} else {
+						channel.sendMessage(sender.mention() + " missing permission: ```dg.server.generate```");
+						channel.setTypingStatus(false);
 					}
 				} else {
 					channel.sendMessage(
@@ -85,6 +76,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 						Long guildId = instance.getStorage().getGuildIdFromKey(args[2]);
 						if (guildId == channel.getGuild().getLongID()) {
 							instance.getStorage().removeKey(args[2]);
+							channel.sendMessage(sender.mention() + " sucessfuly removed key");
 							channel.setTypingStatus(false);
 						} else {
 							channel.sendMessage(sender.mention() + " That key doesn't exist for your guild");
@@ -97,11 +89,11 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 					channel.setTypingStatus(false);
 				}
 			}
-			break;
-			default :{
+				break;
+			default: {
 				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				embed.appendDesc("```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```");
-				channel.sendMessage(sender.mention() + "Invalid ussage!" + embed.build());
+				embed.appendField("Usage", "```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```", false);
+				channel.sendMessage(embed.build());
 				channel.setTypingStatus(false);
 			}
 			}
