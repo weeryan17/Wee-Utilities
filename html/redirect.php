@@ -1,7 +1,7 @@
 <?php
 header ( 'Content-Type: text/html' );
 require_once ($_SERVER['DOCUMENT_ROOT'].'/util/client.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/util/database.php');
 //Man the flarebot devs are so bae <3
 
 if (! class_exists ( "DiscordAuth" )) {
@@ -138,5 +138,5 @@ $stmt->close();
 
 $conn->close();
 
-header('Location: https://' . $_SERVER['DOCUMENT_ROOT'] . '/dashboard');
+header('Location: https://discordgroups.weeryan17.tk/dashboard');
 ?>

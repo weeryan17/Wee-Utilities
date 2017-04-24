@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/_include/pace/pace.min.js"></script>
+	<link href="/_include/pace/themes/flash.css" rel="stylesheet" />
 
 	<link href='https://fonts.googleapis.com/css?family=Playfair+Display:700italic,700' rel='stylesheet' type='text/css'>
 

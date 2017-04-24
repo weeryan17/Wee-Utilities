@@ -2,11 +2,16 @@
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 ?>
 <head>
-<link rel="stylesheet" href="logs.css">
-<link href="calender.css" type="text/css" rel="stylesheet" />
-<link href="clock.css" type="text/css" rel="stylesheet" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script type="text/javascript" src="clock.js"></script>
+	<script src="/_include/pace/pace.min.js"></script>
+	<link href="/_include/pace/themes/flash.css" rel="stylesheet" />
+	<link rel="stylesheet" href="logs.css">
+	<link href="calender.css" type="text/css" rel="stylesheet" />
+	<link href="clock.css" type="text/css" rel="stylesheet" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script type="text/javascript" src="clock.js"></script>
+	<script src="/_include/pace/pace.min.js"></script>
+	<link href="/_include/pace/themes/flash.css" rel="stylesheet" />
+	<title>Discord Groups | Logs</title>
 </head>
 <body>
 <?php
@@ -14,19 +19,65 @@ $hasdir = isset ( $_GET ['dir'] );
 $hasfile = isset ( $_GET ['file'] );
 $logFolder="/media/Bots/Discord-Groups/Logs/";
 if (!isset($_COOKIE["discord_groups"])) { ?>
-<h1>Not Loged in!</h1>
+<div id="login-page">
+          <div class="container">
+          
+              <form class="form-login">
+                <h2 class="form-login-heading">Not Loged In</h2>
+                <div class="login-social-link centered">
+                    <p>You are not logged in.</p>
+                    <br>
+                    <p>Please log in.</p>
+                    <hr>
+                    
+                    <div class="login-social-link centered">
+                      <p>Created by weeryan17 & CodeCo</p>
+                      <hr>
+                    </div>
+        
+                </div>        
+              </form>          
+          
+          </div>
+      </div>
 <?php
 } else {
 	$tolken = $_COOKIE ["discord_groups"];
 	$array = UserApi::getDiscord ( $tolken );
 	if (strcmp ( $array ['status'], "rows" ) == 0) {
 		?>
-	<h1>Invalid Login!</h1>
+	<div id="login-page">
+          <div class="container">
+          
+              <form class="form-login">
+                <h2 class="form-login-heading">Invalid</h2>
+                <div class="login-social-link centered">
+                    <p>You have an invalid login.</p>
+                    <br>
+                    <p>Please re log in.</p>
+                    <hr>
+                    
+                    <div class="login-social-link centered">
+                      <p>Created by weeryan17 &amp; CodeCo</p>
+                      <hr>
+                    </div>
+        
+                </div>        
+              </form>          
+          
+          </div>
+      </div>
       			<?php
 	} else {
 		$devIds = array (
 				"215644829969809421",
-				"207629082257653760" 
+				"207629082257653760",
+				"158310004187725824",
+				"84745855399129088",
+				"83632458699923456",
+				"84766711735136256",
+				"134127815531560960",
+				"155954930191040513"
 		);
 		$id = $array ["result"] ["id"];
 		if (in_array ( $id, $devIds )) {
@@ -93,13 +144,46 @@ if (!isset($_COOKIE["discord_groups"])) { ?>
 			$bytestotal += $object->getSize();
 		}
 	}
-	
-	echo("Current log directory size: " . $bytestotal . " bytes");
+	if($bytestotal >= 1000000000000){
+		$bytestotal = $bytestotal/1000000000000;
+		echo("Current log directory size: " . round($bytestotal,3) . " TB"); //I doupt we'll ever get to this point but it's here just in case.
+	} else if($bytestotal >= 1000000000){
+		$bytestotal = $bytestotal/1000000000;
+		echo("Current log directory size: " . round($bytestotal,3). " GB");
+	} else if($bytestotal >= 1000000){
+		$bytestotal = $bytestotal/1000000;
+		echo("Current log directory size: " . round($bytestotal,3). " MB");
+	} else if($bytestotal >= 1000){
+		$bytestotal = $bytestotal/1000;
+		echo("Current log directory size: " . round($bytestotal,3). " KB");
+	} else {
+		echo("Current log directory size: " . $bytestotal . " bytes");
+	}
 	
 	?>
 	<?php
 		} else { ?>
-			<h1>You are not a developer!</h1>
+			<div id="login-page">
+          <div class="container">
+          
+              <form class="form-login">
+                <h2 class="form-login-heading">Unauthorized</h2>
+                <div class="login-social-link centered">
+                    <p>You are nnot allowed to veiw this content.</p>
+                    <br>
+                    <p>Please leave this page</p>
+                    <hr>
+                    
+                    <div class="login-social-link centered">
+                      <p>Created by weeryan17 & CodeCo</p>
+                      <hr>
+                    </div>
+        
+                </div>        
+              </form>          
+          
+          </div>
+      </div>
 		<?php }
 	}
 }

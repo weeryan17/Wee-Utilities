@@ -1,45 +1,37 @@
 @CHARSET "ISO-8859-1";
 div {
-    overflow-y:auto;
-    background:rgba(255,255,255,0.5);
-    border-radius: 5px;
-    border: 5px;
+	overflow-y:auto;
+	background:rgba(255,255,255,0.5);
+	border-radius: 5px;
+	border: 5px;
     opacity: 1;
     animation: fade 2s linear;
-    scrollbar-3dlight-color:gold;
-    scrollbar-arrow-color:blue;
-    scrollbar-base-color:;
-    scrollbar-darkshadow-color:blue;
-    scrollbar-face-color:;
-    scrollbar-highlight-color:;
-    scrollbar-shadow-color:
 }
 @keyframes fade {
   0%,100% { opacity: 0 }
 }
 body {
-    background-image: url(img-2.jpg);
-    color: #dddddd;
-    font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+	background-image: url(img-2.jpg);
+	color: #dddddd;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+	background-attachment: fixed;
 }
 p {
-    margin: 5px;
+	margin: 5px;
 }
 .scrollbar{
-    font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace"
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", "monospace"
 }
 #style-1::-webkit-scrollbar-track
 {
-    border-radius: 10px;
+	border-radius: 10px;
 }
 #style-1::-webkit-scrollbar
 {
-    width: 12px;
+	width: 12px;
 }
 #style-1::-webkit-scrollbar-thumb
 {
-    border-radius: 10px;
-    background-color: #555;
+	border-radius: 10px;
+	background-color: #555;
 }

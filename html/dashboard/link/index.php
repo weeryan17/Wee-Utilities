@@ -1,3 +1,6 @@
+<?php
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,8 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="Dashboard">
-<meta name="keyword"
-	content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+<meta name="keyword" content="Discord Groups">
+<script src="/_include/pace/pace.min.js"></script>
+<link href="/_include/pace/themes/flash.css" rel="stylesheet" />
 
 <title>Link - Dashboard - Discord Groups</title>
 
@@ -28,8 +32,40 @@
 </head>
 
 <body>
-
-	<!-- ***********************************************
+	<?php
+	
+if (! isset ( $_COOKIE ['discord_groups'] )) {
+		header ( 'Location: https://discordapp.com/oauth2/authorize?client_id=280192562583699458&scope=guilds+identify&response_type=code' );
+	} else {
+		$tolken = $_COOKIE ['discord_groups'];
+		$result = UserApi::getDiscord ( $tolken );
+		if ($result ['status'] == "rows") {
+			?>
+		<div id="login-page">
+          <div class="container">
+          
+              <form class="form-login">
+                <h2 class="form-login-heading">Invalid</h2>
+                <div class="login-social-link centered">
+                    <p>You have an invalid login.</p>
+                    <br>
+                    <p>Please re log in.</p>
+                    <hr>
+                    
+                    <div class="login-social-link centered">
+                      <p>Created by weeryan17 &amp; CodeCo</p>
+                      <hr>
+                    </div>
+        
+                </div>        
+              </form>          
+          
+          </div>
+      </div>
+			<?php
+		} else if ($result ['status'] == "sucess") {
+			?>
+      <!-- ***********************************************
       MAIN CONTENT
       **************************************************** -->
 
@@ -40,9 +76,12 @@
 				<h2 class="form-login-heading">Link Account</h2>
 
 				<div class="login-social-link centered">
-					<p>Discord Groups Dashboard</p>
-					<a class="btn btn-theme"><i class="fa fa-dashboard"></i> Home</a> <a
-						class="btn btn-theme04"><i class="fa fa-cogs"></i> Log Out</a>
+					<p>
+						<strong>Discord Groups Dashboard</strong>
+					</p>
+					<a class="btn btn-theme" href="/dashboard/"><em
+						class="fa fa-dashboard"></em> HOME</a> <a class="btn btn-theme04"><em
+						class="fa fa-cogs"></em> LOG OUT</a>
 				</div>
 				<hr>
 
@@ -52,18 +91,19 @@
 				</div>
 
 				<div class="login-wrap">
-					<form action="../add-mojang.php" method="post">
-						<input type="text" class="form-control"
-							placeholder="Minecraft Email" autofocus> <br> <input
-							type="password" class="form-control"
-							placeholder="Minecraft Password"> <br>
-						<button class="btn btn-theme btn-block" type="submit">
-							<i class="fa fa-lock"></i> SIGN IN
-						</button>
-					</form>
+					<input autocomplete="on" type="email" class="form-control"
+						placeholder="Minecraft Email" autofocus> <br> <input
+						type="password" class="form-control"
+						placeholder="Minecraft Password"> <br>
+					<button class="btn btn-theme btn-block" href="index.html"
+						type="submit">
+						<i class="fa fa-lock"></i> SIGN IN
+					</button>
+
 					<div class="registration">
-						<a class="" href="https://account.mojang.com/password"> Forgot
-							Minecraft Password? </a>
+						<br> Forgot Minecraft Password? <br /> <a class=""
+							href="https://account.mojang.com/password"> Reset Minecraft
+							Password </a>
 					</div>
 
 				</div>
@@ -72,6 +112,7 @@
 
 				<div class="login-social-link centered">
 					<p>Created by weeryan17 & CodeCo</p>
+					<hr>
 				</div>
 			</form>
 
@@ -90,6 +131,34 @@
         $.backstretch("../assets/img/login-bg.jpg", {speed: 500});
     </script>
 
+<?php
+		} else {
+			?>
+			<div id="login-page">
+          <div class="container">
+          
+              <form class="form-login">
+                <h2 class="form-login-heading">Error</h2>
+                <div class="login-social-link centered">
+                    <p>There was an error signing you in.</p>
+                    <br>
+                    <p>Please try again later.</p>
+                    <hr>
+                    
+                    <div class="login-social-link centered">
+                      <p>Created by weeryan17 &amp; CodeCo</p>
+                      <hr>
+                    </div>
+        
+                </div>        
+              </form>          
+          
+          </div>
+      </div>
+			<?php
+		}
+	}
+	?>
 
-</body>
+  </body>
 </html>

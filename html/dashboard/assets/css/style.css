@@ -27,6 +27,11 @@ a, a:hover, a:focus {
     text-decoration: none;
     outline: none;
 }
+::-moz-selection {
+
+    background: #68dff0;
+    color: #fff;
+}
 ::selection {
 
     background: #68dff0;
@@ -44,16 +49,17 @@ a, a:hover, a:focus {
 
 /* Bootstrap Modifications */
 .modal-header {
-	background: #68dff0;
+	background: #ffffff;
+	box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .modal-title {
-	color: white;
+	color: #111111;
 }
 
 .btn-round {
-	border-radius: 20px;
-	-webkit-border-radius: 20px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 .accordion-heading .accordion-toggle {
@@ -93,7 +99,6 @@ a, a:hover, a:focus {
 .btn-theme {
   color: #fff;
   background-color: #68dff0;
-  border-color: #48bcb4;
 }
 .btn-theme:hover,
 .btn-theme:focus,
@@ -108,7 +113,6 @@ a, a:hover, a:focus {
 .btn-theme02 {
   color: #fff;
   background-color: #ac92ec;
-  border-color: #967adc;
 }
 .btn-theme02:hover,
 .btn-theme02:focus,
@@ -123,7 +127,6 @@ a, a:hover, a:focus {
 .btn-theme03 {
   color: #fff;
   background-color: #48cfad;
-  border-color: #37bc9b;
 }
 .btn-theme03:hover,
 .btn-theme03:focus,
@@ -138,7 +141,6 @@ a, a:hover, a:focus {
 .btn-theme04 {
   color: #fff;
   background-color: #ed5565;
-  border-color: #da4453;
 }
 .btn-theme04:hover,
 .btn-theme04:focus,
@@ -312,9 +314,6 @@ ul.sidebar-menu li ul.sub li a {
     line-height: 35px;
     height: 35px;
     -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
     color: #aeb2b7;
 }
@@ -327,9 +326,6 @@ ul.sidebar-menu li ul.sub li a:hover {
 ul.sidebar-menu li ul.sub li.active a {
     color: #68dff0;
     -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
     display: block;
 }
@@ -357,9 +353,6 @@ ul.sidebar-menu li a{
     font-size: 12px;
     outline: none;
     -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
 
@@ -369,9 +362,6 @@ ul.sidebar-menu li a.active, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:fo
     display: block;
 
     -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
 
@@ -714,6 +704,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     position: absolute;
     left: 7px;
     top: -18px;
+    -webkit-transition: all 0.25s ease 0s;
     transition: all 0.25s ease 0s;
     width: 0;
     z-index: 10;
@@ -923,13 +914,8 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     background: #ff865c;
     color: #68dff0;
     width: 100%;
-    -webkit-border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
     border-radius: 5px 5px 0 0;
     -webkit-transition: all .3s ease;
-    -moz-transition: all .3s ease;
-    -ms-transition: all .3s ease;
-    -o-transition: all .3s ease;
     transition: all .3s ease;
 }
 
@@ -937,6 +923,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 
 .custom-bar-chart .bar .value:hover {
     background: #2f2f2f;
+
     color: #fff;
 }
 
@@ -1323,13 +1310,7 @@ PANELS CONFIGURATIONS
 	background-position: center center;
 	min-height: 220px;
 	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
     background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
 }
 #spotify .btn-clear-g {
@@ -1367,13 +1348,7 @@ PANELS CONFIGURATIONS
 	background-position: center center;
 	min-height: 150px;
 	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
     background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
 }
 #blog-bg .badge {
@@ -1437,6 +1412,7 @@ PANELS CONFIGURATIONS
   font-size: 11px;
   letter-spacing: 1px;
   cursor: pointer;
+  -webkit-transition: background 0.5s ease;
   transition: background 0.5s ease
 }
 .steps input[type=submit]:hover{
@@ -1456,6 +1432,7 @@ PANELS CONFIGURATIONS
   letter-spacing: 1px;
   text-indent: 52px;
   cursor: pointer;
+  -webkit-transition: all 0.7s ease;
   transition: all 0.7s ease;
   margin: 0px;
 }
@@ -1467,6 +1444,7 @@ PANELS CONFIGURATIONS
   position: absolute;
   margin: 26px 0px 0px 18px;
   border-radius: 100%;
+  -webkit-transition: border 0.7s ease;
   transition: border 0.7s ease
 }
 .steps label:hover{
@@ -1492,13 +1470,7 @@ PANELS CONFIGURATIONS
 	background-position: center center;
 	min-height: 150px;
 	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
     background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
 }
 #profile-01 h3 {
@@ -1520,8 +1492,6 @@ PANELS CONFIGURATIONS
 .profile-01:hover {
 	background: #2f2f2f;
   -webkit-transition: background-color 0.6s;
-  -moz-transition: background-color 0.6s;
-  -o-transition: background-color 0.6s;
   transition: background-color 0.6s;
   cursor: pointer;
 }
@@ -1540,13 +1510,7 @@ PANELS CONFIGURATIONS
 	background-position: center center;
 	min-height: 200px;
 	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
     background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
 }
 #profile-02 .user {
@@ -1590,7 +1554,6 @@ PANELS CONFIGURATIONS
     font-weight:normal;
     background: #99c262;
     width: 100%;
-    -webkit-border-radius: 0px 0px 4px 4px;
     border-radius: 0px 0px 4px 4px;
 }
 #barchart {
@@ -1628,7 +1591,6 @@ PANELS CONFIGURATIONS
     font-weight:normal;
     background: #39b7ac;
     width: 100%;
-    -webkit-border-radius: 0px 0px 4px 4px;
     border-radius: 0px 0px 4px 4px;
 }
 .inline-block {
@@ -1675,8 +1637,6 @@ PANELS CONFIGURATIONS
   overflow: hidden;
   background-color: #68dff0;
   -webkit-transition: background-color 0.4s;
-  -moz-transition: background-color 0.4s;
-  -o-transition: background-color 0.4s;
   transition: background-color 0.4s;
 }
 .project .overlay {
@@ -1686,8 +1646,6 @@ PANELS CONFIGURATIONS
   opacity: 0;
   filter: alpha(opacity=0);
   -webkit-transition: opacity 0.4s;
-  -moz-transition: opacity 0.4s;
-  -o-transition: opacity 0.4s;
   transition: opacity 0.4s;
   
 }
@@ -1814,8 +1772,6 @@ label {
 }
 .has-switch > div.switch-animate {
     -webkit-transition: left 0.25s ease-out;
-    -moz-transition: left 0.25s ease-out;
-    -o-transition: left 0.25s ease-out;
     transition: left 0.25s ease-out;
     -webkit-backface-visibility: hidden;
 }
@@ -1825,8 +1781,6 @@ label {
 .has-switch > div.switch-off label {
     background-color: #7f8c9a;
     border-color: #bdc3c7;
-    -webkit-box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5);
-    -moz-box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5);
     box-shadow: -1px 0 0 rgba(255, 255, 255, 0.5);
 }
 .has-switch > div.switch-on {
@@ -1852,12 +1806,8 @@ label {
     text-align: center;
     width: 50%;
     z-index: 1;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     -webkit-transition: 0.25s ease-out;
-    -moz-transition: 0.25s ease-out;
-    -o-transition: 0.25s ease-out;
     transition: 0.25s ease-out;
     -webkit-backface-visibility: hidden;
 }
@@ -1889,8 +1839,6 @@ label {
     width: 29px;
     z-index: 100;
     -webkit-transition: 0.25s ease-out;
-    -moz-transition: 0.25s ease-out;
-    -o-transition: 0.25s ease-out;
     transition: 0.25s ease-out;
     -webkit-backface-visibility: hidden;
 }
@@ -1928,18 +1876,17 @@ label {
 	max-width: 330px;
 	margin: 100px auto 0;
 	background: #fff;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
+	box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .form-login h2.form-login-heading {
 	margin: 0;
+	box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	padding: 25px 20px;
 	text-align: center;
-	background: #68dff0;
-	border-radius: 5px 5px 0 0;
+	background: #fff;
 	-webkit-border-radius: 5px 5px 0 0;
-	color: #fff;
+	color: #111;
 	font-size: 20px;
 	text-transform: uppercase;
 	font-weight: 300;
@@ -1991,7 +1938,7 @@ label {
 	background-clip: padding-box;
 	border: 1px solid #999;
 	border: 1px solid rgba(0, 0, 0, .2);
-	border-radius: 5px;
+	max-width: 330px;
 }
 
 
@@ -2089,7 +2036,6 @@ label {
 
 .panel-footer.revenue-foot {
     background-color: #e6e7ec;
-    -webkit-border-radius: 0px 0px 4px 4px;
     border-radius: 0px 0px 4px 4px;
     border: none;
     padding: 0;
@@ -2109,6 +2055,8 @@ label {
     margin: 0;
     padding: 0;
     width: 100%;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
 }
 
@@ -2118,12 +2066,10 @@ label {
 }
 
 .panel-footer.revenue-foot ul li.first a:hover, .panel-footer.revenue-foot ul li.first a {
-    -webkit-border-radius: 0px 0px 0px 4px;
     border-radius: 0px 0px 0px 4px;
 }
 
 .panel-footer.revenue-foot ul li.last a:hover, .panel-footer.revenue-foot ul li.last a {
-    -webkit-border-radius: 0px 0px 4px 0px;
     border-radius: 0px 0px 4px 0px;
     border-right: none;
 
