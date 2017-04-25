@@ -111,7 +111,7 @@ public class DiscordGroups {
 	ArrayList<Long> ids;
 
 	public void readyInit() {
-		client.changePlayingText("^commands");
+		client.streaming("^commands", "discordgroups.weeryan17.tk");
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<Long>();
 		ids.add(215644829969809421L);
