@@ -2,8 +2,10 @@ package com.weeryan17.dgs.commands.admin;
 
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
+import com.weeryan17.dgs.util.PermissionsResponce;
 
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
@@ -56,25 +58,46 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				if(obj instanceof IUser){
 					IUser user = (IUser) obj;
 					if(add){
-						
+						this.addUserPermissions(channel.getGuild(), user, args[3]);
 					} else {
-						
+						this.removeUserPermissions(channel.getGuild(), user, args[3]);
 					}
 				} else {
 					String error = (String) obj;
-					
+					switch(error){
+					case "inavlid":{
+						channel.sendMessage(sender.mention() + " Invalid user");
+						this.sendInvlid(args, channel, sender);
+					}
+					break;
+					case "multiple" :{
+						channel.sendMessage(sender.mention() + " Mutiple users where found with that name");
+						this.sendInvlid(args, channel, sender);
+					}
+					}
 				}
 			} else {
 				Object obj = instance.getMessageUtil().getRoleFromString(args[2], channel);
 				if(obj instanceof IRole){
 					IRole role = (IRole) obj;
 					if(add){
-						
+						this.addRolePermissions(channel.getGuild(), role, args[3]);
 					} else {
-						
+						this.removeRolePermissions(channel.getGuild(), role, args[3]);
 					}
 				} else {
 					String error = (String) obj;
+					switch(error){
+					case "inavlid":{
+						channel.sendMessage(sender.mention() + " Invalid role");
+						this.sendInvlid(args, channel, sender);
+					}
+					break;
+					case "multiple" :{
+						channel.sendMessage(sender.mention() + " Mutiple roles where found with that name");
+						this.sendInvlid(args, channel, sender);
+					}
+					}
 				}
 			}
 		}
@@ -146,5 +169,21 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				channel.setTypingStatus(false);
 			}
 		}
+	}
+	
+	public PermissionsResponce addUserPermissions(IGuild guild, IUser user, String permission){
+		return null;
+	}
+	
+	public PermissionsResponce removeUserPermissions(IGuild guild, IUser user, String permission){
+		return null;
+	}
+	
+	public PermissionsResponce addRolePermissions(IGuild guild, IRole role, String permission){
+		return null;
+	}
+	
+	public PermissionsResponce removeRolePermissions(IGuild guild, IRole role, String permission){
+		return null;
 	}
 }

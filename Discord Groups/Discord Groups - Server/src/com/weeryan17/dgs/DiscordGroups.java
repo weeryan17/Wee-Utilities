@@ -31,6 +31,7 @@ import com.weeryan17.dgs.util.MessageUtil;
 import com.weeryan17.dgs.util.Storage;
 import com.weeryan17.dgs.util.twitter.TwitterUtil;
 import com.weeryan17.dgs.util.voice.VoiceTests;
+import com.weeryan17.dgs.util.web.WebReciver;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -136,13 +137,11 @@ public class DiscordGroups {
 		new Thread() {
 			@Override
 			public void run(){
-				instance.getLogger().log("Updating all the perms!", true);
+				instance.getLogger().log("Creating all the perms!", true);
 				for(IGuild guild: client.getGuilds()){
 					for(IUser user: guild.getUsers()){
 						GuildUser guildUser = GuildUser.getGuildUser(user, guild);
-						instance.getLogger().log("Creating perms for " + user.getName() + "#" + user.getDiscriminator() + ". In the guild " + guild.getName() + " (" + guild.getLongID() + ")", false);
 						new DiscordGroupsPermissions(guildUser);
-						instance.getLogger().log("Updating perms for " + user.getName() + "#" + user.getDiscriminator() + ". In the guild " + guild.getName() + " (" + guild.getLongID() + ")", false);
 						try{
 							DiscordGroupsPermissions.updatePerms(guildUser, instance);
 						} catch (Exception e) {
@@ -150,8 +149,11 @@ public class DiscordGroups {
 						}
 					}
 				}
+				instance.getLogger().log("Done creating perms", true);
 			}
 		}.start();
+		WebReciver website = new WebReciver(this);
+		website.initWeb();
 		cmdMannage = new CommandMannager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
