@@ -1,2 +1,4 @@
 # Discord Groups
-This is the discord website. The website layout and theme was written by @CodeCo#3866 and the rest was done by me.
+This is the `Website` branch for Discord Groups.
+The website layout and theme were made by CodeCo.
+The rest (Server Side, More).
