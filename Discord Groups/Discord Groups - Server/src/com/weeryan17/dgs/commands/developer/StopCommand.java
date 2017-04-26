@@ -19,7 +19,7 @@ public class StopCommand implements DiscordGroupsCommandBase {
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
 		if(ids.contains(sender.getLongID())){
-			instance.getLogger().log("Stoping bot", true);
+			instance.getLogger().log("Stopping bot", true);
 			System.exit(0);
 		}
 	}
