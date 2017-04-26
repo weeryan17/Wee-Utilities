@@ -34,7 +34,7 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 <body>
 	<?php
 	
-if (! isset ( $_COOKIE ['discord_groups'] )) {
+	if (! isset ( $_COOKIE ['discord_groups'] )) {
 		header ( 'Location: https://discordapp.com/oauth2/authorize?client_id=280192562583699458&scope=guilds+identify&response_type=code' );
 	} else {
 		$tolken = $_COOKIE ['discord_groups'];
@@ -42,37 +42,37 @@ if (! isset ( $_COOKIE ['discord_groups'] )) {
 		if ($result ['status'] == "rows") {
 			?>
 		<div id="login-page">
-          <div class="container">
-          
-              <form class="form-login">
-                <h2 class="form-login-heading">Invalid</h2>
-                <div class="login-social-link centered">
-                    <p>You have an invalid login.</p>
-                    <br>
-                    <p>Please re log in.</p>
-                    <hr>
-                    
-                    <div class="login-social-link centered">
-                      <p>Created by weeryan17 &amp; CodeCo</p>
-                      <hr>
-                    </div>
-        
-                </div>        
-              </form>          
-          
-          </div>
-      </div>
+		<div class="container">
+
+			<form class="form-login">
+				<h2 class="form-login-heading">Invalid</h2>
+				<div class="login-social-link centered">
+					<p>You have an invalid login.</p>
+					<br>
+					<p>Please re log in.</p>
+					<hr>
+
+					<div class="login-social-link centered">
+						<p>Created by weeryan17 &amp; CodeCo</p>
+						<hr>
+					</div>
+
+				</div>
+			</form>
+
+		</div>
+	</div>
 			<?php
 		} else if ($result ['status'] == "sucess") {
 			?>
       <!-- ***********************************************
       MAIN CONTENT
       **************************************************** -->
-
+	
 	<div id="login-page">
 		<div class="container">
 
-			<form class="form-login">
+			<form class="form-login" action="../mojang" method="post">
 				<h2 class="form-login-heading">Link Account</h2>
 
 				<div class="login-social-link centered">
@@ -91,14 +91,16 @@ if (! isset ( $_COOKIE ['discord_groups'] )) {
 				</div>
 
 				<div class="login-wrap">
-					<input autocomplete="on" type="email" class="form-control"
-						placeholder="Minecraft Email" autofocus> <br> <input
-						type="password" class="form-control"
-						placeholder="Minecraft Password"> <br>
-					<button class="btn btn-theme btn-block" href="index.html"
-						type="submit">
-						<i class="fa fa-lock"></i> SIGN IN
-					</button>
+						<input autocomplete="on" type="email" class="form-control"
+							placeholder="Minecraft Email" name="email" value="" autofocus>
+							<br> 
+							<input
+							type="password" class="form-control"
+							placeholder="Minecraft Password" name="pass" value=""> 
+							<br>
+						<button class="btn btn-theme btn-block" type="submit">
+							<i class="fa fa-lock"></i> SIGN IN
+						</button>
 
 					<div class="registration">
 						<br> Forgot Minecraft Password? <br /> <a class=""
@@ -135,26 +137,26 @@ if (! isset ( $_COOKIE ['discord_groups'] )) {
 		} else {
 			?>
 			<div id="login-page">
-          <div class="container">
-          
-              <form class="form-login">
-                <h2 class="form-login-heading">Error</h2>
-                <div class="login-social-link centered">
-                    <p>There was an error signing you in.</p>
-                    <br>
-                    <p>Please try again later.</p>
-                    <hr>
-                    
-                    <div class="login-social-link centered">
-                      <p>Created by weeryan17 &amp; CodeCo</p>
-                      <hr>
-                    </div>
-        
-                </div>        
-              </form>          
-          
-          </div>
-      </div>
+		<div class="container">
+
+			<form class="form-login">
+				<h2 class="form-login-heading">Error</h2>
+				<div class="login-social-link centered">
+					<p>There was an error signing you in.</p>
+					<br>
+					<p>Please try again later.</p>
+					<hr>
+
+					<div class="login-social-link centered">
+						<p>Created by weeryan17 &amp; CodeCo</p>
+						<hr>
+					</div>
+
+				</div>
+			</form>
+
+		</div>
+	</div>
 			<?php
 		}
 	}
