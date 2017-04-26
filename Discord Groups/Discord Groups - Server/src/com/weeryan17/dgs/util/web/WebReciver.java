@@ -2,6 +2,9 @@ package com.weeryan17.dgs.util.web;
 
 import static spark.Spark.*;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import com.weeryan17.dgs.DiscordGroups;
@@ -43,6 +46,16 @@ public class WebReciver {
 	
 	public void storeToSheet(String uuid, String id){
 		Sheet sheet = instance.getStorage().getPlayerSheet();
-		
+		for(Row row : sheet){
+			Cell cell = row.getCell(row.getFirstCellNum());
+			if(cell.getCellTypeEnum().equals(CellType.BLANK)){
+				int col = cell.getColumnIndex();
+				cell.setCellValue(uuid);
+				Cell cellId = row.getCell(col + 1);
+				cellId.setCellValue(id);
+				instance.getStorage().saveDataWorkbook(sheet.getWorkbook());
+				return;
+			}
+		}
 	}
 }
