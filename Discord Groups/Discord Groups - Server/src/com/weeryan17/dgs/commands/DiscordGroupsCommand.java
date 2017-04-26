@@ -23,18 +23,18 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			builder.withTitle("**Discord Groups**");
 			builder.appendDesc("```Markdown\nA bot made by weeryan17 for linking groups to Discord```");
 			builder.appendField("\u200B", "\u200B", false);
-			builder.appendField("Website", "[link](https://discordgroups.weeryan17.tk/)", true);
-			builder.appendField("Dashboard (Part of site)", "[link](https://discordgroups.weeryan17.tk/dashboard/)", true);
-			builder.appendField("Wiki", "[link](https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki)", true);
-			builder.appendField("Source code", "[link](https://github.com/weeryan17/Wee-Utilities/tree/discord-groups)",
+			builder.appendField("Website", "[Link](https://discordgroups.weeryan17.tk/)", true);
+			builder.appendField("Dashboard", "[Link](https://discordgroups.weeryan17.tk/dashboard/)", true);
+			builder.appendField("Wiki", "[Link](https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki)", true);
+			builder.appendField("Source Code", "[Link](https://github.com/weeryan17/Wee-Utilities/tree/discord-groups)",
 					true);
-			builder.appendField("Twitter", "[link](https://twitter.com/DiscordGroups)", true);
-			builder.appendField("Support Discord", "[link](https://discord.gg/GkxJhFq)", true);
+			builder.appendField("Twitter", "[Link](https://twitter.com/DiscordGroups)", true);
+			builder.appendField("Support Discord", "[Link](https://discord.gg/GkxJhFq)", true);
 			builder.appendField("\u200B", "\u200B", false);
-			builder.appendField("QnA",
+			builder.appendField("Questions and Answers",
 					"```> I want to help!\nSubmit feature requests in the Support Discord.```\n\n"
 							+ "```> I need help setting this up!\nHelp can be recieved at the Support Discord.```\n\n"
-							+ "```> Who is it by?\nThe main plugin and server work was by weeryan17 and the dashboard was by CodeCo.```",
+							+ "```> Who is it by?\nThe main plugin and server work was by weeryan17 and the dashboard and graphical was by CodeCo.```",
 					true);
 			EmbedObject embed = builder.build();
 			channel.sendMessage(embed);
