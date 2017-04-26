@@ -1,21 +1,22 @@
 <?php
 class JavaApi {
-	public static function postToJava($json){
-		$url = 'localhost:4000/java';
+	public static function postToJava($fields){
+		$url = 'http://localhost:8111/java';
 		
-		$options = array(
-				'http' => array(
-						'header'  => "Content-type: application/json\r\n",
-						'method'  => 'POST',
-						'content' => $json
-				)
-		);
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+		rtrim($fields_string, '&');
 		
-		$context = stream_context_create($options);
-		$result = file_get_contents($url, false, $context);
-		if ($result === FALSE) { return; }
+		$ch = curl_init();
 		
-		var_dump($result);
+		curl_setopt($ch,CURLOPT_URL, $url);
+		curl_setopt($ch,CURLOPT_POST, count($fields));
+		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+		
+		$result = curl_exec($ch);
+		
+		curl_close($ch);
+		
+		return ($result);
 	}
 }
 ?>

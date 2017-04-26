@@ -13,7 +13,7 @@ if (! class_exists ( "DiscordAuth" )) {
 		/**
 		 * Returns the whole array retrieved from Discord API (refresh token, TTL, etc.)
 		 *
-		 * @param Code $code        	
+		 * @param Code $code
 		 * @throws UnauthorizedException
 		 */
 		public static function getAuthorization($code) {
