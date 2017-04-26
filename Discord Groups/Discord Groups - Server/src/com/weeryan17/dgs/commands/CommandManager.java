@@ -5,11 +5,11 @@ import java.util.HashMap;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IUser;
 
-public class CommandMannager {
+public class CommandManager {
 
 	static HashMap<String, DiscordGroupsCommandBase> commands;
 
-	public CommandMannager() {
+	public CommandManager() {
 		commands = new HashMap<String, DiscordGroupsCommandBase>();
 	}
 

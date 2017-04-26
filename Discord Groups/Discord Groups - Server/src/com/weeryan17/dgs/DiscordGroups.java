@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
 import com.patreon.API;
-import com.weeryan17.dgs.commands.CommandMannager;
+import com.weeryan17.dgs.commands.CommandManager;
 import com.weeryan17.dgs.commands.CommandsCommand;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.admin.GenerateCommand;
@@ -103,7 +103,7 @@ public class DiscordGroups {
 
 	String secret = "";
 
-	CommandMannager cmdMannage;
+	CommandManager cmdMannage;
 
 	Storage storage;
 
@@ -154,7 +154,7 @@ public class DiscordGroups {
 		}.start();
 		WebReciver website = new WebReciver(this);
 		website.initWeb();
-		cmdMannage = new CommandMannager();
+		cmdMannage = new CommandManager();
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
 		cmdMannage.registerCommand("commands", new CommandsCommand(this));
@@ -194,7 +194,7 @@ public class DiscordGroups {
 		return logger;
 	}
 
-	public CommandMannager getCommandMannager() {
+	public CommandManager getCommandMannager() {
 		return cmdMannage;
 	}
 
