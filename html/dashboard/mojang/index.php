@@ -27,6 +27,7 @@ if (! isset ( $_COOKIE ["discord_groups"] )) {
 	} else {
 		$discordId = $userResult ['result'] ['id'];
 		$mojangTolken = $user ['tolken'];
+		echo("Tolken: ".$mojangTolken."<br>");
 		$id = $user ['id'];
 		$sql = "INSERT INTO mojang_table" . "(id, mojangTolken, mojangId)" . "VALUES (?, ?, ?)";
 		$stmt = $conn->prepare($sql);

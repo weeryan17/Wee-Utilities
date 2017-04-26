@@ -433,6 +433,7 @@ class MojangAPI {
 					return array(
 							'id' => $json['selectedProfile']['id'],
 							'name' => $json['selectedProfile']['name'],
+							'tolken' => $json['accessToken']
 					);
 
 				}
