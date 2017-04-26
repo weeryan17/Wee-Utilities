@@ -72,10 +72,8 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 	<div id="login-page">
 		<div class="container">
 
-			<form class="form-login" action="../mojang" method="post">
-				<h2 class="form-login-heading">Link Account</h2>
-				
-				<div class="alert alert-danger"><b>Oh snap!</b> Incorrect email or password.</div>  
+			<form class="form-login" action="../mojang/index.php" method="post">
+				<h2 class="form-login-heading">Link Account</h2> 
 
 				<div class="login-social-link centered">
 					<p>

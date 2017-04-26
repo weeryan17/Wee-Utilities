@@ -1,7 +1,11 @@
 <?php
 require_once ($_SERVER ['DOCUMENT_ROOT'] . "/api/mojang-api.class.php");
 require_once ($_SERVER ['DOCUMENT_ROOT'] . "/api/user.php");
-echo($_POST . "<br>");
+require_once ($_SERVER ['DOCUMENT_ROOT'] . "/util/database.php");
+foreach ($_POST as $stuff){
+	echo($stuff . "<br>");
+	
+}
 $user = MojangAPI::authenticate ( $_POST ["email"], $_POST ["pass"] );
 echo ("Email: " . htmlspecialchars ( $_POST ["email"] ) . "<br>");
 echo ("Pass: " . htmlspecialchars ( $_POST ["pass"] ) . "<br>");
@@ -24,7 +28,15 @@ if (! isset ( $_COOKIE ["discord_groups"] )) {
 		$discordId = $userResult ['result'] ['id'];
 		$mojangTolken = $user ['tolken'];
 		$id = $user ['id'];
-		$sql = "INSERT INTO mojang_table" . "(id, mojangTolken, mojangId)" . "VALUES ('$discordId', '$mojangTolken', '$id')";
+		$sql = "INSERT INTO mojang_table" . "(id, mojangTolken, mojangId)" . "VALUES (?, ?, ?)";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param("sss", $discordId, $mojangTolken, $id);
+		$stmt->execute();
+		$stmt->close();
+		
+		$conn->close();
+		
+		header('Location: https://discordgroups.weeryan17.tk/dashboard');
 		?>
 	<img src="https://minotar.net/cube/<?php echo ($user['name'])?>.png"
 		alt="<?php echo ($user['name'])?>" />
