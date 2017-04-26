@@ -20,14 +20,14 @@ public class CommandsCommand implements DiscordGroupsCommandBase {
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.appendField("General",
 					"dg - Gives you info on the bot." + '\n'
-							+ "dg stats - gives you info on the bots cpu usage and such." + '\n'
+							+ "dg stats - Gives you infomation on the Bot's resources." + '\n'
 							+ "commands - Gives you this message.",
 					false);
-			builder.appendField("Admin", "generate key - Generates an id for your guild. Do this in a private channel"
-					+ '\n' + "permissions - the permissions menu.", false);
+			builder.appendField("Admin", "generate key - Generates an ID for your Guild. Do this in a private channel"
+					+ '\n' + "permissions - The permissions menu.", false);
 			channel.sendMessage(builder.build());
 		} else {
-			channel.sendMessage(sender.mention() + " this command has no args.");
+			channel.sendMessage(sender.mention() + " This command has no args.");
 		}
 	}
 
