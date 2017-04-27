@@ -68,12 +68,12 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
       <!-- ***********************************************
       MAIN CONTENT
       **************************************************** -->
-	
+
 	<div id="login-page">
 		<div class="container">
 
 			<form class="form-login" action="../mojang/index.php" method="post">
-				<h2 class="form-login-heading">Link Account</h2> 
+				<h2 class="form-login-heading">Link Account</h2>
 
 				<div class="login-social-link centered">
 					<p>
@@ -84,14 +84,22 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 						class="fa fa-cogs"></em> LOG OUT</a>
 				</div>
 				<hr>
-				<?php 
-				$mojang = UserApi::getMinecraft($result['result']['id']);
-				
-				if($mojang['status'] == "sucess"){
+				<?php
+			$mojang = UserApi::getMinecraft ( $result ['result'] ['id'] );
+			
+			if ($mojang ['status'] == "sucess") {
+				?>
+					<img class="centered" alt="avatar"
+					src="https://visage.surgeplay.com/full/<?php echo($mojang['result']['uuid']);?>.png">
+					<?php
+			} else {
+				if (isset ( $_GET ['invalid'] )) {
 					?>
-					<img class="centered" alt="avatar" src="https://visage.surgeplay.com/full/<?php echo($mojang['result']['uuid']);?>.png">
-					<?php 
-				} else {
+					<div class="alert alert-danger">
+					<b>Oh snap!</b> Incorrect email or password.
+				</div>
+					<?php
+				}
 				?>
 				<div class="login-social-link centered">
 					<p>Link your Minecraft account with Discord!</p>
@@ -99,16 +107,13 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 				</div>
 
 				<div class="login-wrap">
-						<input autocomplete="on" type="email" class="form-control"
-							placeholder="Minecraft Email" name="email" value="" autofocus>
-							<br> 
-							<input
-							type="password" class="form-control"
-							placeholder="Minecraft Password" name="pass" value=""> 
-							<br>
-						<button class="btn btn-theme btn-block" type="submit">
-							<i class="fa fa-lock"></i> SIGN IN
-						</button>
+					<input autocomplete="on" type="email" class="form-control"
+						placeholder="Minecraft Email" name="email" value="" autofocus> <br>
+					<input type="password" class="form-control"
+						placeholder="Minecraft Password" name="pass" value=""> <br>
+					<button class="btn btn-theme btn-block" type="submit">
+						<i class="fa fa-lock"></i> SIGN IN
+					</button>
 
 					<div class="registration">
 						<br> Forgot Minecraft Password? <br /> <a class=""
@@ -119,9 +124,9 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 				</div>
 
 				<hr>
-				<?php 
-				}
-				?>
+				<?php
+			}
+			?>
 
 				<div class="login-social-link centered">
 					<p>Created by weeryan17 & CodeCo</p>

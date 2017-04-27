@@ -8,7 +8,7 @@ foreach ( $_POST as $stuff ) {
 }
 $user = MojangAPI::authenticate ( $_POST ["email"], $_POST ["pass"] );
 if ($user == false) {
-	
+	header ( 'Location: https://discordgroups.weeryan17.tk/dashboard/link/?invalid=true' );
 } else {
 	echo ("Email: " . htmlspecialchars ( $_POST ["email"] ) . "<br>");
 	echo ("Pass: " . htmlspecialchars ( $_POST ["pass"] ) . "<br>");
@@ -30,35 +30,39 @@ if ($user == false) {
 		} else {
 			$discordId = $userResult ['result'] ['id'];
 			$mojangTolken = $user ['tolken'];
-			echo ("Tolken: " . $mojangTolken . "<br>");
-			$id = $user ['id'];
-			$sql = "INSERT INTO mojang_table" . "(id, mojangTolken, mojangId)" . "VALUES (?, ?, ?)";
-			$stmt = $conn->prepare ( $sql );
-			$stmt->bind_param ( "sss", $discordId, $mojangTolken, $id );
-			$stmt->execute ();
-			$stmt->close ();
-			
-			$conn->close ();
-			
-			$array = array (
-					'mojang' => $id,
-					'discord' => $discordId 
-			);
-			
-			JavaApi::postToJava ( $array );
-			
-			header ( 'Location: https://discordgroups.weeryan17.tk/dashboard' );
-			?>
+			if ($mojangTolken == null) {
+				header ( 'Location: https://discordgroups.weeryan17.tk/dashboard/link/?invalid=true' );
+			} else {
+				echo ("Tolken: " . $mojangTolken . "<br>");
+				$id = $user ['id'];
+				$sql = "INSERT INTO mojang_table" . "(id, mojangTolken, mojangId)" . "VALUES (?, ?, ?)";
+				$stmt = $conn->prepare ( $sql );
+				$stmt->bind_param ( "sss", $discordId, $mojangTolken, $id );
+				$stmt->execute ();
+				$stmt->close ();
+				
+				$conn->close ();
+				
+				$array = array (
+						'mojang' => $id,
+						'discord' => $discordId 
+				);
+				
+				JavaApi::postToJava ( $array );
+				
+				header ( 'Location: https://discordgroups.weeryan17.tk/dashboard' );
+				?>
 	<img src="https://minotar.net/cube/<?php echo ($user['name'])?>.png"
 		alt="<?php echo ($user['name'])?>" />
 	<br>
 	<?php
-			echo ("Name: " . $user ['name']);
-			?>
+				echo ("Name: " . $user ['name']);
+				?>
 	<br>
 	<?php echo ("ID: " . $user['id'])?>
 	
 <?php
+			}
 		}
 	}
 }
