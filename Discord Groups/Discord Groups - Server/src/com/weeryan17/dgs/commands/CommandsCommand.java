@@ -17,6 +17,7 @@ public class CommandsCommand implements DiscordGroupsCommandBase {
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
 		if (args.length == 0) {
+			channel.setTypingStatus(true);
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.appendField("General",
 					"dg - Gives you info on the bot." + '\n'
@@ -26,8 +27,11 @@ public class CommandsCommand implements DiscordGroupsCommandBase {
 			builder.appendField("Admin", "generate key - Generates an ID for your Guild. Do this in a private channel"
 					+ '\n' + "permissions - The permissions menu.", false);
 			channel.sendMessage(builder.build());
+			channel.setTypingStatus(false);
 		} else {
+			channel.setTypingStatus(true);
 			channel.sendMessage(sender.mention() + " This command has no args.");
+			channel.setTypingStatus(false);
 		}
 	}
 

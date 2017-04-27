@@ -2,6 +2,8 @@ package com.weeryan17.dgs.util.web;
 
 import static spark.Spark.*;
 
+import java.util.ArrayList;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -39,23 +41,29 @@ public class WebReciver {
 					}
 				}
 			}
-			this.storeToSheet(uuid, id);
+			this.storeToSheet(uuid, Long.valueOf(id));
 			return "Test";
 		});
 	}
 	
-	public void storeToSheet(String uuid, String id){
-		Sheet sheet = instance.getStorage().getPlayerSheet();
-		for(Row row : sheet){
-			Cell cell = row.getCell(row.getFirstCellNum());
-			if(cell.getCellTypeEnum().equals(CellType.BLANK)){
-				int col = cell.getColumnIndex();
-				cell.setCellValue(uuid);
-				Cell cellId = row.getCell(col + 1);
-				cellId.setCellValue(id);
-				instance.getStorage().saveDataWorkbook(sheet.getWorkbook());
-				return;
+	public void storeToSheet(String uuid, Long id){
+		Sheet keysSheet = instance.getStorage().getPlayerSheet();
+		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
+		ArrayList<String> keys = new ArrayList<String>();
+		for (Cell cell : keysRow) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+				keys.add(cell.getStringCellValue());
 			}
+		}
+		String key = uuid;
+		if (!keys.contains(key)) {
+			Cell cell = keysRow.createCell(keysRow.getPhysicalNumberOfCells() + 1);
+			cell.setCellValue(key);
+			Row idRow = keysSheet.getRow(keysSheet.getFirstRowNum() + 1);
+			idRow.createCell(cell.getColumnIndex()).setCellValue(String.valueOf(id));
+			instance.getStorage().saveDataWorkbook(keysSheet.getWorkbook());
+		} else {
+			
 		}
 	}
 }

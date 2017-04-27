@@ -345,7 +345,7 @@ public class Storage {
 					int column = cell.getColumnIndex();
 					Row discord = users.getRow(users.getFirstRowNum() + 1);
 					Cell userIDCell = discord.getCell(column);
-					discordID = (long) userIDCell.getNumericCellValue();
+					discordID = Long.parseLong(userIDCell.getStringCellValue());
 				}
 			}
 		}
@@ -357,7 +357,7 @@ public class Storage {
 		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
 		ArrayList<String> keys = new ArrayList<String>();
 		for (Cell cell : keysRow) {
-			if (cell.getCellTypeEnum().equals(CellType.NUMERIC)) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				keys.add(cell.getStringCellValue());
 			}
 		}
@@ -366,7 +366,7 @@ public class Storage {
 			Cell cell = keysRow.createCell(keysRow.getPhysicalNumberOfCells() + 1);
 			cell.setCellValue(key);
 			Row idRow = keysSheet.getRow(keysSheet.getFirstRowNum() + 1);
-			idRow.createCell(cell.getColumnIndex()).setCellValue(guildID);
+			idRow.createCell(cell.getColumnIndex()).setCellValue(String.valueOf(guildID));
 			this.saveDataWorkbook(keysSheet.getWorkbook());
 			return key;
 		} else {
@@ -409,7 +409,7 @@ public class Storage {
 			Cell cell = guilds.getCell(colum);
 			Long guildId = 0L;
 			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
-				guildId = (long) cell.getNumericCellValue();
+				guildId = Long.parseLong(cell.getStringCellValue());
 			}
 			return guildId;
 		} else {
