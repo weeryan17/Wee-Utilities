@@ -84,7 +84,15 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 						class="fa fa-cogs"></em> LOG OUT</a>
 				</div>
 				<hr>
-
+				<?php 
+				$mojang = UserApi::getMinecraft($result['result']['id']);
+				
+				if($mojang['status'] == "sucess"){
+					?>
+					<img class="centered" alt="avatar" src="https://visage.surgeplay.com/full/<?php echo($mojang['result']['uuid']);?>.png">
+					<?php 
+				} else {
+				?>
 				<div class="login-social-link centered">
 					<p>Link your Minecraft account with Discord!</p>
 					<p>Your password is not stored.</p>
@@ -111,6 +119,9 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 				</div>
 
 				<hr>
+				<?php 
+				}
+				?>
 
 				<div class="login-social-link centered">
 					<p>Created by weeryan17 & CodeCo</p>
