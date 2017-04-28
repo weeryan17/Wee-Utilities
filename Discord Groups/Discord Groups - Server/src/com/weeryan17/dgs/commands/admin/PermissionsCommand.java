@@ -207,14 +207,18 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 		} else {
 			instance.getLogger().log("User wasn't found.", false);
-			Cell cell = firstRow.createCell(firstRow.getPhysicalNumberOfCells() + 1);
-			cell.setCellValue(String.valueOf(user.getLongID()));
-			column = cell.getColumnIndex();
-			Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
-			Cell cells = row.createCell(column);
-			cells.setCellValue(permission);
-			instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
-			return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
+			for(Cell cell: firstRow){
+				if(cell.getCellTypeEnum().equals(CellType._NONE)){
+					instance.getLogger().log("Empty cell found", false);
+					cell.setCellValue(String.valueOf(user.getLongID()));
+					column = cell.getColumnIndex();
+					Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
+					Cell cells = row.getCell(column);
+					cells.setCellValue(permission);
+					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+					return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
+				}
+			}
 		}
 		return new PermissionsResponce(false, "unknow");
 	}
