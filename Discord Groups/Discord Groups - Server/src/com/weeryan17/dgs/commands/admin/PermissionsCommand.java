@@ -1,5 +1,10 @@
 package com.weeryan17.dgs.commands.admin;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
 import com.weeryan17.dgs.util.PermissionsResponce;
@@ -58,7 +63,12 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				if(obj instanceof IUser){
 					IUser user = (IUser) obj;
 					if(add){
-						this.addUserPermissions(channel.getGuild(), user, args[3]);
+						PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
+						if(responce.getSucesfull()){
+							channel.sendMessage(sender.mention() + responce.getMessage() + ".");
+						} else {
+							channel.sendMessage(sender.mention() + " an unknow error ocured. Please report this to the developers.");
+						}
 					} else {
 						this.removeUserPermissions(channel.getGuild(), user, args[3]);
 					}
@@ -172,7 +182,44 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 	}
 	
 	public PermissionsResponce addUserPermissions(IGuild guild, IUser user, String permission){
-		return null;
+		Sheet sheet = instance.getStorage().getGuildUserSheet(guild.getLongID());
+		Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+		int column = -1;
+		for(Cell cell: firstRow){
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				String stringId = cell.getStringCellValue();
+				Long id = Long.parseLong(stringId);
+				if(user.getLongID() == id){
+					column = cell.getColumnIndex();
+				}
+			}
+		}
+		if(column != -1){
+			for(Row row: sheet){
+				Cell cell = row.getCell(column);
+				if(cell.getCellTypeEnum().equals(CellType.BLANK)){
+					cell.setCellValue(permission);
+					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+					return new PermissionsResponce(true, "permission `" + permission + "` added without error");
+				}
+			}
+		} else {
+			for(Cell cell: firstRow){
+				if(cell.getCellTypeEnum().equals(CellType.BLANK)){
+					cell.setCellValue(String.valueOf(user.getLongID()));
+					column = cell.getColumnIndex();
+					for(Row row: sheet){
+						Cell cells = row.getCell(column);
+						if(cells.getCellTypeEnum().equals(CellType.BLANK)){
+							cells.setCellValue(permission);
+							instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+							return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
+						}
+					}
+				}
+			}
+		}
+		return new PermissionsResponce(false, "unknow");
 	}
 	
 	public PermissionsResponce removeUserPermissions(IGuild guild, IUser user, String permission){
