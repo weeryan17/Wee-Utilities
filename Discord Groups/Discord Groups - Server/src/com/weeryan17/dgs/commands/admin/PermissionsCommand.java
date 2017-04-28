@@ -29,58 +29,59 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			this.sendInvlid(args, channel, sender);
 		} else {
 			boolean add;
-			switch(args[0].toLowerCase()){
-			case "add" :{
+			switch (args[0].toLowerCase()) {
+			case "add": {
 				add = true;
 			}
-			break;
-			case "remove" :{
+				break;
+			case "remove": {
 				add = false;
 			}
-			break;
-			default :{
+				break;
+			default: {
 				this.sendInvlid(args, channel, sender);
 				return;
 			}
 			}
 			boolean isuser;
-			switch(args[1]){
-			case "user" :{
+			switch (args[1]) {
+			case "user": {
 				isuser = true;
 			}
-			break;
-			case "group" :{
+				break;
+			case "group": {
 				isuser = false;
 			}
-			break;
-			default :{
+				break;
+			default: {
 				this.sendInvlid(args, channel, sender);
 				return;
 			}
 			}
-			if(isuser){
+			if (isuser) {
 				Object obj = instance.getMessageUtil().getUserFromString(args[2], channel);
-				if(obj instanceof IUser){
+				if (obj instanceof IUser) {
 					IUser user = (IUser) obj;
-					if(add){
+					if (add) {
 						PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
-						if(responce.getSucesfull()){
+						if (responce.getSucesfull()) {
 							channel.sendMessage(sender.mention() + responce.getMessage() + ".");
 						} else {
-							channel.sendMessage(sender.mention() + " an unknow error ocured. Please report this to the developers.");
+							channel.sendMessage(sender.mention()
+									+ " an unknow error ocured. Please report this to the developers.");
 						}
 					} else {
 						this.removeUserPermissions(channel.getGuild(), user, args[3]);
 					}
 				} else {
 					String error = (String) obj;
-					switch(error){
-					case "inavlid":{
+					switch (error) {
+					case "inavlid": {
 						channel.sendMessage(sender.mention() + " Invalid user");
 						this.sendInvlid(args, channel, sender);
 					}
-					break;
-					case "multiple" :{
+						break;
+					case "multiple": {
 						channel.sendMessage(sender.mention() + " Mutiple users where found with that name");
 						this.sendInvlid(args, channel, sender);
 					}
@@ -88,22 +89,22 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				}
 			} else {
 				Object obj = instance.getMessageUtil().getRoleFromString(args[2], channel);
-				if(obj instanceof IRole){
+				if (obj instanceof IRole) {
 					IRole role = (IRole) obj;
-					if(add){
+					if (add) {
 						this.addRolePermissions(channel.getGuild(), role, args[3]);
 					} else {
 						this.removeRolePermissions(channel.getGuild(), role, args[3]);
 					}
 				} else {
 					String error = (String) obj;
-					switch(error){
-					case "inavlid":{
+					switch (error) {
+					case "inavlid": {
 						channel.sendMessage(sender.mention() + " Invalid role");
 						this.sendInvlid(args, channel, sender);
 					}
-					break;
-					case "multiple" :{
+						break;
+					case "multiple": {
 						channel.sendMessage(sender.mention() + " Mutiple roles where found with that name");
 						this.sendInvlid(args, channel, sender);
 					}
@@ -180,57 +181,53 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 		}
 	}
-	
-	public PermissionsResponce addUserPermissions(IGuild guild, IUser user, String permission){
+
+	public PermissionsResponce addUserPermissions(IGuild guild, IUser user, String permission) {
 		Sheet sheet = instance.getStorage().getGuildUserSheet(guild.getLongID());
 		Row firstRow = sheet.getRow(sheet.getFirstRowNum());
 		int column = -1;
-		for(Cell cell: firstRow){
-			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+		for (Cell cell : firstRow) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 				String stringId = cell.getStringCellValue();
 				Long id = Long.parseLong(stringId);
-				if(user.getLongID() == id){
+				if (user.getLongID() == id) {
 					column = cell.getColumnIndex();
 				}
 			}
 		}
-		if(column != -1){
-			for(Row row: sheet){
+		if (column != -1) {
+			instance.getLogger().log("User was found.", false);
+			for (Row row : sheet) {
 				Cell cell = row.getCell(column);
-				if(cell.getCellTypeEnum().equals(CellType.BLANK)){
+				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
 					cell.setCellValue(permission);
 					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
 					return new PermissionsResponce(true, "permission `" + permission + "` added without error");
 				}
 			}
 		} else {
-			for(Cell cell: firstRow){
-				if(cell.getCellTypeEnum().equals(CellType.BLANK)){
-					cell.setCellValue(String.valueOf(user.getLongID()));
-					column = cell.getColumnIndex();
-					for(Row row: sheet){
-						Cell cells = row.getCell(column);
-						if(cells.getCellTypeEnum().equals(CellType.BLANK)){
-							cells.setCellValue(permission);
-							instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
-							return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
-						}
-					}
-				}
-			}
+			instance.getLogger().log("User wasn't found.", false);
+			Cell cell = firstRow.createCell(firstRow.getPhysicalNumberOfCells() + 1);
+			cell.setCellValue(String.valueOf(user.getLongID()));
+			column = cell.getColumnIndex();
+			Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
+			Cell cells = row.createCell(column);
+			cells.setCellValue(permission);
+			instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+			return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
 		}
 		return new PermissionsResponce(false, "unknow");
 	}
-	
-	public PermissionsResponce removeUserPermissions(IGuild guild, IUser user, String permission){
+
+	public PermissionsResponce removeUserPermissions(IGuild guild, IUser user, String permission) {
 		return null;
 	}
-	
-	public PermissionsResponce addRolePermissions(IGuild guild, IRole role, String permission){
+
+	public PermissionsResponce addRolePermissions(IGuild guild, IRole role, String permission) {
 		return null;
 	}
-	
-	public PermissionsResponce removeRolePermissions(IGuild guild, IRole role, String permission){
+
+	public PermissionsResponce removeRolePermissions(IGuild guild, IRole role, String permission) {
 		return null;
 	}
 }
