@@ -114,7 +114,7 @@ public class DiscordGroups {
 	ArrayList<Long> ids;
 
 	public void readyInit() {
-		client.streaming("^commands", "discordgroups.weeryan17.tk");
+		client.streaming("Permmissions initlizing", "discordgroups.weeryan17.tk");
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<Long>();
 		ids.add(215644829969809421L);
@@ -154,6 +154,7 @@ public class DiscordGroups {
 				}
 				instance.getLogger().log("Done creating perms", true);
 				permsReady = true;
+				client.streaming("^commands", "discordgroups.weeryan17.tk");
 			}
 		}.start();
 		WebReciver website = new WebReciver(this);

@@ -301,6 +301,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					if(perm.equals(permission)){
 						permCell.setCellValue("");
 						permCell.setCellType(CellType.BLANK);
+						instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
 						return new PermissionsResponce(true, "sucess");
 					}
 				}
