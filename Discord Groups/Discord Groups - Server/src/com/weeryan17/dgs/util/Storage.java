@@ -164,12 +164,12 @@ public class Storage {
 			if (sheetExists) {
 				return sheet;
 			} else {
-				instance.getLogger().log("Guild sheet wasn't found for guild " + l + ". Going to try an make it.",
+				instance.getLogger().log("Guild user sheet wasn't found for guild " + l + ". Going to try an make it.",
 						Level.WARNING, false);
 				sheet = wb.createSheet(l + " - Users");
 				for(int i = 0; i <= 50; i++){
 					Row row = sheet.createRow(i);//Populate rows
-					for(int i2 = 0; i <= 1000; i++){
+					for(int i2 = 0; i2 <= 500; i2++){
 						row.createCell(i2);
 					}
 				}
@@ -209,13 +209,12 @@ public class Storage {
 			if (sheetExists) {
 				return sheet;
 			} else {
-				instance.getLogger().log("Guild sheet wasn't found for guild " + l + ". Going to try an make it.",
+				instance.getLogger().log("Guild role sheet wasn't found for guild " + l + ". Going to try an make it.",
 						Level.WARNING, false);
 				sheet = wb.createSheet(l + " - Roles");
 				for(int i = 0; i <= 50; i++){
-					instance.getLogger().log("Creating Row!", false);
 					Row row = sheet.createRow(i);//Populate rows
-					for(int i2 = 0; i <= 1000; i++){
+					for(int i2 = 0; i2 <= 500; i2++){
 						row.createCell(i2);
 					}
 				}

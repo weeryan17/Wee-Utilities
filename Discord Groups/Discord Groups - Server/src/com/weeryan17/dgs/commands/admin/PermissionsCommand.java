@@ -159,7 +159,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					break;
 				default: {
 					String addString = add ? "add" : "remove";
-					builder.appendField("Usage", "```^permissions" + addString + "<user/group> <Id> <permission>```",
+					builder.appendField("Usage", "```^permissions " + addString + " <user/group> <Id> <permission>```",
 							false);
 					channel.sendMessage(builder.build());
 					channel.setTypingStatus(false);
@@ -168,13 +168,13 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				}
 				String addString = add ? "add" : "remove";
 				String isUser = user ? "user" : "group";
-				builder.appendField("Usage", "```^permissions" + addString + " " + isUser + " <Id> <permission>```",
+				builder.appendField("Usage", "```^permissions " + addString + " " + isUser + " <Id> <permission>```",
 						false);
 				channel.sendMessage(builder.build());
 				channel.setTypingStatus(false);
 			} else {
 				String addString = add ? "add" : "remove";
-				builder.appendField("Usage", "```^permissions" + addString + "<user/group> <Id> <permission>```",
+				builder.appendField("Usage", "```^permissions " + addString + " <user/group> <Id> <permission>```",
 						false);
 				channel.sendMessage(builder.build());
 				channel.setTypingStatus(false);
