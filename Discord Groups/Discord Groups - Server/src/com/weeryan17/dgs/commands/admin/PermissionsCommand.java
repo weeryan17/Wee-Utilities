@@ -84,7 +84,15 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 							if (responce.getSucesfull()) {
 								this.sendSucessfulUser(false, args[3], channel, user, sender);
 							} else {
-								
+								switch(responce.getMessage()){
+								case "non-existant-user":{
+									channel.sendMessage(sender.mention() + " that user doesn't have any perms to remove");
+								}
+								break;
+								case "non-existant-perm":{
+									channel.sendMessage(sender.mention() + " that user doesn't have the perm `" + args[3] + "`");
+								}
+								}
 								channel.setTypingStatus(false);
 							}
 						}
@@ -249,7 +257,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
 					cell.setCellValue(permission);
 					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
-					return new PermissionsResponce(true, "permission `" + permission + "` added without error");
+					return new PermissionsResponce(true, "sucess");
 				}
 			}
 		} else {
@@ -257,38 +265,48 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			for (Cell cell : firstRow) {
 				instance.getLogger().log("Cell type: " + cell.getCellTypeEnum().toString(), false);
 				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
-					instance.getLogger().log("Empty cell found", false);
 					cell.setCellValue(String.valueOf(user.getLongID()));
-					instance.getLogger().log("User added", false);
 					column = cell.getColumnIndex();
-					instance.getLogger().log("Row count: " + sheet.getLastRowNum(), false);
-					instance.getLogger().log("Getting 2nd row", false);
-					Row row;
-					if (sheet.getLastRowNum() == sheet.getFirstRowNum()) {
-						instance.getLogger().log("Only 1 row found creating more", false);
-						row = sheet.createRow(sheet.getFirstRowNum() + 1);
-						for (int i = 0; i <= 1000; i++) {
-							row.createCell(i);
-						}
-					} else {
-						row = sheet.getRow(sheet.getFirstRowNum() + 1);
-					}
-					instance.getLogger().log("Row: " + row.toString(), false);
+					Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
 					Cell cells = row.getCell(column);
 					cells.setCellValue(permission);
-					instance.getLogger().log("Permission added", false);
-					instance.getLogger().log("Saving stuffs", false);
 					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
-					instance.getLogger().log("Done saving stuffs", false);
-					return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
+					return new PermissionsResponce(true, "sucess");
 				}
 			}
 		}
-		return new PermissionsResponce(false, "unknow");
+		return new PermissionsResponce(false, "unknown");
 	}
 
 	public PermissionsResponce removeUserPermissions(IGuild guild, IUser user, String permission) {
-		return null;
+		Sheet sheet = instance.getStorage().getGuildUserSheet(guild.getLongID());
+		Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+		int column = -1;
+		for (Cell cell : firstRow) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+				String stringId = cell.getStringCellValue();
+				Long id = Long.parseLong(stringId);
+				if (user.getLongID() == id) {
+					column = cell.getColumnIndex();
+				}
+			}
+		}
+		if(column == -1){
+			return new PermissionsResponce(false, "non-existant-user");
+		} else {
+			for(Row row: sheet){
+				Cell permCell = row.getCell(column);
+				if(permCell.getCellTypeEnum().equals(CellType.STRING)){
+					String perm = permCell.getStringCellValue();
+					if(perm.equals(permission)){
+						permCell.setCellValue("");
+						permCell.setCellType(CellType.BLANK);
+						return new PermissionsResponce(true, "sucess");
+					}
+				}
+			}
+			return new PermissionsResponce(false, "non-existant-perm");
+		}
 	}
 
 	public PermissionsResponce addRolePermissions(IGuild guild, IRole role, String permission) {
