@@ -213,6 +213,7 @@ public class Storage {
 						Level.WARNING, false);
 				sheet = wb.createSheet(l + " - Roles");
 				for(int i = 0; i <= 50; i++){
+					instance.getLogger().log("Creating Row!", false);
 					Row row = sheet.createRow(i);//Populate rows
 					for(int i2 = 0; i <= 1000; i++){
 						row.createCell(i2);

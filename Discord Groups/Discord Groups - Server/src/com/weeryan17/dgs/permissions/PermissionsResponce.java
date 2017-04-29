@@ -1,4 +1,4 @@
-package com.weeryan17.dgs.util;
+package com.weeryan17.dgs.permissions;
 
 public class PermissionsResponce {
 	private boolean sucessfull;

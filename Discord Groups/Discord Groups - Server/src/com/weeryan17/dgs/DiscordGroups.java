@@ -117,6 +117,7 @@ public class DiscordGroups {
 		ids = new ArrayList<Long>();
 		ids.add(215644829969809421L);
 		ids.add(207629082257653760L);
+		storage = new Storage(this);
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret)
@@ -163,7 +164,6 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("pin", new PinCommand());
 		cmdMannage.registerCommand("stop", new StopCommand(this));
-		storage = new Storage(this);
 		this.initPatreon();
 		new VoiceTests(this).test();
 		TwitterUtil twitter = new TwitterUtil(this);

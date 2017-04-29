@@ -7,7 +7,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
-import com.weeryan17.dgs.util.PermissionsResponce;
+import com.weeryan17.dgs.permissions.PermissionsResponce;
 
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -65,7 +65,7 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					if (add) {
 						PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
 						if (responce.getSucesfull()) {
-							channel.sendMessage(sender.mention() + responce.getMessage() + ".");
+							channel.sendMessage(sender.mention() + " " + responce.getMessage() + ".");
 						} else {
 							channel.sendMessage(sender.mention()
 									+ " an unknow error ocured. Please report this to the developers.");
@@ -208,14 +208,31 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 		} else {
 			instance.getLogger().log("User wasn't found.", false);
 			for(Cell cell: firstRow){
-				if(cell.getCellTypeEnum().equals(CellType._NONE)){
+				instance.getLogger().log("Cell type: " + cell.getCellTypeEnum().toString(), false);
+				if(cell.getCellTypeEnum().equals(CellType.BLANK)){
 					instance.getLogger().log("Empty cell found", false);
 					cell.setCellValue(String.valueOf(user.getLongID()));
+					instance.getLogger().log("User added", false);
 					column = cell.getColumnIndex();
-					Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
+					instance.getLogger().log("Row count: " + sheet.getLastRowNum(), false);
+					instance.getLogger().log("Getting 2nd row", false);
+					Row row;
+					if(sheet.getLastRowNum() == sheet.getFirstRowNum()){
+						instance.getLogger().log("Only 1 row found creating more", false);
+						row = sheet.createRow(sheet.getFirstRowNum() + 1);
+						for(int i = 0; i <= 1000; i++){
+							row.createCell(i);
+						}
+					} else {
+						row = sheet.getRow(sheet.getFirstRowNum() + 1);
+					}
+					instance.getLogger().log("Row: " + row.toString(), false);
 					Cell cells = row.getCell(column);
 					cells.setCellValue(permission);
+					instance.getLogger().log("Permission added", false);
+					instance.getLogger().log("Saving stuffs", false);
 					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+					instance.getLogger().log("Done saving stuffs", false);
 					return new PermissionsResponce(true, "permission `" + permission + "` added along with user");
 				}
 			}

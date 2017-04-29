@@ -140,8 +140,8 @@ public class DiscordGroupsPermissions {
 		Row userIdRow = personSheet.getRow(personSheet.getFirstRowNum());
 		int column = 0;
 		for(Cell cell: userIdRow){
-			if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
-				long value = (long) cell.getNumericCellValue();
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				long value = Long.parseLong(cell.getStringCellValue());
 				if(value == user.getUser().getLongID()){
 					column = cell.getColumnIndex();
 				}
@@ -150,8 +150,8 @@ public class DiscordGroupsPermissions {
 		
 		for(Row row: personSheet){
 			Cell cell = row.getCell(column);
-			if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
-				long value = (long) cell.getNumericCellValue();
+			if(cell.getCellTypeEnum().equals(CellType.STRING)){
+				long value = Long.parseLong(cell.getStringCellValue());
 				if(value != user.getUser().getLongID()){
 					permsList.add(value);
 				}
@@ -173,8 +173,8 @@ public class DiscordGroupsPermissions {
 			
 			for(Row row: groupSheet){
 				Cell cell = row.getCell(column);
-				if(cell.getCellTypeEnum().equals(CellType.NUMERIC)){
-					long value = (long) cell.getNumericCellValue();
+				if(cell.getCellTypeEnum().equals(CellType.STRING)){
+					long value = Long.parseLong(cell.getStringCellValue());
 					if(value != role.getLongID()){
 						permsList.add(value);
 					}
@@ -184,7 +184,6 @@ public class DiscordGroupsPermissions {
 		String[] perms = new String[permsList.size()];
 		perms = permsList.toArray(perms);
 		DiscordGroupsPermissions permissions = DiscordGroupsPermissions.getUserPermissions(user);
-		instance.getLogger().log("Perms to set: " + perms, false);
 		permissions.setLocalPerms(perms);
 		
 	}
