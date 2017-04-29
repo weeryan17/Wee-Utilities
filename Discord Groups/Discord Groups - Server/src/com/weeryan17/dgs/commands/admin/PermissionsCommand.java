@@ -69,14 +69,16 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 						if (responce.getSucesfull()) {
 							EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 							builder.appendDesc("Added permission");
-							builder.appendField("User", user.getName()+"#"+user.getDiscriminator(), true);
-							builder.appendField("Permission", args[3], true);
-							String[] perms = DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(user, channel.getGuild())).getPerms();
+							builder.appendField("User", "```"+user.getName()+"#"+user.getDiscriminator()+"```", true);
+							builder.appendField("Permission", "```"+args[3]+"```", true);
+							GuildUser guildUser = GuildUser.getGuildUser(user, channel.getGuild());
+							DiscordGroupsPermissions.updatePerms(guildUser, instance);
+							String[] perms = DiscordGroupsPermissions.getUserPermissions(guildUser).getPerms();
 							StringBuilder sb = new StringBuilder();
 							for(String perm: perms){
 								sb.append(perm + "\n");
 							}
-							builder.appendField("New Permissions", sb.toString(), false);
+							builder.appendField("New Permissions", "```"+sb.toString()+"```", false);
 							channel.sendMessage(builder.build());
 							channel.setTypingStatus(false);
 						} else {
