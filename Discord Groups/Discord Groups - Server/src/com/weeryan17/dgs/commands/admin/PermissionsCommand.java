@@ -27,6 +27,10 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
 		channel.setTypingStatus(true);
+		if (!instance.permsReady) {
+			channel.sendMessage("Perms arn't ready. Please retry in a little bit");
+			return;
+		}
 		if (args.length <= 3 || args.length >= 5) {
 			this.sendInvlid(args, channel, sender);
 		} else {
@@ -61,69 +65,75 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 			}
 			if (isuser) {
-				Object obj = instance.getMessageUtil().getUserFromString(args[2], channel);
-				if (obj instanceof IUser) {
-					IUser user = (IUser) obj;
-					if (add) {
-						PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
-						if (responce.getSucesfull()) {
-							EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
-							builder.appendDesc("Added permission");
-							builder.appendField("User", "```"+user.getName()+"#"+user.getDiscriminator()+"```", true);
-							builder.appendField("Permission", "```"+args[3]+"```", true);
-							GuildUser guildUser = GuildUser.getGuildUser(user, channel.getGuild());
-							DiscordGroupsPermissions.updatePerms(guildUser, instance);
-							String[] perms = DiscordGroupsPermissions.getUserPermissions(guildUser).getPerms();
-							StringBuilder sb = new StringBuilder();
-							for(String perm: perms){
-								sb.append(perm + "\n");
+				if (DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
+						.hasPerm("dg.perm.add")) {
+					Object obj = instance.getMessageUtil().getUserFromString(args[2], channel);
+					if (obj instanceof IUser) {
+						IUser user = (IUser) obj;
+						if (add) {
+							PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
+							if (responce.getSucesfull()) {
+								this.sendSucessfulUser(true, args[3], channel, user, sender);
+							} else {
+								channel.sendMessage(sender.mention()
+										+ " an unknow error ocured. Please report this to the developers.");
+								channel.setTypingStatus(false);
 							}
-							builder.appendField("New Permissions", "```"+sb.toString()+"```", false);
-							channel.sendMessage(builder.build());
-							channel.setTypingStatus(false);
 						} else {
-							channel.sendMessage(sender.mention()
-									+ " an unknow error ocured. Please report this to the developers.");
+							PermissionsResponce responce = this.removeUserPermissions(channel.getGuild(), user, args[3]);
+							if (responce.getSucesfull()) {
+								this.sendSucessfulUser(false, args[3], channel, user, sender);
+							} else {
+								
+								channel.setTypingStatus(false);
+							}
 						}
 					} else {
-						this.removeUserPermissions(channel.getGuild(), user, args[3]);
+						String error = (String) obj;
+						switch (error) {
+						case "inavlid": {
+							channel.sendMessage(sender.mention() + " Invalid user");
+							this.sendInvlid(args, channel, sender);
+						}
+							break;
+						case "multiple": {
+							channel.sendMessage(sender.mention() + " Mutiple users where found with that name");
+							this.sendInvlid(args, channel, sender);
+						}
+						}
 					}
 				} else {
-					String error = (String) obj;
-					switch (error) {
-					case "inavlid": {
-						channel.sendMessage(sender.mention() + " Invalid user");
-						this.sendInvlid(args, channel, sender);
-					}
-						break;
-					case "multiple": {
-						channel.sendMessage(sender.mention() + " Mutiple users where found with that name");
-						this.sendInvlid(args, channel, sender);
-					}
-					}
+					channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.add```");
+					channel.setTypingStatus(false);
 				}
 			} else {
-				Object obj = instance.getMessageUtil().getRoleFromString(args[2], channel);
-				if (obj instanceof IRole) {
-					IRole role = (IRole) obj;
-					if (add) {
-						this.addRolePermissions(channel.getGuild(), role, args[3]);
+				if (DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
+						.hasPerm("dg.perm.group.add")) {
+					Object obj = instance.getMessageUtil().getRoleFromString(args[2], channel);
+					if (obj instanceof IRole) {
+						IRole role = (IRole) obj;
+						if (add) {
+							this.addRolePermissions(channel.getGuild(), role, args[3]);
+						} else {
+							this.removeRolePermissions(channel.getGuild(), role, args[3]);
+						}
 					} else {
-						this.removeRolePermissions(channel.getGuild(), role, args[3]);
+						String error = (String) obj;
+						switch (error) {
+						case "inavlid": {
+							channel.sendMessage(sender.mention() + " Invalid role");
+							this.sendInvlid(args, channel, sender);
+						}
+							break;
+						case "multiple": {
+							channel.sendMessage(sender.mention() + " Mutiple roles where found with that name");
+							this.sendInvlid(args, channel, sender);
+						}
+						}
 					}
 				} else {
-					String error = (String) obj;
-					switch (error) {
-					case "inavlid": {
-						channel.sendMessage(sender.mention() + " Invalid role");
-						this.sendInvlid(args, channel, sender);
-					}
-						break;
-					case "multiple": {
-						channel.sendMessage(sender.mention() + " Mutiple roles where found with that name");
-						this.sendInvlid(args, channel, sender);
-					}
-					}
+					channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.group.add```");
+					channel.setTypingStatus(false);
 				}
 			}
 		}
@@ -196,6 +206,28 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 		}
 	}
+	
+	public void sendSucessfulUser(boolean add, String perm, IChannel channel, IUser user, IUser sender){
+		EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
+		if(add){
+		builder.appendDesc("Added permission");
+		} else {
+			builder.appendDesc("Removed permission");
+		}
+		builder.appendField("User",
+				"```" + user.getName() + "#" + user.getDiscriminator() + "```", true);
+		builder.appendField("Permission", "```" + perm + "```", true);
+		GuildUser guildUser = GuildUser.getGuildUser(user, channel.getGuild());
+		DiscordGroupsPermissions.updatePerms(guildUser, instance);
+		String[] permsList = DiscordGroupsPermissions.getUserPermissions(guildUser).getPerms();
+		StringBuilder sb = new StringBuilder();
+		for (String perms : permsList) {
+			sb.append(perms + "\n");
+		}
+		builder.appendField("New Permissions", "```" + sb.toString() + "```", false);
+		channel.sendMessage(builder.build());
+		channel.setTypingStatus(false);
+	}
 
 	public PermissionsResponce addUserPermissions(IGuild guild, IUser user, String permission) {
 		Sheet sheet = instance.getStorage().getGuildUserSheet(guild.getLongID());
@@ -222,9 +254,9 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 		} else {
 			instance.getLogger().log("User wasn't found.", false);
-			for(Cell cell: firstRow){
+			for (Cell cell : firstRow) {
 				instance.getLogger().log("Cell type: " + cell.getCellTypeEnum().toString(), false);
-				if(cell.getCellTypeEnum().equals(CellType.BLANK)){
+				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
 					instance.getLogger().log("Empty cell found", false);
 					cell.setCellValue(String.valueOf(user.getLongID()));
 					instance.getLogger().log("User added", false);
@@ -232,10 +264,10 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					instance.getLogger().log("Row count: " + sheet.getLastRowNum(), false);
 					instance.getLogger().log("Getting 2nd row", false);
 					Row row;
-					if(sheet.getLastRowNum() == sheet.getFirstRowNum()){
+					if (sheet.getLastRowNum() == sheet.getFirstRowNum()) {
 						instance.getLogger().log("Only 1 row found creating more", false);
 						row = sheet.createRow(sheet.getFirstRowNum() + 1);
-						for(int i = 0; i <= 1000; i++){
+						for (int i = 0; i <= 1000; i++) {
 							row.createCell(i);
 						}
 					} else {

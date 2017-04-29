@@ -57,6 +57,8 @@ public class DiscordGroups {
 	int shards;
 
 	Properties prop;
+	
+	public boolean permsReady = false;
 
 	static DiscordGroups instance;
 
@@ -151,6 +153,7 @@ public class DiscordGroups {
 					}
 				}
 				instance.getLogger().log("Done creating perms", true);
+				permsReady = true;
 			}
 		}.start();
 		WebReciver website = new WebReciver(this);
