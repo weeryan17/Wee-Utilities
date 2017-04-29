@@ -7,7 +7,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import com.weeryan17.dgs.DiscordGroups;
 import com.weeryan17.dgs.commands.DiscordGroupsCommandBase;
+import com.weeryan17.dgs.permissions.DiscordGroupsPermissions;
 import com.weeryan17.dgs.permissions.PermissionsResponce;
+import com.weeryan17.dgs.util.GuildUser;
 
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -65,7 +67,18 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 					if (add) {
 						PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
 						if (responce.getSucesfull()) {
-							channel.sendMessage(sender.mention() + " " + responce.getMessage() + ".");
+							EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
+							builder.appendDesc("Added permission");
+							builder.appendField("User", user.getName()+"#"+user.getDiscriminator(), true);
+							builder.appendField("Permission", args[3], true);
+							String[] perms = DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(user, channel.getGuild())).getPerms();
+							StringBuilder sb = new StringBuilder();
+							for(String perm: perms){
+								sb.append(perm + "\n");
+							}
+							builder.appendField("New Permissions", sb.toString(), false);
+							channel.sendMessage(builder.build());
+							channel.setTypingStatus(false);
 						} else {
 							channel.sendMessage(sender.mention()
 									+ " an unknow error ocured. Please report this to the developers.");

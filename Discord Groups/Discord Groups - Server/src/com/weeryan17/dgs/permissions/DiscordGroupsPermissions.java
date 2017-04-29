@@ -80,6 +80,10 @@ public class DiscordGroupsPermissions {
 		this.perms = perms;
 	}
 	
+	public String[] getPerms(){
+		return this.perms;
+	}
+	
 	/**
 	 * If the perm ends in a * then this get's all the perms that that star contains.
 	 * 
@@ -134,7 +138,7 @@ public class DiscordGroupsPermissions {
 		Sheet personSheet = sto.getGuildUserSheet(user.getGuild().getLongID());
 		Sheet groupSheet = sto.getGuildRoleSheet(user.getGuild().getLongID());
 		
-		ArrayList<Long> permsList = new ArrayList<Long>();
+		ArrayList<String> permsList = new ArrayList<String>();
 		
 		//Start user sheet perm checking.
 		Row userIdRow = personSheet.getRow(personSheet.getFirstRowNum());
@@ -151,9 +155,9 @@ public class DiscordGroupsPermissions {
 		for(Row row: personSheet){
 			Cell cell = row.getCell(column);
 			if(cell.getCellTypeEnum().equals(CellType.STRING)){
-				long value = Long.parseLong(cell.getStringCellValue());
-				if(value != user.getUser().getLongID()){
-					permsList.add(value);
+				String perm = cell.getStringCellValue();
+				if(!perm.equals(String.valueOf(user.getUser().getLongID()))){
+					permsList.add(perm);
 				}
 			}
 		}
@@ -174,9 +178,9 @@ public class DiscordGroupsPermissions {
 			for(Row row: groupSheet){
 				Cell cell = row.getCell(column);
 				if(cell.getCellTypeEnum().equals(CellType.STRING)){
-					long value = Long.parseLong(cell.getStringCellValue());
-					if(value != role.getLongID()){
-						permsList.add(value);
+					String perm = cell.getStringCellValue();
+					if(!perm.equals(String.valueOf(user.getUser().getLongID()))){
+						permsList.add(perm);
 					}
 				}
 			}
