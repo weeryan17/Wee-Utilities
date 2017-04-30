@@ -114,7 +114,7 @@ public class DiscordGroups {
 	ArrayList<Long> ids;
 
 	public void readyInit() {
-		client.streaming("Permmissions initlizing", "discordgroups.weeryan17.tk");
+		client.streaming("Permissions initlizing", "discordgroups.weeryan17.tk");
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<Long>();
 		ids.add(215644829969809421L);

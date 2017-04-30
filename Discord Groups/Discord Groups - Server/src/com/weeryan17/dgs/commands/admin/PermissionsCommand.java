@@ -65,12 +65,13 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 			}
 			if (isuser) {
-				if (DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
-						.hasPerm("dg.perm.add")) {
-					Object obj = instance.getMessageUtil().getUserFromString(args[2], channel);
-					if (obj instanceof IUser) {
-						IUser user = (IUser) obj;
-						if (add) {
+				Object obj = instance.getMessageUtil().getUserFromString(args[2], channel);
+				if (obj instanceof IUser) {
+					IUser user = (IUser) obj;
+					if (add) {
+						if (DiscordGroupsPermissions
+								.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
+								.hasPerm("dg.perm.add")) {
 							PermissionsResponce responce = this.addUserPermissions(channel.getGuild(), user, args[3]);
 							if (responce.getSucesfull()) {
 								this.sendSucessfulUser(true, args[3], channel, user, sender);
@@ -80,68 +81,110 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 								channel.setTypingStatus(false);
 							}
 						} else {
-							PermissionsResponce responce = this.removeUserPermissions(channel.getGuild(), user, args[3]);
+							channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.add```");
+							channel.setTypingStatus(false);
+						}
+					} else {
+						if (DiscordGroupsPermissions
+								.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
+								.hasPerm("dg.perm.remove")) {
+							PermissionsResponce responce = this.removeUserPermissions(channel.getGuild(), user,
+									args[3]);
 							if (responce.getSucesfull()) {
 								this.sendSucessfulUser(false, args[3], channel, user, sender);
 							} else {
-								switch(responce.getMessage()){
-								case "non-existant-user":{
-									channel.sendMessage(sender.mention() + " that user doesn't have any perms to remove");
+								switch (responce.getMessage()) {
+								case "non-existant-user": {
+									channel.sendMessage(
+											sender.mention() + " that user doesn't have any perms to remove");
 								}
-								break;
-								case "non-existant-perm":{
-									channel.sendMessage(sender.mention() + " that user doesn't have the perm `" + args[3] + "`");
+									break;
+								case "non-existant-perm": {
+									channel.sendMessage(
+											sender.mention() + " that user doesn't have the perm `" + args[3] + "`");
 								}
 								}
 								channel.setTypingStatus(false);
 							}
-						}
-					} else {
-						String error = (String) obj;
-						switch (error) {
-						case "inavlid": {
-							channel.sendMessage(sender.mention() + " Invalid user");
-							this.sendInvlid(args, channel, sender);
-						}
-							break;
-						case "multiple": {
-							channel.sendMessage(sender.mention() + " Mutiple users where found with that name");
-							this.sendInvlid(args, channel, sender);
-						}
+						} else {
+							channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.remove```");
+							channel.setTypingStatus(false);
 						}
 					}
+
 				} else {
-					channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.add```");
-					channel.setTypingStatus(false);
+					String error = (String) obj;
+					switch (error) {
+					case "inavlid": {
+						channel.sendMessage(sender.mention() + " Invalid user");
+						this.sendInvlid(args, channel, sender);
+					}
+						break;
+					case "multiple": {
+						channel.sendMessage(sender.mention() + " Mutiple users where found with that name");
+						this.sendInvlid(args, channel, sender);
+					}
+					}
 				}
 			} else {
-				if (DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
-						.hasPerm("dg.perm.group.add")) {
-					Object obj = instance.getMessageUtil().getRoleFromString(args[2], channel);
-					if (obj instanceof IRole) {
-						IRole role = (IRole) obj;
-						if (add) {
-							this.addRolePermissions(channel.getGuild(), role, args[3]);
+				Object obj = instance.getMessageUtil().getRoleFromString(args[2], channel);
+				if (obj instanceof IRole) {
+					IRole role = (IRole) obj;
+					if (add) {
+						if (DiscordGroupsPermissions
+								.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
+								.hasPerm("dg.perm.group.add")) {
+							PermissionsResponce responce = this.addRolePermissions(channel.getGuild(), role, args[3]);
+							if (responce.getSucesfull()) {
+								this.sendSucessfulRole(true, args[3], channel, role, sender);
+							} else {
+								channel.sendMessage(sender.mention()
+										+ " an unknow error ocured. Please report this to the developers.");
+								channel.setTypingStatus(false);
+							}
 						} else {
-							this.removeRolePermissions(channel.getGuild(), role, args[3]);
+							channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.group.add```");
+							channel.setTypingStatus(false);
 						}
 					} else {
-						String error = (String) obj;
-						switch (error) {
-						case "inavlid": {
-							channel.sendMessage(sender.mention() + " Invalid role");
-							this.sendInvlid(args, channel, sender);
-						}
-							break;
-						case "multiple": {
-							channel.sendMessage(sender.mention() + " Mutiple roles where found with that name");
-							this.sendInvlid(args, channel, sender);
-						}
+						if (DiscordGroupsPermissions
+								.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
+								.hasPerm("dg.perm.group.remove")) {
+							PermissionsResponce responce = this.removeRolePermissions(channel.getGuild(), role, args[3]);
+							if (responce.getSucesfull()) {
+								this.sendSucessfulRole(false, args[3], channel, role, sender);
+							} else {
+								switch (responce.getMessage()) {
+								case "non-existant-user": {
+									channel.sendMessage(
+											sender.mention() + " that role doesn't have any perms to remove");
+								}
+									break;
+								case "non-existant-perm": {
+									channel.sendMessage(
+											sender.mention() + " that role doesn't have the perm `" + args[3] + "`");
+								}
+								}
+								channel.setTypingStatus(false);
+							}
+						} else {
+							channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.group.remove```");
+							channel.setTypingStatus(false);
 						}
 					}
 				} else {
-					channel.sendMessage(sender.mention() + " missing permission: ```dg.perm.group.add```");
-					channel.setTypingStatus(false);
+					String error = (String) obj;
+					switch (error) {
+					case "inavlid": {
+						channel.sendMessage(sender.mention() + " Invalid role");
+						this.sendInvlid(args, channel, sender);
+					}
+						break;
+					case "multiple": {
+						channel.sendMessage(sender.mention() + " Mutiple roles where found with that name");
+						this.sendInvlid(args, channel, sender);
+					}
+					}
 				}
 			}
 		}
@@ -214,16 +257,38 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 		}
 	}
-	
-	public void sendSucessfulUser(boolean add, String perm, IChannel channel, IUser user, IUser sender){
+
+	public void sendSucessfulRole(boolean add, String perm, IChannel channel, IRole role, IUser sender) {
 		EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
-		if(add){
-		builder.appendDesc("Added permission");
+		if (add) {
+			builder.appendDesc("Added permission");
 		} else {
 			builder.appendDesc("Removed permission");
 		}
-		builder.appendField("User",
-				"```" + user.getName() + "#" + user.getDiscriminator() + "```", true);
+		builder.appendField("Role", "```" + role.getName() + "```", true);
+		builder.appendField("Permission", "```" + perm + "```", true);
+		for (IUser user : channel.getGuild().getUsersByRole(role)) {
+			GuildUser guildUser = GuildUser.getGuildUser(user, channel.getGuild());
+			DiscordGroupsPermissions.updatePerms(guildUser, instance);
+		}
+		String[] permsList = new String[0];
+		StringBuilder sb = new StringBuilder();
+		for (String perms : permsList) {
+			sb.append(perms + "\n");
+		}
+		builder.appendField("New Permissions", "```" + sb.toString() + "```", false);
+		channel.sendMessage(builder.build());
+		channel.setTypingStatus(false);
+	}
+
+	public void sendSucessfulUser(boolean add, String perm, IChannel channel, IUser user, IUser sender) {
+		EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
+		if (add) {
+			builder.appendDesc("Added permission");
+		} else {
+			builder.appendDesc("Removed permission");
+		}
+		builder.appendField("User", "```" + user.getName() + "#" + user.getDiscriminator() + "```", true);
 		builder.appendField("Permission", "```" + perm + "```", true);
 		GuildUser guildUser = GuildUser.getGuildUser(user, channel.getGuild());
 		DiscordGroupsPermissions.updatePerms(guildUser, instance);
@@ -251,7 +316,6 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 			}
 		}
 		if (column != -1) {
-			instance.getLogger().log("User was found.", false);
 			for (Row row : sheet) {
 				Cell cell = row.getCell(column);
 				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
@@ -261,10 +325,8 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				}
 			}
 		} else {
-			instance.getLogger().log("User wasn't found.", false);
 			for (Cell cell : firstRow) {
-				instance.getLogger().log("Cell type: " + cell.getCellTypeEnum().toString(), false);
-				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
+				if (cell.getCellTypeEnum().equals(CellType.STRING)) {
 					cell.setCellValue(String.valueOf(user.getLongID()));
 					column = cell.getColumnIndex();
 					Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
@@ -291,14 +353,14 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 				}
 			}
 		}
-		if(column == -1){
+		if (column == -1) {
 			return new PermissionsResponce(false, "non-existant-user");
 		} else {
-			for(Row row: sheet){
+			for (Row row : sheet) {
 				Cell permCell = row.getCell(column);
-				if(permCell.getCellTypeEnum().equals(CellType.STRING)){
+				if (permCell.getCellTypeEnum().equals(CellType.STRING)) {
 					String perm = permCell.getStringCellValue();
-					if(perm.equals(permission)){
+					if (perm.equals(permission)) {
 						permCell.setCellValue("");
 						permCell.setCellType(CellType.BLANK);
 						instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
@@ -311,10 +373,72 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 	}
 
 	public PermissionsResponce addRolePermissions(IGuild guild, IRole role, String permission) {
-		return null;
+		Sheet sheet = instance.getStorage().getGuildRoleSheet(guild.getLongID());
+		Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+		int column = -1;
+		for (Cell cell : firstRow) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+				String stringId = cell.getStringCellValue();
+				Long id = Long.parseLong(stringId);
+				if (role.getLongID() == id) {
+					column = cell.getColumnIndex();
+				}
+			}
+		}
+		if (column == -1) {
+			for (Row row : sheet) {
+				Cell cell = row.getCell(column);
+				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
+					cell.setCellValue(permission);
+					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+					return new PermissionsResponce(true, "sucess");
+				}
+			}
+		} else {
+			for (Cell cell : firstRow) {
+				if (cell.getCellTypeEnum().equals(CellType.BLANK)) {
+					cell.setCellValue(String.valueOf(role.getLongID()));
+					column = cell.getColumnIndex();
+					Row row = sheet.getRow(sheet.getFirstRowNum() + 1);
+					Cell cells = row.getCell(column);
+					cells.setCellValue(permission);
+					instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+					return new PermissionsResponce(true, "sucess");
+				}
+			}
+		}
+		return new PermissionsResponce(false, "unknown");
 	}
 
 	public PermissionsResponce removeRolePermissions(IGuild guild, IRole role, String permission) {
-		return null;
+		Sheet sheet = instance.getStorage().getGuildRoleSheet(guild.getLongID());
+		Row firstRow = sheet.getRow(sheet.getFirstRowNum());
+		int column = -1;
+		for (Cell cell : firstRow) {
+			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+				String stringId = cell.getStringCellValue();
+				Long id = Long.parseLong(stringId);
+				if (role.getLongID() == id) {
+					column = cell.getColumnIndex();
+				}
+			}
+		}
+		if (column == -1) {
+			return new PermissionsResponce(false, "non-existant-user");
+		} else {
+			for (Row row : sheet) {
+				Cell permCell = row.getCell(column);
+				if (permCell.getCellTypeEnum().equals(CellType.STRING)) {
+					String perm = permCell.getStringCellValue();
+					if (perm.equals(permission)) {
+						permCell.setCellValue("");
+						permCell.setCellType(CellType.BLANK);
+						instance.getStorage().savePermsWorkbook(sheet.getWorkbook());
+						return new PermissionsResponce(true, "sucess");
+					}
+				}
+			}
+			return new PermissionsResponce(false, "non-existant-perm");
+		}
 	}
 }
