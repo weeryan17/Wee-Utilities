@@ -7,18 +7,19 @@ import java.net.Socket;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.weeryan17.dgc.util.ConfigApi;
 import com.weeryan17.dgc.util.SocketListener;
-import com.weeryan17.utilities.api.ConfigApi;
-import com.weeryan17.utilities.api.PluginMannager;
 
 import net.milkbowl.vault.permission.Permission;
 
 public class DiscordGroupsPlugin extends JavaPlugin {
 	Socket socket;
-	ConfigApi confApi;
+	
+	ConfigApi conf;
 	
 	InputStream socketInStream;
 	ObjectOutputStream socketObjects;
@@ -27,10 +28,12 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 	
 	public void onEnable(){
 		//Defining everything!
-		PluginMannager man = new PluginMannager();
-		int id = man.registerPlugin(this);
-		confApi = new ConfigApi(id);
-		String address = "REMOVED"; //Removed from github for security reasons. Although you can probably figure this one out when this is done.
+		conf = new ConfigApi(this);
+		if(!this.getKeyConfig().contains("Key")){
+			getLogger().info("Key config not found or key isn't set. Please put your key in the config.");
+			conf.saveDefaultConfigs("key", "", false);
+		}
+		String address = ""; //Removed from github for security reasons. Although you can probably figure this one out when this is done.
 		int port = 0; //Removed from github for security reasons.
 		try {
 			socket = new Socket(address, port);
@@ -51,7 +54,6 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 		
 		//Actual stating stuff goes here
 		update = new Updater(this);
-		new SocketListener(this).initSocket();
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, update, 0, 1000L);
 	}
 	
@@ -80,6 +82,11 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 	}
 	
 	public String getKey(){
-		return "";
+		return this.getKeyConfig().getString("Key");
 	}
+	
+	public FileConfiguration getKeyConfig(){
+		return conf.customConfig("key.yml", "");
+	}
+	
 }

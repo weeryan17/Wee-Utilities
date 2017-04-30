@@ -25,7 +25,7 @@ public class SocketTimer {
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
-			instance.getLogger().log("Error screating server socket", Level.SEVERE, e, false);
+			instance.getLogger().log("Error creating server socket", Level.SEVERE, e, false);
 			System.exit(1);
 		}
 		sync = new Sync(instance);

@@ -57,7 +57,7 @@ public class DiscordGroups {
 	int shards;
 
 	Properties prop;
-	
+
 	public boolean permsReady = false;
 
 	static DiscordGroups instance;
@@ -97,8 +97,6 @@ public class DiscordGroups {
 		shards = client.getShardCount();
 		client.getDispatcher().registerListener(new ChatListener(this));
 		client.getDispatcher().registerListener(new RandomListener(this));
-
-		new SocketTimer(this, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 	}
 
 	IGuild mainGuild;
@@ -139,13 +137,13 @@ public class DiscordGroups {
 		}
 		new Thread() {
 			@Override
-			public void run(){
+			public void run() {
 				instance.getLogger().log("Creating all the perms!", true);
-				for(IGuild guild: client.getGuilds()){
-					for(IUser user: guild.getUsers()){
+				for (IGuild guild : client.getGuilds()) {
+					for (IUser user : guild.getUsers()) {
 						GuildUser guildUser = GuildUser.getGuildUser(user, guild);
 						new DiscordGroupsPermissions(guildUser);
-						try{
+						try {
 							DiscordGroupsPermissions.updatePerms(guildUser, instance);
 						} catch (Exception e) {
 							instance.getLogger().log("Error updating perms!", Level.WARNING, e, false);
@@ -173,6 +171,11 @@ public class DiscordGroups {
 		TwitterUtil twitter = new TwitterUtil(this);
 		twitter.tweet("Bot is up and running!");
 		logger.log("Bot initlized", true);
+		new Thread() {
+			public void run() {
+				new SocketTimer(instance, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
+			}
+		}.run();
 	}
 
 	public void initPatreon() {

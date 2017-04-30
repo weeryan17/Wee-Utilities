@@ -27,7 +27,7 @@ public class Updater implements Runnable{
 		
 		String[][] roleSync = {
 			{instance.getKey(), "REMOVED"}, //removed from github. gotta love that security.
-			(String[]) listGroup.toArray()
+			listGroup.toArray(new String[listGroup.size()])
 		};
 		
 		try {
@@ -50,7 +50,7 @@ public class Updater implements Runnable{
 			};
 			rawUserSync.add(ArrayUtils.addAll(UUIDArray, playerGroups));
 		}
-		String[][] userSync = null;
+		String[][] userSync = new String[rawUserSync.size()][rawUserSync.get(0).length];
 		userSync = rawUserSync.toArray(userSync);
 		try {
 			instance.getOutputStream().writeObject(userSync);
