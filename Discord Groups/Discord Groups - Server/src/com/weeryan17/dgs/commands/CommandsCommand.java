@@ -20,12 +20,12 @@ public class CommandsCommand implements DiscordGroupsCommandBase {
 			channel.setTypingStatus(true);
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.appendField("General",
-					"dg - Gives you info on the bot." + '\n'
-							+ "dg stats - Gives you infomation on the Bot's resources." + '\n'
-							+ "commands - Gives you this message.",
+					"`dg` - Gives you info on the bot." + '\n'
+							+ "`dg stats` - Gives you infomation on the Bot's resources." + '\n'
+							+ "`commands` - Gives you this message.",
 					false);
-			builder.appendField("Admin", "generate key - Generates an ID for your Guild. Do this in a private channel"
-					+ '\n' + "permissions - The permissions menu.", false);
+			builder.appendField("Admin", "`generate key` - Generates an ID for your Guild. Do this in a private channel"
+					+ '\n' + "`permissions` - The permissions menu.", false);
 			channel.sendMessage(builder.build());
 			channel.setTypingStatus(false);
 		} else {
