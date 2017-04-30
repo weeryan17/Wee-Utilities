@@ -63,13 +63,20 @@ public class SocketTimer {
 						String[][] values = Arrays.copyOfRange(stuff, 1, stuff.length);
 						if (process.equals(instance.getProperties().getProperty("userSyncProcess"))) {
 							instance.getLogger().log(
-									"User sync process activated from ip " + socket.getRemoteSocketAddress(), true);
+									"User sync process activated from ip " + socket.getRemoteSocketAddress(), false);
+							StringBuilder sb = new StringBuilder();
+							for(String[] value: values){
+								sb.append("\n");
+								for(String string: value){
+									sb.append(string + '\n');
+								}
+							}
+							instance.getLogger().log("User Sync " + sb.toString(), false);
 							sync.syncUsers(key, values);
 						} else if (process.equals(instance.getProperties().getProperty("roleSyncProcess"))) {
 							instance.getLogger().log(
-									"Role sync process activated from ip " + socket.getRemoteSocketAddress(), true);
-							String[] rolesWithKey = stuff[0];
-							String[] roles = Arrays.copyOfRange(rolesWithKey, 1, rolesWithKey.length);
+									"Role sync process activated from ip " + socket.getRemoteSocketAddress(), false);
+							String[] roles = stuff[1];
 							sync.syncRoles(key, roles);
 						} else {
 							instance.getLogger().log(

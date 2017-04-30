@@ -336,6 +336,7 @@ public class Storage {
 	}
 
 	public Long getUserIDFromSpigot(String UUID) {
+		UUID = UUID.replaceAll("-", "");
 		Sheet users = this.getPlayerSheet();
 		Row row = users.getRow(users.getFirstRowNum());
 		Long discordID = 0L;
