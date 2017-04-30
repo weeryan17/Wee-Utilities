@@ -68,11 +68,11 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 			}
 				break;
 			default: {
-				channel.sendMessage("<@" + sender.getLongID() + "> Invalid argument.");
+				channel.sendMessage(sender.mention() + " invalid argument.");
 			}
 			}
 		} else {
-			channel.sendMessage("<@" + sender.getLongID() + "> I don't have that many args.");
+			channel.sendMessage(sender.mention() + " I don't have that many args.");
 		}
 	}
 

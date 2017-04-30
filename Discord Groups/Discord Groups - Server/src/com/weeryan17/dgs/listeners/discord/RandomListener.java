@@ -33,9 +33,9 @@ public class RandomListener {
 		@SuppressWarnings("unused")
 		IRole role = e.getRole();
 	}
-	
+
 	@EventSubscriber
-	public void onReconect(ReconnectSuccessEvent e){
-		
+	public void onReconect(ReconnectSuccessEvent e) {
+
 	}
 }

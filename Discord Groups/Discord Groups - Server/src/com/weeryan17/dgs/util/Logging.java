@@ -22,7 +22,7 @@ public class Logging {
 	DiscordGroups instance;
 
 	IChannel logChannel;
-	
+
 	Long channelId;
 
 	Logger logger;
@@ -56,7 +56,7 @@ public class Logging {
 		String secondsDate = secoondsf.format(dateobj);
 
 		System.out.println(secondsDate + " [DiscordGroups] " + message);
-		
+
 		this.writeToFile(message);
 	}
 
@@ -128,7 +128,7 @@ public class Logging {
 
 	public void sendMessage(String message) {
 		try {
-			if(logChannel == null){
+			if (logChannel == null) {
 				logChannel = instance.getMainGuild().getChannelByID(channelId);
 			}
 			logChannel.sendMessage(message);

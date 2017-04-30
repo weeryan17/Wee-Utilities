@@ -25,6 +25,7 @@ public class UpdateCommand implements DiscordGroupsCommandBase {
 			}
 			new Update(instance).update();
 		}
+		//TODO get this to work
 	}
 
 }

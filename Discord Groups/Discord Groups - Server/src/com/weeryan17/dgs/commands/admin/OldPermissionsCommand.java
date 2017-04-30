@@ -24,7 +24,8 @@ public class OldPermissionsCommand implements DiscordGroupsCommandBase {
 
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		DiscordGroupsPermissions perms = new DiscordGroupsPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
+		DiscordGroupsPermissions perms = new DiscordGroupsPermissions(
+				GuildUser.getGuildUser(sender, channel.getGuild()));
 		if (args.length == 0) {
 			EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 			builder.withTitle("^permissions");

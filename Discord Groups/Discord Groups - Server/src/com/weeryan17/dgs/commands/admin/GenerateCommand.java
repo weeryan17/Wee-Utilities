@@ -92,7 +92,8 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 				break;
 			default: {
 				EmbedBuilder embed = instance.getMessageUtil().getBaseEmbed(sender, channel);
-				embed.appendField("Usage", "```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```", false);
+				embed.appendField("Usage", "```\n^generate <add/remove> key <remove:key>\nremove must have a key\n```",
+						false);
 				channel.sendMessage(embed.build());
 				channel.setTypingStatus(false);
 			}

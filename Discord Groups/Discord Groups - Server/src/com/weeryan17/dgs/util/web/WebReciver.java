@@ -12,31 +12,32 @@ import org.apache.poi.ss.usermodel.Sheet;
 import com.weeryan17.dgs.DiscordGroups;
 
 public class WebReciver {
-	
+
 	DiscordGroups instance;
-	public WebReciver(DiscordGroups instance){
+
+	public WebReciver(DiscordGroups instance) {
 		this.instance = instance;
 	}
-	
-	public void initWeb(){
+
+	public void initWeb() {
 		instance.getLogger().log("Init web!", false);
-		int port =Integer.valueOf(instance.getProperties().getProperty("sparkPort"));
+		int port = Integer.valueOf(instance.getProperties().getProperty("sparkPort"));
 		port(port);
 		post("/java", (req, res) -> {
 			instance.getLogger().log("Got stuffs from web", false);
 			String body = req.body();
 			String uuid = "";
 			String id = "";
-			for(String string: body.split("&")){
-				if(!string.equals("")){
+			for (String string : body.split("&")) {
+				if (!string.equals("")) {
 					String[] value = string.split("=");
-					switch(value[0]){
-					case "mojang" :{
+					switch (value[0]) {
+					case "mojang": {
 						uuid = value[1];
 					}
-					break;
-					case "discord" :{
-						id =  value[1];
+						break;
+					case "discord": {
+						id = value[1];
 					}
 					}
 				}
@@ -45,8 +46,8 @@ public class WebReciver {
 			return "Test";
 		});
 	}
-	
-	public void storeToSheet(String uuid, Long id){
+
+	public void storeToSheet(String uuid, Long id) {
 		Sheet keysSheet = instance.getStorage().getPlayerSheet();
 		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
 		ArrayList<String> keys = new ArrayList<String>();
@@ -63,7 +64,7 @@ public class WebReciver {
 			idRow.createCell(cell.getColumnIndex()).setCellValue(String.valueOf(id));
 			instance.getStorage().saveDataWorkbook(keysSheet.getWorkbook());
 		} else {
-			
+
 		}
 	}
 }

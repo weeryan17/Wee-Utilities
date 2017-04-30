@@ -16,7 +16,6 @@ import com.weeryan17.dgs.commands.CommandsCommand;
 import com.weeryan17.dgs.commands.DiscordGroupsCommand;
 import com.weeryan17.dgs.commands.admin.GenerateCommand;
 import com.weeryan17.dgs.commands.admin.PermissionsCommand;
-import com.weeryan17.dgs.commands.admin.PinCommand;
 import com.weeryan17.dgs.commands.developer.EvalCommand;
 import com.weeryan17.dgs.commands.developer.StopCommand;
 import com.weeryan17.dgs.commands.developer.UpdateCommand;
@@ -164,7 +163,6 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("permissions", new PermissionsCommand(this));
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
-		cmdMannage.registerCommand("pin", new PinCommand());
 		cmdMannage.registerCommand("stop", new StopCommand(this));
 		this.initPatreon();
 		new VoiceTests(this).test();

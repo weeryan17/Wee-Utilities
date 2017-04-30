@@ -150,7 +150,8 @@ public class PermissionsCommand implements DiscordGroupsCommandBase {
 						if (DiscordGroupsPermissions
 								.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()))
 								.hasPerm("dg.perm.group.remove")) {
-							PermissionsResponce responce = this.removeRolePermissions(channel.getGuild(), role, args[3]);
+							PermissionsResponce responce = this.removeRolePermissions(channel.getGuild(), role,
+									args[3]);
 							if (responce.getSucesfull()) {
 								this.sendSucessfulRole(false, args[3], channel, role, sender);
 							} else {

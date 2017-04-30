@@ -167,9 +167,9 @@ public class Storage {
 				instance.getLogger().log("Guild user sheet wasn't found for guild " + l + ". Going to try an make it.",
 						Level.WARNING, false);
 				sheet = wb.createSheet(l + " - Users");
-				for(int i = 0; i <= 50; i++){
-					Row row = sheet.createRow(i);//Populate rows
-					for(int i2 = 0; i2 <= 500; i2++){
+				for (int i = 0; i <= 50; i++) {
+					Row row = sheet.createRow(i);// Populate rows
+					for (int i2 = 0; i2 <= 500; i2++) {
 						row.createCell(i2);
 					}
 				}
@@ -212,16 +212,16 @@ public class Storage {
 				instance.getLogger().log("Guild role sheet wasn't found for guild " + l + ". Going to try an make it.",
 						Level.WARNING, false);
 				sheet = wb.createSheet(l + " - Roles");
-				for(int i = 0; i <= 50; i++){
-					Row row = sheet.createRow(i);//Populate rows
-					for(int i2 = 0; i2 <= 500; i2++){
+				for (int i = 0; i <= 50; i++) {
+					Row row = sheet.createRow(i);// Populate rows
+					for (int i2 = 0; i2 <= 500; i2++) {
 						row.createCell(i2);
 					}
 				}
 				savePermsWorkbook(wb);
 				return sheet;
 			}
-			
+
 		} catch (IOException e) {
 			instance.getLogger().log("Chouldn't reed Guild data sheet for guild " + l, Level.SEVERE, e, false);
 			System.exit(1);

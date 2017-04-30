@@ -20,31 +20,33 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class DiscordGroupsReceiver implements IAudioReceiver {
 	DiscordGroups instance;
-	//SpeakingUser speakers;
-	public DiscordGroupsReceiver(DiscordGroups instance){
+
+	// SpeakingUser speakers;
+	public DiscordGroupsReceiver(DiscordGroups instance) {
 		this.instance = instance;
-		//speakers = new SpeakingUser();
+		// speakers = new SpeakingUser();
 	}
+
 	ArrayList<byte[]> bytes;
 	boolean speaking = false;
 	boolean reciving = false;
 	Timer timer = null;
-	
-	public void handleRecive(byte[] audio, IUser user){
+
+	public void handleRecive(byte[] audio, IUser user) {
 		instance.getLogger().log("Handling reciving", false);
-		if(!speaking){
+		if (!speaking) {
 			speaking = true;
 			instance.getLogger().log("Creating new bytes list", false);
 			bytes = new ArrayList<byte[]>();
 			bytes.add(audio);
-			while(reciving){
+			while (reciving) {
 				instance.getLogger().log("Still reciving", false);
 			}
 			instance.getLogger().log("Done reciving", false);
-			if(speaking){
+			if (speaking) {
 				byte[] stt = null;
-				for(byte[] rawAudio: bytes){
-					if(stt == null){
+				for (byte[] rawAudio : bytes) {
+					if (stt == null) {
 						stt = rawAudio;
 					} else {
 						stt = ArrayUtils.addAll(stt, rawAudio);
@@ -58,14 +60,16 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 			bytes.add(audio);
 		}
 	}
-	
+
 	/**
 	 * Sends the data to voice reconition
 	 * 
-	 * @param audio The byte[] audio
-	 * @param user The user who spoke
+	 * @param audio
+	 *            The byte[] audio
+	 * @param user
+	 *            The user who spoke
 	 */
-	public void speachToText(byte[] audio, IUser user){
+	public void speachToText(byte[] audio, IUser user) {
 		instance.getLogger().log("Audio recived", false);
 		InputStream input = new ByteArrayInputStream(audio);
 		Configuration config = new Configuration();
@@ -82,7 +86,7 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 		recon.startRecognition(input);
 		SpeechResult result;
 		StringBuilder sb = new StringBuilder();
-		while((result = recon.getResult()) != null) {
+		while ((result = recon.getResult()) != null) {
 			sb.append(result.getHypothesis());
 		}
 		instance.getLogger().log("Speach Result: " + sb.toString() + "\nFrom user " + user.getName(), true);
@@ -93,29 +97,29 @@ public class DiscordGroupsReceiver implements IAudioReceiver {
 		instance.getLogger().log("Reciving audio", false);
 		reciving = true;
 		StringBuilder sb = new StringBuilder();
-		for(byte thing: audio){
+		for (byte thing : audio) {
 			sb.append(thing + " ");
 		}
-		if(timer == null){
+		if (timer == null) {
 			timer = new Timer();
 		} else {
 			timer.cancel();
 			timer = new Timer();
 		}
-		new Thread(){
+		new Thread() {
 			@Override
-			public void run(){
+			public void run() {
 				handleRecive(audio, user);
 			}
 		}.start();
-		timer.schedule(new TimerTask(){
+		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
 				instance.getLogger().log("User done speaking", false);
 				reciving = false;
 			}
-			
+
 		}, 3000L);
 	}
 

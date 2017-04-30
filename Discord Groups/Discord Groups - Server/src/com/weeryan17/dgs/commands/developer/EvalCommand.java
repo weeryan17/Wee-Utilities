@@ -19,8 +19,7 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 
 /**
- * Part of this I borrowed from Flarebot
- * https://github.com/FlareBot/FlareBot
+ * Part of this I borrowed from Flarebot https://github.com/FlareBot/FlareBot
  * 
  * @author weeryan17
  *
@@ -28,36 +27,27 @@ import sx.blah.discord.util.EmbedBuilder;
 public class EvalCommand implements DiscordGroupsCommandBase {
 	DiscordGroups instance;
 	ArrayList<Long> ids;
-	
-	List<String> imports = Arrays.asList("com.weeryan17.dgs.*",
-			"com.weeryan17.dgs.commands.*",
-			"com.weeryan17.dgs.listeners.*",
-			"com.weeryan17.dgs.listeners.discord.*",
-			"com.weeryan17.dgs.socket.*",
-			"com.weeryan17.dgs.util.*",
-			"sx.blah.discord.util.*",
-			"org.apache.poi.xssf.usermodel.*",
-			"org.apache.poi.ss.usermodel.*",
-			"org.apache.poi.hssf.usermodel.*",
-			"java.util.streams.*",
-            "java.util.*",
-            "java.text.*",
-            "java.math.*",
-            "java.time.*",
-            "java.io.*");
-	
+
+	List<String> imports = Arrays.asList("com.weeryan17.dgs.*", "com.weeryan17.dgs.commands.*",
+			"com.weeryan17.dgs.listeners.*", "com.weeryan17.dgs.listeners.discord.*", "com.weeryan17.dgs.socket.*",
+			"com.weeryan17.dgs.util.*", "sx.blah.discord.util.*", "org.apache.poi.xssf.usermodel.*",
+			"org.apache.poi.ss.usermodel.*", "org.apache.poi.hssf.usermodel.*", "java.util.streams.*", "java.util.*",
+			"java.text.*", "java.math.*", "java.time.*", "java.io.*");
+
 	ScriptEngine engine;
-	public EvalCommand(DiscordGroups instance){
+
+	public EvalCommand(DiscordGroups instance) {
 		this.instance = instance;
 		ids = instance.getDevelopersIds();
 		ScriptEngineManager scriptMan = new ScriptEngineManager();
 		engine = scriptMan.getEngineByName("groovy");
 	}
-	
+
 	@Override
 	public void onCommand(String[] args, IChannel channel, IUser sender) {
-		instance.getLogger().log("Discord user with the id of " + sender.getLongID() + " tried to use the eval command", true);
-		if(ids.contains(sender.getLongID())){
+		instance.getLogger().log("Discord user with the id of " + sender.getLongID() + " tried to use the eval command",
+				true);
+		if (ids.contains(sender.getLongID())) {
 			channel.setTypingStatus(true);
 			String code = Arrays.stream(args).collect(Collectors.joining(" "));
 			String imports = this.imports.stream().map(s -> "import " + s + ';').collect(Collectors.joining("\n"));
@@ -71,22 +61,23 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			} catch (ScriptException e) {
 				instance.getLogger().log("The script encountered an exception on eval", Level.WARNING, e, true);
 				result = e.getMessage() + '\n';
-				for(StackTraceElement element: e.getStackTrace()){
-					result = result + element.getClassName() + " class generated an error on line " + element.getLineNumber() + " in the method " + element.getMethodName() + "()." + "\n";
+				for (StackTraceElement element : e.getStackTrace()) {
+					result = result + element.getClassName() + " class generated an error on line "
+							+ element.getLineNumber() + " in the method " + element.getMethodName() + "()." + "\n";
 				}
 			}
-			if(result.length() >= 1024){
+			if (result.length() >= 1024) {
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("Evaluation");
 				builder.appendField("Code", "```" + code + "```", false);
 				builder.appendField("Result", "```Ouput too long. Check output file```", false);
-				
-				if(!channel.isPrivate()){
+
+				if (!channel.isPrivate()) {
 					IRole role = null;
 					int pos = 0;
-					for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
+					for (IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())) {
 						int rawPos = rawRole.getPosition();
-						if(rawPos > pos){
+						if (rawPos > pos) {
 							role = rawRole;
 							pos = rawPos;
 						}
@@ -100,12 +91,12 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 				builder.withTitle("Evaluation");
 				builder.appendField("Code", "```" + code + "```", false);
 				builder.appendField("Result", "```" + result + "```", false);
-				if(!channel.isPrivate()){
+				if (!channel.isPrivate()) {
 					IRole role = null;
 					int pos = 0;
-					for(IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())){
+					for (IRole rawRole : instance.client.getOurUser().getRolesForGuild(channel.getGuild())) {
 						int rawPos = rawRole.getPosition();
-						if(rawPos > pos){
+						if (rawPos > pos) {
 							role = rawRole;
 							pos = rawPos;
 						}
@@ -117,5 +108,5 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			channel.setTypingStatus(false);
 		}
 	}
-	
+
 }

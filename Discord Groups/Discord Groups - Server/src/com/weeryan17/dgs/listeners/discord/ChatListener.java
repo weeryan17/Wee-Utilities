@@ -47,8 +47,8 @@ public class ChatListener {
 						}
 					}
 					instance.getLogger()
-							.log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getLongID() + "\n"
-									+ space + "executed the command: " + name + "\n" + space + "With the args:"
+							.log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getLongID()
+									+ "\n" + space + "executed the command: " + name + "\n" + space + "With the args:"
 									+ compressedArgs, false);
 				} else {
 					message.addReaction(EmojiManager.getForAlias("question"));
@@ -73,9 +73,9 @@ public class ChatListener {
 						}
 					}
 					instance.getLogger()
-							.log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getLongID() + "\n"
-									+ space + "executed the command: " + name + "\n" + space + "With the args:" + "\n"
-									+ compressedArgs, false);
+							.log("The user " + e.getAuthor().getName() + " who's id is " + e.getAuthor().getLongID()
+									+ "\n" + space + "executed the command: " + name + "\n" + space + "With the args:"
+									+ "\n" + compressedArgs, false);
 				} else {
 					message.addReaction(EmojiManager.getForAlias("question"));
 				}

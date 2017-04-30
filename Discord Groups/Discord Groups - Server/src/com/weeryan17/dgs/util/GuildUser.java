@@ -12,7 +12,7 @@ public class GuildUser {
 	private IUser user;
 
 	private IGuild guild;
-	
+
 	@Deprecated
 	public GuildUser(IUser user, IGuild guild) {
 		this.user = user;
@@ -21,13 +21,13 @@ public class GuildUser {
 		iusers.add(user);
 		iguilds.add(guild);
 	}
-	
-	public static GuildUser getGuildUser(IUser user, IGuild guild){
-		if(iusers.contains(user) && iguilds.contains(guild)){
-			for(GuildUser guildUser: users){
+
+	public static GuildUser getGuildUser(IUser user, IGuild guild) {
+		if (iusers.contains(user) && iguilds.contains(guild)) {
+			for (GuildUser guildUser : users) {
 				IUser gotUser = guildUser.getUser();
 				IGuild gotGuild = guildUser.getGuild();
-				if(gotUser.equals(user) && gotGuild.equals(guild)){
+				if (gotUser.equals(user) && gotGuild.equals(guild)) {
 					return guildUser;
 				}
 			}

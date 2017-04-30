@@ -37,56 +37,56 @@ public class MessageUtil {
 		}
 		return builder;
 	}
-	
-	public Object getUserFromString(String string, IChannel channel){
+
+	public Object getUserFromString(String string, IChannel channel) {
 		if (string.substring(0, 2).equals("<@!") && string.substring(string.length() - 1).equals(">")) {
 			String stringId = string.substring(2, string.length() - 1);
 			try {
 				Long id = Long.parseLong(stringId);
 				return channel.getGuild().getUserByID(id);
-			} catch (Exception e){
+			} catch (Exception e) {
 				return "invalid";
 			}
 		} else {
 			try {
 				Long id = Long.parseLong(string);
 				return channel.getGuild().getUserByID(id);
-			} catch (Exception e){
+			} catch (Exception e) {
 				ArrayList<IUser> users = (ArrayList<IUser>) channel.getGuild().getUsersByName(string, true);
-				if(users.size() >= 2){
+				if (users.size() >= 2) {
 					return "multiple";
 				} else {
 					try {
 						return users.get(0);
-					} catch (Exception e1){
+					} catch (Exception e1) {
 						return "invalid";
 					}
 				}
 			}
 		}
 	}
-	
-	public Object getRoleFromString(String string, IChannel channel){
+
+	public Object getRoleFromString(String string, IChannel channel) {
 		if (string.substring(0, 2).equals("<@&") && string.substring(string.length() - 1).equals(">")) {
 			String stringId = string.substring(2, string.length() - 1);
 			try {
 				Long id = Long.parseLong(stringId);
 				return channel.getGuild().getRoleByID(id);
-			} catch (Exception e){
+			} catch (Exception e) {
 				return "invalid";
 			}
 		} else {
 			try {
 				Long id = Long.parseLong(string);
 				return channel.getGuild().getRoleByID(id);
-			} catch (Exception e){
+			} catch (Exception e) {
 				ArrayList<IRole> users = (ArrayList<IRole>) channel.getGuild().getRolesByName(string);
-				if(users.size() >= 2){
+				if (users.size() >= 2) {
 					return "multiple";
 				} else {
 					try {
 						return users.get(0);
-					} catch (Exception e1){
+					} catch (Exception e1) {
 						return "invalid";
 					}
 				}

@@ -23,7 +23,8 @@ public class Update {
 	public void update() {
 		File git = new File("Wee-Utilities" + File.separator);
 		if (!git.exists() || !git.isDirectory()) {
-			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities", "--branch", "discord-groups");
+			ProcessBuilder clone = new ProcessBuilder("git", "clone", "https://github.com/weeryan17/Wee-Utilities",
+					"--branch", "discord-groups");
 			clone.redirectErrorStream(true);
 			Process p = null;
 			try {
@@ -38,7 +39,7 @@ public class Update {
 			while (p.isAlive()) {
 				try {
 					line = reader.readLine();
-					if(line != null){
+					if (line != null) {
 						instance.getLogger().log(line, false);
 						sb.append(line + '\n');
 					}
@@ -46,7 +47,7 @@ public class Update {
 					instance.getLogger().log("Error reading line", Level.WARNING, e, false);
 				}
 			}
-			
+
 			if (p.exitValue() != 0) {
 				instance.getLogger().log("Clone exited with a non 0 status\n" + sb.toString(), Level.WARNING, true);
 			}
@@ -66,7 +67,7 @@ public class Update {
 			while (p.isAlive()) {
 				try {
 					line = reader.readLine();
-					if(line != null){
+					if (line != null) {
 						instance.getLogger().log(line, false);
 						sb.append(line + '\n');
 					}
@@ -94,7 +95,7 @@ public class Update {
 		while (p.isAlive()) {
 			try {
 				line = reader.readLine();
-				if(line != null){
+				if (line != null) {
 					instance.getLogger().log(line, false);
 					sb.append(line + '\n');
 				}
@@ -102,7 +103,7 @@ public class Update {
 				instance.getLogger().log("Error reading line", Level.WARNING, e, false);
 			}
 		}
-		
+
 		if (p.exitValue() != 0) {
 			instance.getLogger().log("Compiling project exited with a non 0 status\n" + sb.toString(), Level.WARNING,
 					true);

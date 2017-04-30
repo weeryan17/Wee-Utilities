@@ -17,46 +17,48 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class PermissionsTimer extends TimerTask {
 	DiscordGroups instance;
-	public PermissionsTimer(DiscordGroups instance){
+
+	public PermissionsTimer(DiscordGroups instance) {
 		this.instance = instance;
 	}
-	
+
 	@Override
 	public void run() {
 		instance.getLogger().log("Updating permissions in case event missed something", false);
-		for(IGuild guild: instance.client.getGuilds()){
+		for (IGuild guild : instance.client.getGuilds()) {
 			Long guildId = guild.getLongID();
-			for(IUser user: guild.getUsers()){
+			for (IUser user : guild.getUsers()) {
 				Sheet userSheet = instance.getStorage().getGuildUserSheet(guildId);
 				Row userRow = userSheet.getRow(userSheet.getFirstRowNum());
 				boolean hasUser = false;
-				for(Cell cell: userRow){
-					if(cell.getCellTypeEnum().equals(CellType.STRING)){
-						if(cell.getStringCellValue().equals(user.getLongID())){
+				for (Cell cell : userRow) {
+					if (cell.getCellTypeEnum().equals(CellType.STRING)) {
+						if (cell.getStringCellValue().equals(user.getLongID())) {
 							hasUser = true;
 						}
 					}
 				}
-				
-				if(!hasUser){
+
+				if (!hasUser) {
 					new DiscordGroupsPermissions(GuildUser.getGuildUser(user, guild));
 					int firstBlankCell = -1;
-					for(Cell cell: userRow){
-						if(cell.getCellTypeEnum().equals(CellType.BLANK) && firstBlankCell != -1){
-							
+					for (Cell cell : userRow) {
+						if (cell.getCellTypeEnum().equals(CellType.BLANK) && firstBlankCell != -1) {
+
 						}
 					}
 				} else {
-					if(DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(user, guild)) == null){
+					if (DiscordGroupsPermissions.getUserPermissions(GuildUser.getGuildUser(user, guild)) == null) {
 						new DiscordGroupsPermissions(GuildUser.getGuildUser(user, guild));
 					}
 				}
 			}
-			
-			for(@SuppressWarnings("unused") IRole roles: guild.getRoles()){
-				//TODO How haven't I done this yet
+
+			for (@SuppressWarnings("unused")
+			IRole roles : guild.getRoles()) {
+				// TODO How haven't I done this yet
 			}
 		}
 	}
-	
+
 }

@@ -10,9 +10,11 @@ import ch.qos.logback.core.spi.FilterReply;
 
 public class LogListener extends Filter<ILoggingEvent> {
 	DiscordGroups instance;
-	public LogListener(){
+
+	public LogListener() {
 		this.instance = DiscordGroups.getStaticInstance();
 	}
+
 	@Override
 	public FilterReply decide(ILoggingEvent e) {
 		instance.getLogger().log(e.getFormattedMessage(), Level.parse(e.getLevel().toString()), false);

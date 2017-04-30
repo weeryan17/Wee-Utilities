@@ -36,10 +36,10 @@ public class PushListener implements EventListener<PushEvent> {
 				sb.append("```Markdown\n");
 				int i = 0;
 				for (String filePath : commit.getAdded()) {
-                    if (i++ <= 5) {
-                        String file = filePath.substring(filePath.lastIndexOf("/") + 1);
-                        sb.append("* " + file + "\n\n");
-                    }
+					if (i++ <= 5) {
+						String file = filePath.substring(filePath.lastIndexOf("/") + 1);
+						sb.append("* " + file + "\n\n");
+					}
 				}
 				if (commit.getAdded().length > 5) {
 					sb.append("...");
@@ -53,10 +53,10 @@ public class PushListener implements EventListener<PushEvent> {
 				sb.append("```Markdown\n");
 				int i = 0;
 				for (String filePath : commit.getRemoved()) {
-                    if (i++ <= 5) {
-                        String file = filePath.substring(filePath.lastIndexOf("/") + 1);
-                        sb.append("* " + file + "\n\n");
-                    }
+					if (i++ <= 5) {
+						String file = filePath.substring(filePath.lastIndexOf("/") + 1);
+						sb.append("* " + file + "\n\n");
+					}
 				}
 				if (commit.getRemoved().length > 5) {
 					sb.append("...");
@@ -70,10 +70,10 @@ public class PushListener implements EventListener<PushEvent> {
 				sb.append("```Markdown\n");
 				int i = 0;
 				for (String filePath : commit.getModified()) {
-                    if (i++ <= 5) {
-                        String file = filePath.substring(filePath.lastIndexOf("/") + 1);
-                        sb.append("* " + file + "\n\n");
-                    }
+					if (i++ <= 5) {
+						String file = filePath.substring(filePath.lastIndexOf("/") + 1);
+						sb.append("* " + file + "\n\n");
+					}
 				}
 				if (commit.getModified().length > 5) {
 					sb.append("...");
