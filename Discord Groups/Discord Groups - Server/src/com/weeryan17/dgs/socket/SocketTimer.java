@@ -81,16 +81,16 @@ public class SocketTimer {
 						} else {
 							instance.getLogger().log(
 									"Recived an unknow process value from the ip " + socket.getRemoteSocketAddress(),
-									Level.WARNING, true);
+									Level.WARNING, false);
 						}
 					} else {
 						instance.getLogger().log("Recived invalid key from the ip " + socket.getRemoteSocketAddress(),
-								Level.WARNING, true);
+								Level.WARNING, false);
 					}
 				} else {
 					instance.getLogger().log(
 							"Object recived that wasn't a string list from ip " + socket.getRemoteSocketAddress(),
-							Level.WARNING, true);
+							Level.WARNING, false);
 				}
 				socket.close();
 				in.close();
