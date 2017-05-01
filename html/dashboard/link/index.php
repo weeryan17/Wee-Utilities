@@ -89,8 +89,14 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 			
 			if ($mojang ['status'] == "sucess") {
 				?>
+				<div class="login-social-link centered">
+					<div class="alert alert-success">
+					<b>Yay!</b> Your Discord and Minecraft are now linked!
+				</div>
 					<img class="centered" alt="avatar"
 					src="https://visage.surgeplay.com/full/<?php echo($mojang['result']['uuid']);?>.png">
+				</div>
+					
 					<?php
 			} else {
 				if (isset ( $_GET ['invalid'] )) {
