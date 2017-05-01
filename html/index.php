@@ -33,6 +33,7 @@
 											<li><a href="">Home</a></li>
 											<li><a href="/dashboard/">Dashboard</a></li>
 											<li><a href="https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki" target="_blank">Wiki</a></li>
+											<li><a href="/mantisbt/">Bug Tracker</a></li>
 										</ul>
 									</div>
 								</li>
@@ -47,7 +48,7 @@
 							<p>Link Minecraft and Discord<br />
 							First Discord Role Linking Plugin</p>
 							<ul class="actions">
-							  <li><a href="#" target="_blank" class="button special">Download</a></li>
+							  <li><a href="https://fiver.io/resources/discord-groups.24/" target="_blank" class="button special">Download</a></li>
 						  </ul>
 						</div>
 						<a href="#one" class="more scrolly">More</a>

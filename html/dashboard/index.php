@@ -76,7 +76,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/api/user.php');
 		            <p><strong>Discord Groups Dashboard</strong></p>
 		            <a class="btn btn-theme" href="/dashboard/"><em class="fa fa-dashboard"></em> HOME</a>
 		            <a class="btn btn-theme" href="link/"><em class="fa fa-cogs"></em> LINK</a>
-		            <a class="btn btn-theme04"><em class="fa fa-cogs"></em> LOG OUT</a></div>
+		            <a class="btn btn-theme04" href="logout/"><em class="fa fa-cogs"></em> LOG OUT</a></div>
 		        <hr>
 		        
 		        <div class="login-social-link centered">
