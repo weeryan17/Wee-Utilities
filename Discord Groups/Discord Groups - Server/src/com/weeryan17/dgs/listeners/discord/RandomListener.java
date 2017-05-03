@@ -7,10 +7,9 @@ import com.weeryan17.dgs.util.GuildUser;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
-import sx.blah.discord.handle.impl.events.guild.role.RoleCreateEvent;
-import sx.blah.discord.handle.impl.events.guild.role.RoleDeleteEvent;
-import sx.blah.discord.handle.impl.events.shard.ReconnectSuccessEvent;
-import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
+import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 
 public class RandomListener {
@@ -27,26 +26,23 @@ public class RandomListener {
 	}
 
 	@EventSubscriber
-	public void onRoleCreate(RoleCreateEvent e) {
-		@SuppressWarnings("unused")
-		IRole role = e.getRole();
-	}
-
-	@EventSubscriber
-	public void onRoleDelete(RoleDeleteEvent e) {
-		@SuppressWarnings("unused")
-		IRole role = e.getRole();
-	}
-
-	@EventSubscriber
-	public void onReconect(ReconnectSuccessEvent e) {
-
-	}
-	
-	@EventSubscriber
-	public void onJoin(GuildCreateEvent e){
-		for(IUser user: e.getGuild().getUsers()){
+	public void onJoin(GuildCreateEvent e) {
+		for (IUser user : e.getGuild().getUsers()) {
 			DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, e.getGuild()), discord);
 		}
+	}
+
+	@EventSubscriber
+	public void onUserJoin(UserJoinEvent e) {
+		IUser user = e.getUser();
+		IGuild guild = e.getGuild();
+		DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
+	}
+
+	@EventSubscriber
+	public void onUserKick(UserLeaveEvent e) {
+		IUser user = e.getUser();
+		IGuild guild = e.getGuild();
+		DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
 	}
 }

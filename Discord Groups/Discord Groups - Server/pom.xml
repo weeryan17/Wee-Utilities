@@ -165,5 +165,10 @@
 			<artifactId>mantis-axis-soap-client</artifactId>
 			<version>1.2.19</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.xaanit</groupId>
+			<artifactId>D4J-OAuth</artifactId>
+			<version>master-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
