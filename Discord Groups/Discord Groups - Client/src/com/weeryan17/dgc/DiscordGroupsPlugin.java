@@ -25,7 +25,7 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 	Permission perm;
 	Updater update;
 	
-	String address = "REMOVED"; // Removed from github for security
+	String address = ""; // Removed from github for security
 	// reasons. Although you can
 	// probably figure this one out when
 	// this is done.

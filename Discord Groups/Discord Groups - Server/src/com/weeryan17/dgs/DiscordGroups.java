@@ -109,6 +109,9 @@ public class DiscordGroups {
 	String inviteLink;
 
 	ArrayList<Long> ids;
+	
+	int users;
+	int userCurrent = 0;
 
 	public void readyInit() {
 		client.streaming("Permissions initlizing", "discordgroups.weeryan17.tk");
@@ -134,12 +137,17 @@ public class DiscordGroups {
 			logger.log("Chouldn't build webhook", Level.SEVERE, e, true);
 			System.exit(1);
 		}
+		users = 0;
+		for(IGuild guild: instance.client.getGuilds()){
+			users = users + guild.getUsers().size();
+		}
 		new Thread() {
 			@Override
 			public void run() {
 				instance.getLogger().log("Creating all the perms!", true);
 				for (IGuild guild : client.getGuilds()) {
 					for (IUser user : guild.getUsers()) {
+						updateProgress();
 						GuildUser guildUser = GuildUser.getGuildUser(user, guild);
 						new DiscordGroupsPermissions(guildUser);
 						try {
@@ -233,5 +241,12 @@ public class DiscordGroups {
 
 	public static DiscordGroups getStaticInstance() {
 		return instance;
+	}
+	
+	public void updateProgress(){
+		userCurrent++;
+		int rawPer = userCurrent / users;
+		int percent = rawPer * 100;
+		instance.client.changePlayingText("Permissions initlizing " + percent + "%");
 	}
 }
