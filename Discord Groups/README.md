@@ -4,7 +4,7 @@ This contains all of the Discord Groups Plugin including the Client Side and Ser
 
 * [Wiki](https://github.com/LeCodeCo/Discord-Groups-Wiki/wiki)
 * [Website Branch](https://github.com/weeryan17/Wee-Utilities/tree/website)
-* [Website](discordgroups.weeryan.tk)
+* [Website](https://discordgroups.weeryan.tk)
 * [Beta Download](https://fiver.io/resources/discord-groups.24/)
 
 ## Official Support Discord
