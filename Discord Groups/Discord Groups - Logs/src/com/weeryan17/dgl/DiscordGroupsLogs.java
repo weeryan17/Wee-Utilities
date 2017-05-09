@@ -3,8 +3,12 @@ package com.weeryan17.dgl;
 public class DiscordGroupsLogs {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		DiscordGroupsLogs main = new DiscordGroupsLogs();
+		main.init();
+	}
+	
+	public void init(){
+		
 	}
 
 }
