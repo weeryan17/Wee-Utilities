@@ -13,3 +13,9 @@ This contains all of the Discord Groups Plugin including the Client Side and Ser
 ## Old Version
 The old version is currently still available on Spigot, although that will be updated once the version goes out of beta.
 You can find it over [here](https://www.spigotmc.org/resources/discord-groups.28764/).
+
+## Credits
+ * Developed by weeryan17 and CodeCo
+   * CodeCo did the site design
+   * weeryan17 did the java side and php code
+ 
