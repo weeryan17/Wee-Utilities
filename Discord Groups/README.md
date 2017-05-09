@@ -18,4 +18,6 @@ You can find it over [here](https://www.spigotmc.org/resources/discord-groups.28
  * Developed by weeryan17 and CodeCo
    * CodeCo did the site design
    * weeryan17 did the java side and php code
- 
+ * Special thanks to EJ Technologies for JProfiler license
+
+[![JProfiler](https://www.ej-technologies.com/images/product_banners/jprofiler_large.png)](https://www.ej-technologies.com/products/jprofiler/overview.html)
