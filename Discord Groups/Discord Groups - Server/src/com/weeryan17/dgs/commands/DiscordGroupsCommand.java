@@ -55,7 +55,7 @@ public class DiscordGroupsCommand implements DiscordGroupsCommandBase {
 				EmbedBuilder builder = instance.getMessageUtil().getBaseEmbed(sender, channel);
 				builder.withTitle("**Discord Groups Stats**");
 				// builder.appendField("Cpu usage", cpu + "%", true);
-				builder.appendField("Version", "N/A", true);
+				builder.appendField("Version", "1.0.0 BETA", true);
 				builder.appendField("Memory Free", mbFree + "MB", true);
 				builder.appendField("Memory Used", mbUsed + "MB", true);
 				builder.appendField("Memory Total", mbTotal + "MB", true);

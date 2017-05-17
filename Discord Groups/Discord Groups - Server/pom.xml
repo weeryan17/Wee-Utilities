@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>DiscordGroupsServer</groupId>
 	<artifactId>DiscordGroupsServer</artifactId>
-	<version>0.0.1</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -171,4 +170,5 @@
 			<version>master-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	<version>1.0.0 BETA</version>
 </project>
