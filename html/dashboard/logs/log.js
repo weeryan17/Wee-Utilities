@@ -1,0 +1,4 @@
+
+function readFile(file){
+	
+}

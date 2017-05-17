@@ -1,0 +1,58 @@
+{
+  "plugin versions": {
+    "2.0.0 BETA": {
+      "title": "Initial Release",
+      "description": [
+        ""
+      ]
+    },
+    "2.0.1 BETA": {
+      "title": "Wrong file",
+      "description": [
+        "My fault guys here's the correct file"
+      ]
+    },
+    "2.0.1.1 BETA": {
+      "title": "Minor fixes",
+      "description": [
+        "This impacts almost nothing. Just fixes some of my internal stuffs"
+      ]
+    },
+    "2.0.1.2 BETA": {
+      "title": "I forgot to update plugin.yml version",
+      "description": [
+        "My bad"
+      ]
+    },
+    "2.0.1.3 BETA": {
+      "title": "More internal updates",
+      "description": [
+        "Needed to make stuff work so update"
+      ]
+    },
+    "2.0.1.4 BETA": {
+      "title": "Another backend update",
+      "description": [
+        "These guys happen so often because my remote IP isn't static and this sends to a remote IP. I have a fix for this that I'm going to implement later"
+      ]
+    },
+    "2.0.1.5 BETA": {
+      "title": "Backend update",
+      "description": [
+        "You know one of these days I'm going to make it where I don't have to do these update"
+      ]
+    }
+  },
+  "bot versions": {
+    "1.0.0 BETA": {
+      "title": "Initial Release",
+      "description": [
+        ""
+      ]
+    }
+  },
+  "latest plugin version": "2.0.1.5 BETA",
+  "latest bot version": "1.0.0 BETA",
+  "forced plugin min version": "2.0.1.5 BETA",
+  "ip": "69.30.179.123"
+}

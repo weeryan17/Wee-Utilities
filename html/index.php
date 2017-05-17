@@ -15,6 +15,10 @@
 		<link rel="stylesheet" href="_include/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<meta property="og:title" content="Discord Groups">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="Link Minecraft and Discord. First Discord Role Linking Plugin">
+		<meta property="og:image" content="https://discordgroups.weeryan17.tk/_include/img/icon.png">
 	</head>
 	<body class="landing scrollbar" id="style-1" >
 
@@ -151,9 +155,13 @@
 							<li><a href="https://twitter.com/DiscordGroups" target="_blank" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 							<li><a href="mailto:discordgroups@gmail.com" target="_blank" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
 						</ul>
+						<ul class="icons">
+							<li><a href="https://www.ej-technologies.com/products/jprofiler/overview.html" target="_blank"><img src=_include/img/jprofiler_large.jpg></img></a></li>
+							<li><p>Special thanks to EJ Technologies for JProfiler license</p></li>
+						</ul>
 						<ul class="copyright">
 						  <li>&copy; Discord Groups</li>
-						  <li>Coded with Love!</a></li>
+						  <li><a>Coded with Love!</a></li>
 						</ul>
 					</footer>
 

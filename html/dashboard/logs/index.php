@@ -17,7 +17,7 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/api/user.php');
 <?php
 $hasdir = isset ( $_GET ['dir'] );
 $hasfile = isset ( $_GET ['file'] );
-$logFolder="/media/Bots/Discord-Groups/Logs/";
+$logFolder="/media/server/Discord-Groups/Logs/";
 if (!isset($_COOKIE["discord_groups"])) { ?>
 <div id="login-page">
           <div class="container">
