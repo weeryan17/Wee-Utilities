@@ -119,9 +119,25 @@ class Calendar {
 			
 			$cellContent=null;
 		}
+		$today = getdate();
+		$year = $today['year'];
+		if($today['mon'] < 10){
+			$month = '0'.$today['mon'];
+		} else {
+			$month = $today['mon'];
+		}
+		if($today['mday'] < 10){
+			$day = '0'.$today['mday'];
+		} else {
+			$day = $today['mday'];
+		}
+		$day = $year.'-'.$month.'-'.$day;
+		$active = '';
+		if($this->currentDate == $day){
+			$active = 'class="active" style="color:red;"';
+		}
 		
-		
-		return '<a href="?dir='.$this->currentDate.'"><li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
+		return '<a href="?dir='.$this->currentDate.'"><li '.$active.' id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
 		($cellContent==null?'mask':'').'">'.$cellContent.'</li></a>';
 	}
 	
