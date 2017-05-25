@@ -1,11 +1,19 @@
 package com.weeryan17.dgs;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
@@ -29,6 +37,7 @@ import com.weeryan17.dgs.util.Logging;
 import com.weeryan17.dgs.util.MessageUtil;
 import com.weeryan17.dgs.util.Storage;
 import com.weeryan17.dgs.util.twitter.TwitterUtil;
+import com.weeryan17.dgs.util.versoning.PluginVersion;
 import com.weeryan17.dgs.util.voice.VoiceTests;
 import com.weeryan17.dgs.util.web.WebReciver;
 
@@ -56,6 +65,9 @@ public class DiscordGroups {
 	int shards;
 
 	Properties prop;
+	Properties versions;
+	
+	String version;
 
 	public boolean permsReady = false;
 
@@ -79,8 +91,61 @@ public class DiscordGroups {
 			}
 			System.exit(1);
 		}
+
+		versions = new Properties();
+		try {
+			InputStream propIn = classloader.getResourceAsStream("versions.properties");
+			versions.load(propIn);
+		} catch (IOException e) {
+			System.out.println("Error enounter loading propeties file");
+			System.out.println(e.getMessage());
+			for (StackTraceElement element : e.getStackTrace()) {
+				System.out.println(element.getClassName() + " class generated an error on line "
+						+ element.getLineNumber() + " in the method " + element.getMethodName() + "().");
+			}
+			System.exit(1);
+		}
+		
 		logger = new Logging(this);
 		logger.log("jar loc: " + jarFile, false);
+		
+		JSONObject jsonVersions = null;
+		
+		try {
+			jsonVersions = readJsonFromUrl("https://discordgroups.weeryan17.tk/api/version.json");
+		} catch (JSONException e1) {
+			logger.log("Error loading versions from site", Level.SEVERE, e1, false);
+			System.exit(1);
+		} catch (IOException e1) {
+			logger.log("Error loading versions from site", Level.SEVERE, e1, false);
+			System.exit(1);
+		}
+		
+		JSONObject pluginVersions = jsonVersions.getJSONObject("plugin versions");
+		
+		Iterator<?> pluginKeys = pluginVersions.keys();
+		
+		while(pluginKeys.hasNext()){
+			String pluginVersionString = (String) pluginKeys.next();
+			if(pluginVersions.get(pluginVersionString) instanceof JSONObject){
+				JSONObject version = (JSONObject) pluginVersions.get(pluginVersionString);
+				String title = version.getString("title");
+				JSONArray jsonDesc = version.getJSONArray("description");
+				ArrayList<String> arrayDesc = new ArrayList<String>();
+				for(int i = 0; i < jsonDesc.length(); i++){
+					String descPart = jsonDesc.getString(i);
+					arrayDesc.add(descPart);
+				}
+				String[] description = new String[jsonDesc.length()];
+				description = arrayDesc.toArray(description);
+				String download = version.getString("download");
+				new PluginVersion(pluginVersionString, title, description, download);
+			}
+		}
+		
+		JSONObject botVersions = jsonVersions.getJSONObject("bot versions");
+		version = botVersions.getString("latest bot version");
+		
 		instance = this;
 		token = prop.getProperty("token");
 		try {
@@ -109,9 +174,9 @@ public class DiscordGroups {
 	String inviteLink;
 
 	ArrayList<Long> ids;
-	
+
 	int users;
-	int userCurrent = 0;
+	static int userCurrent = 0;
 
 	public void readyInit() {
 		client.streaming("Permissions initlizing", "discordgroups.weeryan17.tk");
@@ -137,10 +202,11 @@ public class DiscordGroups {
 			logger.log("Chouldn't build webhook", Level.SEVERE, e, true);
 			System.exit(1);
 		}
-		users = 0;
-		for(IGuild guild: instance.client.getGuilds()){
+		int users = 0;
+		for (IGuild guild : instance.client.getGuilds()) {
 			users = users + guild.getUsers().size();
 		}
+		this.users = users;
 		new Thread() {
 			@Override
 			public void run() {
@@ -172,7 +238,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("stop", new StopCommand(this));
-		this.initPatreon();
+		// this.initPatreon();
 		new VoiceTests(this).test();
 		TwitterUtil twitter = new TwitterUtil(this);
 		twitter.tweet("Bot is up and running!");
@@ -215,6 +281,14 @@ public class DiscordGroups {
 		return prop;
 	}
 
+	public Properties getVersions() {
+		return versions;
+	}
+	
+	public String getVersion(){
+		return version;
+	}
+
 	public Storage getStorage() {
 		return storage;
 	}
@@ -242,11 +316,32 @@ public class DiscordGroups {
 	public static DiscordGroups getStaticInstance() {
 		return instance;
 	}
-	
-	public void updateProgress(){
+
+	public void updateProgress() {
 		userCurrent++;
 		int rawPer = userCurrent / users;
 		int percent = rawPer * 100;
 		instance.client.changePlayingText("Permissions initlizing " + percent + "%");
+	}
+	
+	private static String readAll(Reader rd) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		int cp;
+		while ((cp = rd.read()) != -1) {
+			sb.append((char) cp);
+		}
+		return sb.toString();
+	}
+
+	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+		InputStream is = new URL(url).openStream();
+		try {
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			String jsonText = readAll(rd);
+			JSONObject json = new JSONObject(jsonText);
+			return json;
+		} finally {
+			is.close();
+		}
 	}
 }

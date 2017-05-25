@@ -44,7 +44,7 @@ public class Updater implements Runnable{
 		}
 		
 		String[][] roleSync = {
-			{instance.getKey(), "REMOVED"}, //removed from github. gotta love that security.
+			{instance.getKey(), "sync roles"}, //removed from github. gotta love that security.
 			listGroup.toArray(new String[listGroup.size()])
 		};
 		
@@ -77,7 +77,7 @@ public class Updater implements Runnable{
 		ArrayList<String[]> rawUserSync = new ArrayList<String[]>();
 		String[] process = {
 				instance.getKey(),
-				"REMOVED"
+				"sync user"
 		};
 		rawUserSync.add(process);
 		for(Player p: Bukkit.getOnlinePlayers()){
