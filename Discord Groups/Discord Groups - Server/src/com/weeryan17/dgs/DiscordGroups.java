@@ -10,8 +10,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.Timer;
 import java.util.logging.Level;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +38,7 @@ import com.weeryan17.dgs.util.GuildUser;
 import com.weeryan17.dgs.util.Logging;
 import com.weeryan17.dgs.util.MessageUtil;
 import com.weeryan17.dgs.util.Storage;
+import com.weeryan17.dgs.util.WebUpdate;
 import com.weeryan17.dgs.util.twitter.TwitterUtil;
 import com.weeryan17.dgs.util.versoning.PluginVersion;
 import com.weeryan17.dgs.util.voice.VoiceTests;
@@ -43,9 +46,12 @@ import com.weeryan17.dgs.util.web.WebReciver;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.EmbedBuilder;
 
 public class DiscordGroups {
 	public IDiscordClient client;
@@ -66,7 +72,7 @@ public class DiscordGroups {
 
 	Properties prop;
 	Properties versions;
-	
+
 	String version;
 
 	public boolean permsReady = false;
@@ -105,12 +111,12 @@ public class DiscordGroups {
 			}
 			System.exit(1);
 		}
-		
+
 		logger = new Logging(this);
 		logger.log("jar loc: " + jarFile, false);
-		
+
 		JSONObject jsonVersions = null;
-		
+
 		try {
 			jsonVersions = readJsonFromUrl("https://discordgroups.weeryan17.tk/api/version.json");
 		} catch (JSONException e1) {
@@ -120,19 +126,19 @@ public class DiscordGroups {
 			logger.log("Error loading versions from site", Level.SEVERE, e1, false);
 			System.exit(1);
 		}
-		
+
 		JSONObject pluginVersions = jsonVersions.getJSONObject("plugin versions");
-		
+
 		Iterator<?> pluginKeys = pluginVersions.keys();
-		
-		while(pluginKeys.hasNext()){
+
+		while (pluginKeys.hasNext()) {
 			String pluginVersionString = (String) pluginKeys.next();
-			if(pluginVersions.get(pluginVersionString) instanceof JSONObject){
+			if (pluginVersions.get(pluginVersionString) instanceof JSONObject) {
 				JSONObject version = (JSONObject) pluginVersions.get(pluginVersionString);
 				String title = version.getString("title");
 				JSONArray jsonDesc = version.getJSONArray("description");
 				ArrayList<String> arrayDesc = new ArrayList<String>();
-				for(int i = 0; i < jsonDesc.length(); i++){
+				for (int i = 0; i < jsonDesc.length(); i++) {
 					String descPart = jsonDesc.getString(i);
 					arrayDesc.add(descPart);
 				}
@@ -142,10 +148,15 @@ public class DiscordGroups {
 				new PluginVersion(pluginVersionString, title, description, download);
 			}
 		}
-		
-		JSONObject botVersions = jsonVersions.getJSONObject("bot versions");
-		version = botVersions.getString("latest bot version");
-		
+
+		PluginVersion.setLatest(jsonVersions.getString("latest plugin stable version"));
+		PluginVersion.setHighest(jsonVersions.getString("latest plugin version"));
+
+		// JSONObject botVersions = jsonVersions.getJSONObject("bot versions");
+		// version = botVersions.getString("latest bot version");
+
+		version = jsonVersions.getString("latest bot version");
+
 		instance = this;
 		token = prop.getProperty("token");
 		try {
@@ -178,8 +189,10 @@ public class DiscordGroups {
 	int users;
 	static int userCurrent = 0;
 
+	int progress = 0;
+
 	public void readyInit() {
-		client.streaming("Permissions initlizing", "discordgroups.weeryan17.tk");
+		client.changePlayingText("Creating perms");
 		mainGuild = client.getGuildByID(guildId);
 		ids = new ArrayList<Long>();
 		ids.add(215644829969809421L);
@@ -193,7 +206,13 @@ public class DiscordGroups {
 																// again
 																// security
 		web = web.addListener(new PushListener(this));
-		getLogger().log("Bot initilizing", true);
+		IChannel logChannel = mainGuild.getChannelByID(280177651392708608L);
+		EmbedBuilder ebProgress = new EmbedBuilder();
+		ebProgress.appendField("Phase", "Initilizing", true);
+		ebProgress.appendField("Bot prgoress", progressBar(0), false);
+		getLogger().log("Bot initilizing", false);
+		IMessage progress = logChannel.sendMessage(ebProgress.build());
+		new Timer().schedule(new WebUpdate(this), 1000L, 1000L);
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
 		try {
@@ -207,6 +226,7 @@ public class DiscordGroups {
 			users = users + guild.getUsers().size();
 		}
 		this.users = users;
+		
 		new Thread() {
 			@Override
 			public void run() {
@@ -225,7 +245,7 @@ public class DiscordGroups {
 				}
 				instance.getLogger().log("Done creating perms", true);
 				permsReady = true;
-				client.streaming("^commands", "discordgroups.weeryan17.tk");
+				client.changePlayingText("^commands");
 			}
 		}.start();
 		WebReciver website = new WebReciver(this);
@@ -284,8 +304,8 @@ public class DiscordGroups {
 	public Properties getVersions() {
 		return versions;
 	}
-	
-	public String getVersion(){
+
+	public String getVersion() {
 		return version;
 	}
 
@@ -323,7 +343,7 @@ public class DiscordGroups {
 		int percent = rawPer * 100;
 		instance.client.changePlayingText("Permissions initlizing " + percent + "%");
 	}
-	
+
 	private static String readAll(Reader rd) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		int cp;
@@ -343,5 +363,17 @@ public class DiscordGroups {
 		} finally {
 			is.close();
 		}
+	}
+	
+	/**
+	 * Creates a progress bar.
+	 * 
+	 * @param progress the progress
+	 * @return The bar
+	 */
+	public String progressBar(int progress){
+		int begin = progress;
+		int end = 10 - progress;
+		return "(" + StringUtils.repeat("▬", begin) + ")[]" + StringUtils.repeat("▬", end);
 	}
 }

@@ -12,10 +12,8 @@ import java.util.logging.Logger;
 
 import com.weeryan17.dgs.DiscordGroups;
 
+import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.MissingPermissionsException;
-import sx.blah.discord.util.RateLimitException;
 
 public class Logging {
 
@@ -28,6 +26,8 @@ public class Logging {
 	Logger logger;
 
 	String logFolder;
+	
+	String space = "                 ";
 
 	public Logging(DiscordGroups instance) {
 		this.instance = instance;
@@ -125,20 +125,35 @@ public class Logging {
 
 		logger.log(level, secondsDate + " [DiscordGroups] " + message, thrown);
 	}
+	
+	/**
+	 * Logs an embed.
+	 * Will always log to discord for obvious reasons.
+	 * 
+	 * @param embed The embed.
+	 */
+	public void logEmbed(EmbedObject embed){
+		StringBuilder embedString = new StringBuilder();
+		embedString.append(embed.title + "\n");
+		embedString.append(space + embed.description + "\n");
+		for(EmbedObject.EmbedFieldObject field: embed.fields){
+			embedString.append(space + field.name + "\n");
+			embedString.append(space + space + field.value + "\n");
+		}
+	}
 
 	public void sendMessage(String message) {
-		try {
-			if (logChannel == null) {
-				logChannel = instance.getMainGuild().getChannelByID(channelId);
-			}
-			logChannel.sendMessage(message);
-		} catch (MissingPermissionsException e) {
-			this.log("Discord bot is missing permisions", Level.WARNING, e, false);
-		} catch (RateLimitException e) {
-			this.log("Discord bot hit it's rate limit", Level.SEVERE, e, false);
-		} catch (DiscordException e) {
-			this.log("Discord bot ran into a error", Level.WARNING, e, false);
+		if (logChannel == null) {
+			logChannel = instance.getMainGuild().getChannelByID(channelId);
 		}
+		logChannel.sendMessage(message);
+	}
+	
+	public void sendEmbed(EmbedObject embed){
+		if (logChannel == null) {
+			logChannel = instance.getMainGuild().getChannelByID(channelId);
+		}
+		logChannel.sendMessage(embed);
 	}
 
 	public void writeToFile(String message) {
