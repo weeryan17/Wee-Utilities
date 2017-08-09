@@ -11,12 +11,12 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/developer/Dropbox/spigot/BuildTools/Spigot/Spigot-API/target/spigot-api-1.11.2-R0.1-SNAPSHOT-shaded.jar" sourcepath="C:/Users/developer/Dropbox/spigot/BuildTools/Spigot/Spigot-API/src"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/developer/Dropbox/spigot/BuildTools/spigot-1.11.2.jar" sourcepath="C:/Users/developer/Dropbox/spigot/BuildTools/Spigot/Spigot-API"/>
+	<classpathentry kind="lib" path="M:/Spigot/Spigot/Spigot-API/target/spigot-api-1.12.1-R0.1-SNAPSHOT-shaded.jar" sourcepath="M:/Spigot/Spigot/Spigot-API"/>
+	<classpathentry kind="lib" path="M:/Spigot/spigot-1.12.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

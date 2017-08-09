@@ -6,6 +6,7 @@ import com.weeryan17.dgs.util.GuildUser;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
+import sx.blah.discord.handle.impl.events.guild.AllUsersReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
@@ -44,5 +45,10 @@ public class RandomListener {
 		IUser user = e.getUser();
 		IGuild guild = e.getGuild();
 		DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
+	}
+	
+	@EventSubscriber
+	public void onUserReady(AllUsersReceivedEvent e) {
+		
 	}
 }

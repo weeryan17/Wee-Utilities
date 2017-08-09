@@ -191,6 +191,12 @@ public class DiscordGroups {
 
 	int progress = 0;
 
+	int perms = 0;
+
+	int bot = 0;
+
+	int largeGuilds = 0;
+
 	public void readyInit() {
 		client.changePlayingText("Creating perms");
 		mainGuild = client.getGuildByID(guildId);
@@ -206,12 +212,12 @@ public class DiscordGroups {
 																// again
 																// security
 		web = web.addListener(new PushListener(this));
-		IChannel logChannel = mainGuild.getChannelByID(280177651392708608L);
+		final IChannel logChannel = mainGuild.getChannelByID(280177651392708608L);
 		EmbedBuilder ebProgress = new EmbedBuilder();
 		ebProgress.appendField("Phase", "Initilizing", true);
-		ebProgress.appendField("Bot prgoress", progressBar(0), false);
+		ebProgress.appendField("Bot progress", progressBar(0), false);
 		getLogger().log("Bot initilizing", false);
-		IMessage progress = logChannel.sendMessage(ebProgress.build());
+		final IMessage progress = logChannel.sendMessage(ebProgress.build());
 		new Timer().schedule(new WebUpdate(this), 1000L, 1000L);
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
@@ -226,14 +232,29 @@ public class DiscordGroups {
 			users = users + guild.getUsers().size();
 		}
 		this.users = users;
-		
+		getLogger().log("All users: " + users, false);
+		ebProgress = new EmbedBuilder();
+		ebProgress.appendField("Phase", "Started perms", true);
+		ebProgress.appendField("Bot progress", progressBar(4), false);
+		bot = 4;
+		ebProgress.appendField("Perms progress", progressBar(perms), false);
+		progress.edit(ebProgress.build());
+		instance.getLogger().log("Creating all the perms!", false);
+		/*
 		new Thread() {
 			@Override
 			public void run() {
-				instance.getLogger().log("Creating all the perms!", true);
 				for (IGuild guild : client.getGuilds()) {
 					for (IUser user : guild.getUsers()) {
-						updateProgress();
+						int perms = updateProgress();
+						if (instance.perms != perms) {
+							instance.perms = perms;
+							EmbedBuilder ebProgress = new EmbedBuilder();
+							ebProgress.appendField("Phase", "Working on perms", true);
+							ebProgress.appendField("Bot progress", progressBar(bot), false);
+							ebProgress.appendField("Perms progress", progressBar(perms), false);
+							progress.edit(ebProgress.build());
+						}
 						GuildUser guildUser = GuildUser.getGuildUser(user, guild);
 						new DiscordGroupsPermissions(guildUser);
 						try {
@@ -243,11 +264,12 @@ public class DiscordGroups {
 						}
 					}
 				}
-				instance.getLogger().log("Done creating perms", true);
+				instance.getLogger().log("Done creating perms", false);
 				permsReady = true;
 				client.changePlayingText("^commands");
 			}
 		}.start();
+		*/
 		WebReciver website = new WebReciver(this);
 		website.initWeb();
 		cmdMannage = new CommandManager();
@@ -259,10 +281,22 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("stop", new StopCommand(this));
 		// this.initPatreon();
+		ebProgress = new EmbedBuilder();
+		ebProgress.appendField("Phase", "Init voice", true);
+		ebProgress.appendField("Bot progress", progressBar(6), false);
+		bot = 6;
+		ebProgress.appendField("Perms progress", progressBar(perms), false);
+		progress.edit(ebProgress.build());
 		new VoiceTests(this).test();
 		TwitterUtil twitter = new TwitterUtil(this);
 		twitter.tweet("Bot is up and running!");
-		logger.log("Bot initlized", true);
+		ebProgress = new EmbedBuilder();
+		ebProgress.appendField("Phase", "Bot done", true);
+		ebProgress.appendField("Bot progress", progressBar(10), false);
+		bot = 10;
+		ebProgress.appendField("Perms progress", progressBar(perms), false);
+		progress.edit(ebProgress.build());
+		logger.log("Bot initlized", false);
 		new Thread() {
 			public void run() {
 				new SocketTimer(instance, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
@@ -337,11 +371,14 @@ public class DiscordGroups {
 		return instance;
 	}
 
-	public void updateProgress() {
+	public int updateProgress() {
 		userCurrent++;
-		int rawPer = userCurrent / users;
-		int percent = rawPer * 100;
-		instance.client.changePlayingText("Permissions initlizing " + percent + "%");
+		getLogger().log("Current user: " + userCurrent, false);
+		float rawPer = (float) userCurrent / (float) users;
+		int per = (int) (rawPer * 10f);
+		double percent = rawPer * 100f;
+		getLogger().log("Current percent: " + percent, false);
+		return per;
 	}
 
 	private static String readAll(Reader rd) throws IOException {
@@ -364,16 +401,17 @@ public class DiscordGroups {
 			is.close();
 		}
 	}
-	
+
 	/**
 	 * Creates a progress bar.
 	 * 
-	 * @param progress the progress
+	 * @param progress
+	 *            the progress
 	 * @return The bar
 	 */
-	public String progressBar(int progress){
+	public String progressBar(int progress) {
 		int begin = progress;
 		int end = 10 - progress;
-		return "(" + StringUtils.repeat("▬", begin) + ")[]" + StringUtils.repeat("▬", end);
+		return "[" + StringUtils.repeat('\u25AC', begin) + "]( )" + StringUtils.repeat('\u25AC', end);
 	}
 }

@@ -1,15 +1,15 @@
 package com.weeryan17.utilities.api;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,14 +55,25 @@ public class ConfigApi {
      */
     public FileConfiguration config(String name, String subFolder) {
         File config = subFolder.equals("") ? new File(this.plugin.getDataFolder(), String.valueOf(name) + ".yml") : new File(this.plugin.getDataFolder() + "/" + subFolder, String.valueOf(name) + ".yml");
+        if(!config.exists()){
+        	try {
+        		config.getParentFile().mkdirs();
+				config.createNewFile();
+			} catch (IOException e) {
+				plugin.getLogger().log(Level.SEVERE, "Got a IO Excetion when creating config file", e);
+			}
+        }
         if (this.datas.get(name) == null) {
-            this.data = YamlConfiguration.loadConfiguration((File)config);
-            InputStream defConfigStream = this.plugin.getResource(String.valueOf(name) + ".yml");
-            if (defConfigStream != null) {
-                @SuppressWarnings("deprecation")
-				YamlConfiguration defConfig = YamlConfiguration.loadConfiguration((InputStream)defConfigStream);
-                this.data.setDefaults((Configuration)defConfig);
-            }
+            this.data = new YamlConfiguration();
+            try {
+				data.load(config);
+			} catch (FileNotFoundException e) {
+				plugin.getLogger().log(Level.SEVERE, "You shouldn't get this", e);
+			} catch (IOException e) {
+				plugin.getLogger().log(Level.SEVERE, "Got a IO Excetion when loading config file", e);
+			} catch (InvalidConfigurationException e) {
+				plugin.getLogger().log(Level.SEVERE, "Your config is invalid! I sugest you use this to check it: http://www.yamllint.com/", e);
+			}
             this.datas.put(name, this.data);
         }
         return this.datas.get(name);
@@ -138,28 +149,6 @@ public class ConfigApi {
     	FileOutputStream fileOut = new FileOutputStream(config);
     	wb.write(fileOut);
     	fileOut.close();
-    }
-    
-    /**
-     * Creates a config with a special file extension instead of .yml
-     * 
-     * @param name Name of the file. make sure to include your file extension.
-     * @param subFolder The sub folder to put the file in.
-     * @return The bukkit FileConfiguration for the file.
-     */
-    public FileConfiguration customConfig(String name, String subFolder){
-    	 File config = subFolder.equals("") ? new File(this.plugin.getDataFolder(), String.valueOf(name)) : new File(this.plugin.getDataFolder() + "/" + subFolder, String.valueOf(name));
-         if (this.datas.get(name) == null) {
-             this.data = YamlConfiguration.loadConfiguration((File)config);
-             InputStream defConfigStream = this.plugin.getResource(String.valueOf(name) + ".yml");
-             if (defConfigStream != null) {
-                 @SuppressWarnings("deprecation")
- 				YamlConfiguration defConfig = YamlConfiguration.loadConfiguration((InputStream)defConfigStream);
-                 this.data.setDefaults((Configuration)defConfig);
-             }
-             this.datas.put(name, this.data);
-         }
-         return this.datas.get(name);
     }
     
     /**
