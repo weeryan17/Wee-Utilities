@@ -2,11 +2,12 @@ package com.weeryan17.reward.command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.weeryan17.reward.RewardChest;
-import com.weeryan17.reward.managers.RewardCommandExecutor;
+import com.weeryan17.utilities.api.interfaces.BaseCommand;
 
-public class RcCommand implements RewardCommandExecutor {
+public class RcCommand implements BaseCommand {
 	
 	RewardChest instance;
 	public RcCommand(RewardChest instance) {
@@ -15,7 +16,6 @@ public class RcCommand implements RewardCommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lable, String[] args) {
-		
 		return true;
 	}
 	
@@ -25,8 +25,18 @@ public class RcCommand implements RewardCommandExecutor {
 	}
 
 	@Override
-	public boolean sub() {
-		return false;
+	public String getCommand() {
+		return "rc";
+	}
+
+	@Override
+	public String getDescription() {
+		return "";
+	}
+
+	@Override
+	public JavaPlugin getPlugin(){ 
+		return instance;
 	}
 
 }

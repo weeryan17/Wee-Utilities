@@ -3,6 +3,7 @@ package com.weeryan17.reward;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.weeryan17.reward.command.RcCommand;
 import com.weeryan17.utilities.api.CommandApi;
 import com.weeryan17.utilities.api.ConfigApi;
 import com.weeryan17.utilities.api.PluginMannager;
@@ -15,7 +16,7 @@ public class RewardChest extends JavaPlugin {
 		id = mannager.registerPlugin(this);
 		api = new ConfigApi(id);
 		CommandApi cmdApi = new CommandApi();
-		cmdApi.registerCommand(id, "rc", "Main command for reward chest", "");
+		cmdApi.registerCommand(new RcCommand(this));
 	}
 	
 	public void onDisable(){

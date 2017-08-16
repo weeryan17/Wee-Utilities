@@ -17,6 +17,7 @@ import com.weeryan17.utilities.api.PluginMannager;
 public class Chat extends JavaPlugin {
 	static int id;
 	ConfigApi api;
+	@SuppressWarnings("deprecation")
 	public void onEnable(){
 		boolean checkconfig = true;
 		PluginMannager mannager = new PluginMannager();
