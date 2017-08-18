@@ -17,7 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  */
 public class Base extends JavaPlugin {
-	static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+	public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     public void onEnable() {
         BaseCommand cmd = new BaseCommand();
         this.getCommand("weeutilities").setExecutor(cmd);

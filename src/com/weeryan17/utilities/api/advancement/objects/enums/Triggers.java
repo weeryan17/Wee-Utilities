@@ -3,6 +3,7 @@ package com.weeryan17.utilities.api.advancement.objects.enums;
 import java.util.HashMap;
 
 import com.weeryan17.utilities.api.advancement.objects.Conditions;
+import com.weeryan17.utilities.api.advancement.objects.conditions.*;
 
 /**
  * Represents the different triggers that can trigger an advancement.
@@ -13,11 +14,13 @@ import com.weeryan17.utilities.api.advancement.objects.Conditions;
 public enum Triggers {
 	/**
 	 * Triggers when a player breds some animals.
+	 * @conditions {@link BredAnimalsConditions}
 	 */
 	BRED_ANIMALS ("minecraft:bred_animals"),
 	
 	/**
 	 * Triggers when a player brews a potion.
+	 * @conditions {@link BrewedPotionConditions}
 	 */
 	BREWED_POTION ("minecraft:brewed_potion"),
 	
