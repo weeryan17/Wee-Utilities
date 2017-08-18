@@ -21,6 +21,7 @@ import com.weeryan17.sww.util.tasks.WorldChecker;
 import com.weeryan17.utilities.api.Attribute;
 import com.weeryan17.utilities.api.CommandApi;
 import com.weeryan17.utilities.api.ConfigApi;
+import com.weeryan17.utilities.api.ItemUtils;
 import com.weeryan17.utilities.api.MinecraftColor;
 import com.weeryan17.utilities.api.PluginMannager;
 
@@ -29,6 +30,8 @@ import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 
 public class WerewolfPlugin extends JavaPlugin {
+	ItemUtils itemUtils;
+	
 	int id;
 	ConfigApi api;
 	int worldChecker;
@@ -44,6 +47,7 @@ public class WerewolfPlugin extends JavaPlugin {
 	
 	@SuppressWarnings("deprecation")
 	public void onEnable(){
+		itemUtils = new ItemUtils();
 		CommandApi cmdApi = new CommandApi();
 		PluginMannager man = new PluginMannager();
 		id = man.registerPlugin(this);
@@ -63,7 +67,7 @@ public class WerewolfPlugin extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, worldChecker, 0L, 10L);
 		//channel.createChannel("Werewolf Chat", "%RED%[%DARK_PURPLE&Werewolf%RED%]%WHITE%: ", "DARK_BLUE", "wc");
 	}
-	/*
+	
 	public void createItems(){
 		//Pure silver
 		ArrayList<String> pureSilverLore = new ArrayList<String>();
@@ -107,7 +111,6 @@ public class WerewolfPlugin extends JavaPlugin {
 		curePotionLore.add(MinecraftColor.RED + "Only death can cure one......");
 		curePotion = itemUtils.createItem(Material.POTION, 0, 1, MinecraftColor.GREEN + "Cure Potion", curePotionLore);
 	}
-	*/
 	
 	@SuppressWarnings("deprecation")
 	public void createRecipes(){
