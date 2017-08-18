@@ -7,8 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -21,17 +21,14 @@ import com.weeryan17.sww.util.tasks.WorldChecker;
 import com.weeryan17.utilities.api.Attribute;
 import com.weeryan17.utilities.api.CommandApi;
 import com.weeryan17.utilities.api.ConfigApi;
-import com.weeryan17.utilities.api.ItemUtils;
 import com.weeryan17.utilities.api.MinecraftColor;
 import com.weeryan17.utilities.api.PluginMannager;
 
-import net.minecraft.server.v1_11_R1.IChatBaseComponent;
-import net.minecraft.server.v1_11_R1.NBTTagCompound;
-import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent;
+import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
 
 public class WerewolfPlugin extends JavaPlugin {
-	ItemUtils itemUtils;
-	
 	int id;
 	ConfigApi api;
 	int worldChecker;
@@ -45,13 +42,13 @@ public class WerewolfPlugin extends JavaPlugin {
 	public ItemStack curePotion;
 	public ItemStack UFcurePotion;
 	
+	@SuppressWarnings("deprecation")
 	public void onEnable(){
 		CommandApi cmdApi = new CommandApi();
 		PluginMannager man = new PluginMannager();
 		id = man.registerPlugin(this);
-		itemUtils = new ItemUtils();
 		api = new ConfigApi(id);
-		createItems();
+		//createItems();
 		createRecipes();
 		werewolfMannager = new WerewolfMannager(this);
 		WerewolfCommand cmd = new WerewolfCommand(this);
@@ -66,7 +63,7 @@ public class WerewolfPlugin extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, worldChecker, 0L, 10L);
 		//channel.createChannel("Werewolf Chat", "%RED%[%DARK_PURPLE&Werewolf%RED%]%WHITE%: ", "DARK_BLUE", "wc");
 	}
-	
+	/*
 	public void createItems(){
 		//Pure silver
 		ArrayList<String> pureSilverLore = new ArrayList<String>();
@@ -110,7 +107,9 @@ public class WerewolfPlugin extends JavaPlugin {
 		curePotionLore.add(MinecraftColor.RED + "Only death can cure one......");
 		curePotion = itemUtils.createItem(Material.POTION, 0, 1, MinecraftColor.GREEN + "Cure Potion", curePotionLore);
 	}
+	*/
 	
+	@SuppressWarnings("deprecation")
 	public void createRecipes(){
 		ShapelessRecipe pureSilverRecipie = new ShapelessRecipe(pureSilver);
 		//Going to be the normal silver for the iron.
@@ -176,14 +175,14 @@ public class WerewolfPlugin extends JavaPlugin {
 	 */
 	public void sendActionbar(Player p, String message) {
         IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + ChatColor.translateAlternateColorCodes('&', message) + "\"}");
-        PacketPlayOutChat bar = new PacketPlayOutChat(icbc, (byte)2);
+        PacketPlayOutChat bar = new PacketPlayOutChat(icbc);
             ((CraftPlayer)p).getHandle().playerConnection.sendPacket(bar);
     }
 	
 	public String convertItemStackToJsonRegular(ItemStack itemStack) {
 	    // First we convert the item stack into an NMS itemstack
-	    net.minecraft.server.v1_11_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
-	    net.minecraft.server.v1_11_R1.NBTTagCompound compound = new NBTTagCompound();
+	    net.minecraft.server.v1_12_R1.ItemStack nmsItemStack = CraftItemStack.asNMSCopy(itemStack);
+	    net.minecraft.server.v1_12_R1.NBTTagCompound compound = new NBTTagCompound();
 	    compound = nmsItemStack.save(compound);
 
 	    return compound.toString();

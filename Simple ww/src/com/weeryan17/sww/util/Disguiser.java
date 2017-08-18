@@ -11,9 +11,7 @@ public class Disguiser {
 	public void DisgusisePlayerAsWolf(Player p){
 		MobDisguise dis = new MobDisguise(DisguiseType.WOLF);
 		dis.setHearSelfDisguise(false);
-		dis.setKeepDisguiseOnEntityDespawn(true);
 		dis.setKeepDisguiseOnPlayerDeath(true);
-		dis.setKeepDisguiseOnPlayerLogout(true);
 		WolfWatcher wolf = (WolfWatcher) dis.getWatcher();
 		wolf.setAngry(true);
 		wolf.setCustomNameVisible(true);

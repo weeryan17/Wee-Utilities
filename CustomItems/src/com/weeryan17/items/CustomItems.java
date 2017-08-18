@@ -13,7 +13,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.weeryan17.utilities.api.ConfigApi;
-import com.weeryan17.utilities.api.ItemUtils;
 import com.weeryan17.utilities.api.MinecraftColor;
 import com.weeryan17.utilities.api.PluginMannager;
 
@@ -24,11 +23,12 @@ public class CustomItems extends JavaPlugin {
 	public void onEnable(){
 		id = new PluginMannager().registerPlugin(this);
 		confApi = new ConfigApi(id);
-		this.addCrafterRecipe();
+		//this.addCrafterRecipe();
 		Events events = new Events(this);
 		Bukkit.getServer().getPluginManager().registerEvents(events, this);
 	}
-	
+	/*
+	@SuppressWarnings("deprecation")
 	public void addCrafterRecipe(){
 		ItemUtils utils = new ItemUtils();
 		ArrayList<String> lore = new ArrayList<String>();
@@ -44,6 +44,7 @@ public class CustomItems extends JavaPlugin {
 		recipe.setIngredient('N', Material.NETHER_STAR);
 		Bukkit.addRecipe(recipe);
 	}
+	*/
 	
 	//Core block manipulation
 	public void saveCoreBlock(Block b){

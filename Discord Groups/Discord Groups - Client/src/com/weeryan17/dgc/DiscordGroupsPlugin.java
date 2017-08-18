@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.weeryan17.dgc.util.ConfigApi;
+import com.weeryan17.utilities.api.ConfigApi;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -31,6 +31,7 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 	// this is done.
 	int port = 8100; // Removed from github for security reasons.
 
+	@SuppressWarnings("deprecation")
 	public void onEnable() {
 		// Defining everything!
 		conf = new ConfigApi(this);
@@ -72,7 +73,7 @@ public class DiscordGroupsPlugin extends JavaPlugin {
 	}
 
 	public FileConfiguration getKeyConfig() {
-		return conf.customConfig("key.yml", "");
+		return conf.config("key.yml", "");
 	}
 	
 	public String getAddress(){

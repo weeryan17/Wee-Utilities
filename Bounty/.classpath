@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/developer/Desktop/jars/Wee Utilities.jar"/>
 	<classpathentry kind="lib" path="F:/Spigot/Spigot/Spigot-API/target/spigot-api-1.12.1-R0.1-SNAPSHOT-shaded.jar"/>
+	<classpathentry kind="lib" path="C:/Users/developer/Desktop/jars/EssentialsX-2.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
