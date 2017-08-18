@@ -3,9 +3,10 @@ package com.weeryan17.utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.weeryan17.utilities.BaseCommand;
-import com.weeryan17.utilities.api.advancement.objects.Conditions;
-import com.weeryan17.utilities.api.advancement.objects.conditions.BredAnimalsConditions;
-import com.weeryan17.utilities.api.advancement.objects.enums.Triggers;
+
+import tk.weeryan17.com.ava.objects.Conditions;
+import tk.weeryan17.com.ava.objects.conditions.BredAnimalsConditions;
+import tk.weeryan17.com.ava.objects.enums.Triggers;
 
 import java.util.HashMap;
 

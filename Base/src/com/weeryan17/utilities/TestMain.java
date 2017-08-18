@@ -1,11 +1,10 @@
 package com.weeryan17.utilities;
 
-import com.weeryan17.utilities.api.advancement.objects.conditions.sub.DistanceCondition;
+import tk.weeryan17.com.ava.objects.conditions.sub.DistanceCondition;
 
 public class TestMain {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		DistanceCondition dist = new DistanceCondition();
 		DistanceCondition.Distance absol = dist.new Distance();
 		absol.setMax(10);
