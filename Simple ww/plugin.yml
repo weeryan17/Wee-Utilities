@@ -1,0 +1,9 @@
+name: SimpleWerewolf
+version: 1.0.0
+main: com.weeryan17.sww.WerewolfPlugin
+depend: [LibsDisguises]
+commands:
+  ww:
+    description: werewolf main command
+  werewolf:
+    description: werewolf main command

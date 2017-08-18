@@ -1,0 +1,8 @@
+name: weeUtilities
+version: 1.0.0
+main: com.weeryan17.utilities.Base
+commands:
+  wu:
+    description: "Main command for wee utility related stuff"
+  weeutilities: 
+    description: "Main command for wee utility related stuff"

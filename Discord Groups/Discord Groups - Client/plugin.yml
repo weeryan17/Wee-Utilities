@@ -1,0 +1,4 @@
+name: DiscordGroups
+version: 2.0.1.6 BETA
+main: com.weeryan17.dgc.DiscordGroupsPlugin
+depend: [Vault]
