@@ -2,6 +2,8 @@ package tk.weeryan17.ava.objects.conditions.sub;
 
 import java.io.InvalidObjectException;
 
+import org.bukkit.Location;
+
 import tk.weeryan17.ava.objects.enums.Biome;
 import tk.weeryan17.ava.objects.enums.Dimension;
 import tk.weeryan17.ava.objects.enums.Feature;
@@ -16,8 +18,6 @@ public class LocationCondition {
 	private Object x;
 	
 	private Object y;
-	
-	private String nbt;
 
 	public Biome getBiome() {
 		return biome;
@@ -49,7 +49,7 @@ public class LocationCondition {
 	
 	/**
 	 * Sets the x value for the location.
-	 * x need to be a {@link Distance} object or an {@link Integer} object or null
+	 * x needs to be a {@link Distance} object or an {@link Integer} object or null
 	 * 
 	 * @param x A {@link Distance} object or an {@link Integer} object or null
 	 * @throws InvalidObjectException if x isn't a {@link Distance} object or an {@link Integer} object or null
@@ -82,12 +82,8 @@ public class LocationCondition {
 			throw e;
 		}
 	}
-
-	public String getNbt() {
-		return nbt;
-	}
-
-	public void setNbt(String nbt) {
-		this.nbt = nbt;
+	
+	public void setLocationConditionFromLocation(Location loc) {
+		//TODO this
 	}
 }

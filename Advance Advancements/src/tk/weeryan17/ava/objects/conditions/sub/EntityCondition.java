@@ -2,6 +2,10 @@ package tk.weeryan17.ava.objects.conditions.sub;
 
 import java.util.HashMap;
 
+import org.bukkit.entity.Entity;
+
+import tk.weeryan17.ava.objects.enums.EntityType;
+
 /**
  * Used to represent an entity for conditions
  * 
@@ -12,6 +16,12 @@ public class EntityCondition {
 	private DistanceCondition distance;
 	
 	private HashMap<String, EffectCondition> effects = new HashMap<String, EffectCondition>();
+	
+	private LocationCondition location;
+	
+	private String nbt;
+	
+	private EntityType type;
 
 	public DistanceCondition getDistance() {
 		return distance;
@@ -35,6 +45,32 @@ public class EntityCondition {
 	public void removeEffect(String effectName, EffectCondition condition) {
 		effects.remove(effectName, condition);
 	}
+
+	public LocationCondition getLocation() {
+		return location;
+	}
+
+	public void setLocation(LocationCondition location) {
+		this.location = location;
+	}
+
+	public EntityType getType() {
+		return type;
+	}
+
+	public void setType(EntityType type) {
+		this.type = type;
+	}
+
+	public String getNbt() {
+		return nbt;
+	}
+
+	public void setNbt(String nbt) {
+		this.nbt = nbt;
+	}
 	
-	//TODO more effect stuff
+	public void setConditionFromEntity(Entity e) {
+		//TODO this
+	}
 }
