@@ -7,7 +7,7 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.EmbedBuilder;
 import tk.weeryan17.dgs.DiscordGroups;
 import tk.weeryan17.dgs.commands.DiscordGroupsCommandBase;
-import tk.weeryan17.dgs.permissions.DiscordGroupsPermissions;
+//import tk.weeryan17.dgs.permissions.DiscordGroupsPermissions;
 import tk.weeryan17.dgs.util.GuildUser;
 
 public class GenerateCommand implements DiscordGroupsCommandBase {
@@ -49,12 +49,13 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 		} else if (args.length == 2) {
 			switch (args[0]) {
 			case "add": {
+				/*
 				if (args[1].equals("key")) {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
 							.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
 					if (perms.hasPerm("dg.server.generate")) {
-						String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
-						channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
+						//String key = instance.getStorage().generateRandomID(channel.getGuild().getLongID());
+						//channel.sendMessage(sender.mention() + " your new key is ```" + key + "```");
 						channel.setTypingStatus(false);
 					} else {
 						channel.sendMessage(sender.mention() + " missing permission: ```dg.server.generate```");
@@ -65,9 +66,11 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 							sender.mention() + " You can only generate keys at this point anything else is invalid");
 					channel.setTypingStatus(false);
 				}
+				*/
 			}
 				break;
 			case "remove": {
+				/*
 				if (args[1].equals("key")) {
 					DiscordGroupsPermissions perms = DiscordGroupsPermissions
 							.getUserPermissions(GuildUser.getGuildUser(sender, channel.getGuild()));
@@ -87,6 +90,7 @@ public class GenerateCommand implements DiscordGroupsCommandBase {
 							sender.mention() + " You can only remove keys at this time anything else is invalid");
 					channel.setTypingStatus(false);
 				}
+				*/
 			}
 				break;
 			default: {

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.EmbedBuilder;
 import tk.weeryan17.dgs.DiscordGroups;
 
 public class Logging {
@@ -72,6 +73,8 @@ public class Logging {
 	 */
 	public void log(String message, Level level, boolean discord) {
 		if (discord) {
+			EmbedBuilder eb = new EmbedBuilder();
+			eb.withTitle("");
 			sendMessage("[" + level.getName() + "] " + message);
 		}
 
@@ -190,6 +193,32 @@ public class Logging {
 		} catch (IOException e) {
 			this.log("Ran into a io expresion when writting to file " + file.getPath() + "\n"
 					+ "Softly shutting down to prevent further problems", Level.SEVERE, e, false);
+		}
+	}
+	
+	public void logResult(String result) {
+		File file = null;
+		try {
+			Date date = new Date();
+			DateFormat format = new SimpleDateFormat("MM.dd.yy.HH.mm.ss.SSS");
+			String time = format.format(date);
+			String folder = instance.getProperties().getProperty("resultFolder");
+			File dir = new File(folder);
+			dir.mkdirs();
+			file = new File(instance.getJarLoc() + "/" + folder + "/" + time + ".result");
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			bw.write(result);
+
+			bw.flush();
+			bw.close();
+		} catch (IOException e) {
+			instance.getLogger().log("Ran into a io exception when writting to result file", Level.WARNING, e, false);
 		}
 	}
 }

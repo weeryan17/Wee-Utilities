@@ -2,26 +2,14 @@ package tk.weeryan17.dgs.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import tk.weeryan17.dgs.DiscordGroups;
 
@@ -29,9 +17,12 @@ public class Storage {
 	DiscordGroups instance;
 
 	ArrayList<String> chars;
+	
+	String dataFolder;
 
 	public Storage(DiscordGroups instance) {
 		this.instance = instance;
+		dataFolder = instance.getJarLoc() + "/" + instance.getProperties().getProperty("dataFolder");
 		chars = new ArrayList<String>();
 		for (int i = 0; i <= 9; i++) {
 			chars.add(String.valueOf(i));
@@ -65,12 +56,65 @@ public class Storage {
 		chars.add("n");
 		chars.add("m");
 	}
-
+	
+	public JsonObject readJsonFile(String fileName) {
+		File file = new File(dataFolder + fileName);
+		
+		FileReader reader;
+		try {
+			reader = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		JsonParser parser = new JsonParser();
+		JsonObject json = parser.parse(reader).getAsJsonObject();
+		
+		return json;
+	}
+	
+	public void createJsonFile(String fileName) {
+		File file = new File(dataFolder + fileName);
+		file.mkdirs();
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter(file));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+		try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+		try {
+			writer.write(DiscordGroups.gson.toJson(new JsonObject()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+	}
+	
 	/**
 	 * get's the sheet for storing player data.
 	 * 
 	 * @return The player sheet.
 	 */
+	/*
 	@SuppressWarnings("resource")
 	public Sheet getPlayerSheet() {
 		try {
@@ -101,12 +145,14 @@ public class Storage {
 			return null;
 		}
 	}
+	*/
 
 	/**
 	 * get's the sheet for storing player data.
 	 * 
 	 * @return The player sheet.
 	 */
+	/*
 	@SuppressWarnings("resource")
 	public Sheet getKeysSheet() {
 		try {
@@ -137,6 +183,7 @@ public class Storage {
 			return null;
 		}
 	}
+	*/
 
 	/**
 	 * Get's the permission user sheet for the specified guild.
@@ -145,6 +192,7 @@ public class Storage {
 	 *            The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
+	/*
 	@SuppressWarnings("resource")
 	public Sheet getGuildUserSheet(long l) {
 		try {
@@ -182,6 +230,7 @@ public class Storage {
 			return null;
 		}
 	}
+	*/
 
 	/**
 	 * Get's the permission role sheet for the specified guild.
@@ -190,6 +239,7 @@ public class Storage {
 	 *            The guild id to get a sheet for.
 	 * @return The guild sheet.
 	 */
+	/*
 	@SuppressWarnings("resource")
 	public Sheet getGuildRoleSheet(long l) {
 		try {
@@ -230,13 +280,14 @@ public class Storage {
 	}
 
 	protected static int saveCount = 0;
-
+	*/
 	/**
 	 * Saves the main data workbook
 	 * 
 	 * @param wb
 	 *            The data workbook to be saved
 	 */
+	/*
 	public void saveDataWorkbook(Workbook wb) {
 		FileOutputStream out;
 		try {
@@ -269,6 +320,7 @@ public class Storage {
 			}
 		}
 	}
+	*/
 
 	/**
 	 * Saves the permission workbook.
@@ -276,6 +328,7 @@ public class Storage {
 	 * @param wb
 	 *            The permission workbook to be saved.
 	 */
+	/*
 	public void savePermsWorkbook(Workbook wb) {
 		FileOutputStream out;
 		try {
@@ -308,33 +361,8 @@ public class Storage {
 			}
 		}
 	}
-
-	public void logResult(String result) {
-		File file = null;
-		try {
-			Date date = new Date();
-			DateFormat format = new SimpleDateFormat("MM.dd.yy.HH.mm.ss.SSS");
-			String time = format.format(date);
-			String folder = instance.getProperties().getProperty("resultFolder");
-			File dir = new File(folder);
-			dir.mkdirs();
-			file = new File(instance.getJarLoc() + "/" + folder + "/" + time + ".result");
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			FileWriter fw = new FileWriter(file, true);
-			BufferedWriter bw = new BufferedWriter(fw);
-
-			bw.write(result);
-
-			bw.flush();
-			bw.close();
-		} catch (IOException e) {
-			instance.getLogger().log("Ran into a io exception when writting to result file", Level.WARNING, e, false);
-		}
-	}
-
+	*/
+	/*
 	public Long getUserIDFromSpigot(String UUID) {
 		UUID = UUID.replaceAll("-", "");
 		Sheet users = this.getPlayerSheet();
@@ -352,7 +380,8 @@ public class Storage {
 		}
 		return discordID;
 	}
-
+	*/
+	/*
 	public String generateRandomID(Long guildID) {
 		Sheet keysSheet = this.getKeysSheet();
 		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
@@ -374,7 +403,8 @@ public class Storage {
 			return this.generateRandomID(guildID);
 		}
 	}
-
+	*/
+	/*
 	public String randomID() {
 		Random random = new Random();
 		String key = "";
@@ -385,11 +415,13 @@ public class Storage {
 		}
 		return key;
 	}
-
+	*/
+	/*
 	public String getString(int id) {
 		return chars.get(id);
 	}
-
+	*/
+	/*
 	public Long getGuildIdFromKey(String key) {
 		Sheet keys = getKeysSheet();
 		Row row = keys.getRow(keys.getFirstRowNum());
@@ -417,7 +449,8 @@ public class Storage {
 			return 0L;
 		}
 	}
-
+	*/
+	/*
 	public void removeKey(String key) {
 		Sheet keys = getKeysSheet();
 		Row row = keys.getRow(keys.getFirstRowNum());
@@ -443,4 +476,5 @@ public class Storage {
 		}
 		this.saveDataWorkbook(keys.getWorkbook());
 	}
+	*/
 }

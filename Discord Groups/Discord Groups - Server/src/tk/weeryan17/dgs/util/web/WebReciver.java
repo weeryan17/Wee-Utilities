@@ -2,14 +2,18 @@ package tk.weeryan17.dgs.util.web;
 
 import static spark.Spark.*;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import tk.weeryan17.dgs.DiscordGroups;
+import tk.weeryan17.dgs.listeners.ClientListener;
 
 public class WebReciver {
 
@@ -42,11 +46,60 @@ public class WebReciver {
 					}
 				}
 			}
-			this.storeToSheet(uuid, Long.valueOf(id));
-			return "Test";
+			//this.storeToSheet(uuid, Long.valueOf(id));
+			return "";
+		});
+		
+		HashMap<String, Long> keepalives = new HashMap<>();
+		
+		ClientListener listen = new ClientListener(instance);
+		
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Iterator<Entry<String, Long>> it = keepalives.entrySet().iterator();
+				while(it.hasNext()) {
+					Entry<String, Long> pair = it.next();
+					long left = pair.getValue() - 1;
+					if(left <= 0) {
+						keepalives.remove(pair.getKey());
+						listen.removeKey(pair.getKey());
+					}
+				}
+			}
+		}, 0l, 1000l);
+		
+		path("/client", () -> {
+			path("/:guild", () -> {
+				post("/roles", (req, res) -> {
+					return DiscordGroups.gson.toJson(listen.handleRoles(req.body(), req.params(":guild"), req.ip()));
+				});
+				post("/users", (req, res) -> {
+					return DiscordGroups.gson.toJson(listen.handleUsers(req.body()));
+				});
+			});
+			
+			post("/keep_alive", (req, res) -> {
+				JsonParser parser = new JsonParser();
+				JsonObject json = parser.parse(req.body()).getAsJsonObject();
+				String key = json.get("key").getAsString();
+				String tolken = json.get("token").getAsString();
+				JsonObject out = new JsonObject();
+				out.addProperty("sucess", listen.keyMatches(tolken, key));
+				if(!listen.keyMatches(tolken, key)) {
+					instance.getLogger().log("Recived a token and a key that didn't match from ip: " + req.ip(), Level.WARNING, true);
+				} else {
+					keepalives.put(key, 45l);
+				}
+				return DiscordGroups.gson.toJson(out);
+			});
+			
+			post("/verify", (req, res) -> {
+				return "";
+			});
 		});
 	}
-
+	/*
 	public void storeToSheet(String uuid, Long id) {
 		Sheet keysSheet = instance.getStorage().getPlayerSheet();
 		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
@@ -67,4 +120,5 @@ public class WebReciver {
 
 		}
 	}
+	*/
 }

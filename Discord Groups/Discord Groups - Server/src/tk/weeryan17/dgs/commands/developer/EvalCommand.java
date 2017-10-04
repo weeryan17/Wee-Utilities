@@ -83,7 +83,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 					}
 					builder.withColor(role.getColor());
 				}
-				instance.getStorage().logResult(result);
+				instance.getLogger().logResult(result);
 				channel.sendMessage(builder.build());
 			} else {
 				EmbedBuilder builder = new EmbedBuilder();

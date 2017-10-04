@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import org.json.JSONObject;
 
 import com.arsenarsen.githubwebhooks4j.GithubWebhooks4J;
 import com.arsenarsen.githubwebhooks4j.WebhooksBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.patreon.API;
 
 import sx.blah.discord.api.ClientBuilder;
@@ -27,23 +30,20 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import tk.weeryan17.dgs.commands.CommandManager;
 import tk.weeryan17.dgs.commands.CommandsCommand;
 import tk.weeryan17.dgs.commands.DiscordGroupsCommand;
 import tk.weeryan17.dgs.commands.admin.GenerateCommand;
-import tk.weeryan17.dgs.commands.admin.PermissionsCommand;
+//import tk.weeryan17.dgs.commands.admin.PermissionsCommand;
 import tk.weeryan17.dgs.commands.developer.EvalCommand;
 import tk.weeryan17.dgs.commands.developer.StopCommand;
 import tk.weeryan17.dgs.commands.developer.UpdateCommand;
 import tk.weeryan17.dgs.listeners.PushListener;
 import tk.weeryan17.dgs.listeners.discord.ChatListener;
 import tk.weeryan17.dgs.listeners.discord.RandomListener;
-import tk.weeryan17.dgs.permissions.DiscordGroupsPermissions;
-import tk.weeryan17.dgs.socket.SocketTimer;
-import tk.weeryan17.dgs.util.GuildUser;
+//import tk.weeryan17.dgs.socket.SocketTimer;
 import tk.weeryan17.dgs.util.Logging;
 import tk.weeryan17.dgs.util.MessageUtil;
 import tk.weeryan17.dgs.util.Storage;
@@ -74,12 +74,16 @@ public class DiscordGroups {
 	Properties versions;
 
 	String version;
+	
+	public static Gson gson;
 
 	public boolean permsReady = false;
 
 	static DiscordGroups instance;
 
 	public void init() {
+		gson = new GsonBuilder().setPrettyPrinting().create();
+		
 		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		jarFile = file.substring(0, file.length() - 18);
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -276,7 +280,7 @@ public class DiscordGroups {
 		cmdMannage.registerCommand("dg", new DiscordGroupsCommand(this));
 		cmdMannage.registerCommand("eval", new EvalCommand(this));
 		cmdMannage.registerCommand("commands", new CommandsCommand(this));
-		cmdMannage.registerCommand("permissions", new PermissionsCommand(this));
+		//cmdMannage.registerCommand("permissions", new PermissionsCommand(this));
 		cmdMannage.registerCommand("generate", new GenerateCommand(this));
 		cmdMannage.registerCommand("update", new UpdateCommand(this));
 		cmdMannage.registerCommand("stop", new StopCommand(this));
@@ -288,8 +292,10 @@ public class DiscordGroups {
 		ebProgress.appendField("Perms progress", progressBar(perms), false);
 		progress.edit(ebProgress.build());
 		new VoiceTests(this).test();
+		/*
 		TwitterUtil twitter = new TwitterUtil(this);
 		twitter.tweet("Bot is up and running!");
+		*/
 		ebProgress = new EmbedBuilder();
 		ebProgress.appendField("Phase", "Bot done", true);
 		ebProgress.appendField("Bot progress", progressBar(10), false);
@@ -297,11 +303,13 @@ public class DiscordGroups {
 		ebProgress.appendField("Perms progress", progressBar(perms), false);
 		progress.edit(ebProgress.build());
 		logger.log("Bot initlized", false);
+		/*
 		new Thread() {
 			public void run() {
 				new SocketTimer(instance, Integer.valueOf(prop.getProperty("socketPort"))).initSocket();
 			}
 		}.run();
+		*/
 	}
 
 	public void initPatreon() {
@@ -391,7 +399,10 @@ public class DiscordGroups {
 	}
 
 	public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-		InputStream is = new URL(url).openStream();
+		URL versions = new URL(url);
+		HttpURLConnection httpcon = (HttpURLConnection) versions.openConnection();
+		httpcon.addRequestProperty("User-Agent", "Mozilla/4.0");
+		InputStream is = httpcon.getInputStream();
 		try {
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 			String jsonText = readAll(rd);

@@ -9,7 +9,7 @@ import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 import tk.weeryan17.dgs.DiscordGroups;
-import tk.weeryan17.dgs.permissions.DiscordGroupsPermissions;
+//import tk.weeryan17.dgs.permissions.DiscordGroupsPermissions;
 import tk.weeryan17.dgs.util.GuildUser;
 
 public class RandomListener {
@@ -28,7 +28,7 @@ public class RandomListener {
 	@EventSubscriber
 	public void onJoin(GuildCreateEvent e) {
 		for (IUser user : e.getGuild().getUsers()) {
-			DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, e.getGuild()), discord);
+			//DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, e.getGuild()), discord);
 		}
 	}
 
@@ -36,14 +36,14 @@ public class RandomListener {
 	public void onUserJoin(UserJoinEvent e) {
 		IUser user = e.getUser();
 		IGuild guild = e.getGuild();
-		DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
+		//DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
 	}
 
 	@EventSubscriber
 	public void onUserKick(UserLeaveEvent e) {
 		IUser user = e.getUser();
 		IGuild guild = e.getGuild();
-		DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
+		//DiscordGroupsPermissions.updatePerms(GuildUser.getGuildUser(user, guild), discord);
 	}
 	
 	@EventSubscriber

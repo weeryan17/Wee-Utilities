@@ -126,11 +126,6 @@
 			<version>9.4.0.v20161208</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.16-beta2</version>
-		</dependency>
-		<dependency>
 			<groupId>edu.cmu.sphinx</groupId>
 			<artifactId>sphinx4-core</artifactId>
 			<version>5prealpha-SNAPSHOT</version>
@@ -191,6 +186,11 @@
 			<groupId>com.mashape.unirest</groupId>
 			<artifactId>unirest-java</artifactId>
 			<version>1.4.9</version>
+		</dependency>
+		<dependency>
+			<groupId>io.sentry</groupId>
+			<artifactId>sentry</artifactId>
+			<version>1.5.4</version>
 		</dependency>
 	</dependencies>
 	<version>1.0.0 BETA</version>
