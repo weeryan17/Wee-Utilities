@@ -20,7 +20,7 @@
 					<archive>
 						<manifest>
 							<mainClass>
-								com.weeryan17.dgs.DiscordGroups
+								tk.weeryan17.dgs.DiscordGroups
 							</mainClass>
 						</manifest>
 					</archive>
@@ -178,11 +178,6 @@
 			<version>1.2.19</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.xaanit</groupId>
-			<artifactId>D4J-OAuth</artifactId>
-			<version>master-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>com.mashape.unirest</groupId>
 			<artifactId>unirest-java</artifactId>
 			<version>1.4.9</version>
@@ -192,6 +187,12 @@
 			<artifactId>sentry</artifactId>
 			<version>1.5.4</version>
 		</dependency>
+		<dependency>
+			<groupId>com.qmetric</groupId>
+			<artifactId>spark-authentication</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 	</dependencies>
 	<version>1.0.0 BETA</version>
 </project>

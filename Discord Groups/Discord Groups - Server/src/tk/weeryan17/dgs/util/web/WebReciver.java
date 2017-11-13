@@ -11,6 +11,8 @@ import java.util.logging.Level;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.qmetric.spark.authentication.AuthenticationDetails;
+import com.qmetric.spark.authentication.BasicAuthenticationFilter;
 
 import tk.weeryan17.dgs.DiscordGroups;
 import tk.weeryan17.dgs.listeners.ClientListener;
@@ -95,30 +97,30 @@ public class WebReciver {
 			});
 			
 			post("/verify", (req, res) -> {
+				JsonParser parser = new JsonParser();
+				JsonObject json = parser.parse(req.body()).getAsJsonObject();
+				String key = json.get("key").getAsString();
+				
 				return "";
 			});
 		});
+		
+		before(new BasicAuthenticationFilter("/grafana/*", new AuthenticationDetails(instance.getProperties().getProperty("grafana-user"), instance.getProperties().getProperty("grafana-pass"))));
+		
+		post("/grafana", (req, res) -> {
+			return "";
+		});
+		//TODO all of this
+		path("/grafana", () -> {
+			post("/search", (req, res) -> {
+				return "{\n\n}";
+			});
+			post("/query", (req, res) -> {
+				return "{\n\n}";
+			});
+			post("/annotations", (req, res) -> {
+				return "{\n\n}";
+			});
+		});
 	}
-	/*
-	public void storeToSheet(String uuid, Long id) {
-		Sheet keysSheet = instance.getStorage().getPlayerSheet();
-		Row keysRow = keysSheet.getRow(keysSheet.getFirstRowNum());
-		ArrayList<String> keys = new ArrayList<String>();
-		for (Cell cell : keysRow) {
-			if (cell.getCellTypeEnum().equals(CellType.STRING)) {
-				keys.add(cell.getStringCellValue());
-			}
-		}
-		String key = uuid;
-		if (!keys.contains(key)) {
-			Cell cell = keysRow.createCell(keysRow.getPhysicalNumberOfCells() + 1);
-			cell.setCellValue(key);
-			Row idRow = keysSheet.getRow(keysSheet.getFirstRowNum() + 1);
-			idRow.createCell(cell.getColumnIndex()).setCellValue(String.valueOf(id));
-			instance.getStorage().saveDataWorkbook(keysSheet.getWorkbook());
-		} else {
-
-		}
-	}
-	*/
 }
