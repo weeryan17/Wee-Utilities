@@ -27,9 +27,9 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 	DiscordGroups instance;
 	ArrayList<Long> ids;
 
-	List<String> imports = Arrays.asList("com.weeryan17.dgs.*", "com.weeryan17.dgs.commands.*",
-			"com.weeryan17.dgs.listeners.*", "com.weeryan17.dgs.listeners.discord.*", "com.weeryan17.dgs.socket.*",
-			"com.weeryan17.dgs.util.*", "sx.blah.discord.util.*", "org.apache.poi.xssf.usermodel.*",
+	List<String> imports = Arrays.asList("tk.weeryan17.dgs.*", "tk.weeryan17.dgs.tkmands.*",
+			"tk.weeryan17.dgs.listeners.*", "tk.weeryan17.dgs.listeners.discord.*", "tk.weeryan17.dgs.socket.*",
+			"tk.weeryan17.dgs.util.*", "tk.weeryan17.dgs.util.storage.*", "sx.blah.discord.util.*", "org.apache.poi.xssf.usermodel.*",
 			"org.apache.poi.ss.usermodel.*", "org.apache.poi.hssf.usermodel.*", "java.util.streams.*", "java.util.*",
 			"java.text.*", "java.math.*", "java.time.*", "java.io.*");
 
@@ -57,7 +57,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			String result = "";
 			try {
 				result = String.valueOf(engine.eval(imports + code));
-			} catch (ScriptException e) {
+			} catch (Exception e) {
 				instance.getLogger().log("The script encountered an exception on eval", Level.WARNING, e, true);
 				result = e.getMessage() + '\n';
 				for (StackTraceElement element : e.getStackTrace()) {

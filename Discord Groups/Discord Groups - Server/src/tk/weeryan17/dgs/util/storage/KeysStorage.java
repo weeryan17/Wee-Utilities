@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import tk.weeryan17.dgs.DiscordGroups;
@@ -38,7 +37,20 @@ public class KeysStorage extends Storage {
 	}
 	
 	public void addKey(String guildId, String key) {
-		
+		JsonObject json = getKeysJson();
+		if(json == null) {
+			json = new JsonObject();
+		}
+		JsonArray keys;
+		if(!json.has(guildId)) {
+			keys = new JsonArray();
+		} else {
+			keys = json.get(guildId).getAsJsonArray();
+		}
+		keys.add(key);
+		json.add(guildId, keys);
+		System.out.println("Lets see if it's this");
+		saveKeysJson(json);
 	}
 	
 	public ArrayList<String> getKeys(String guildId) {

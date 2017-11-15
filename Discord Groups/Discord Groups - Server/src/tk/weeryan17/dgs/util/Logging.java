@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.sentry.Sentry;
+import io.sentry.event.EventBuilder;
+import io.sentry.event.interfaces.ExceptionInterface;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.EmbedBuilder;
@@ -86,6 +89,15 @@ public class Logging {
 		writeToFile("[" + level.getName() + "] " + message);
 
 		logger.log(level, secondsDate + " [DiscordGroups] " + message);
+		
+		if(level.equals(Level.SEVERE)) {
+			EventBuilder eventBuilder = new EventBuilder()
+                    .withMessage(message)
+                    .withLevel(io.sentry.event.Event.Level.ERROR)
+                    .withLogger(Logger.class.getName());
+			
+			Sentry.capture(eventBuilder.build());
+		}
 	}
 
 	/**
@@ -126,6 +138,16 @@ public class Logging {
 		writeToFile(sb.toString());
 
 		logger.log(level, secondsDate + " [DiscordGroups] " + message, thrown);
+		
+		if(level.equals(Level.SEVERE)) {
+			EventBuilder eventBuilder = new EventBuilder()
+                    .withMessage(message)
+                    .withLevel(io.sentry.event.Event.Level.ERROR)
+                    .withLogger(Logger.class.getName())
+                    .withSentryInterface(new ExceptionInterface(thrown));
+			
+			Sentry.capture(eventBuilder.build());
+		}
 	}
 	
 	/**

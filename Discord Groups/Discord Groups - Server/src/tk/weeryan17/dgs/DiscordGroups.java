@@ -1,11 +1,13 @@
 package tk.weeryan17.dgs;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.patreon.API;
 
+import io.sentry.Sentry;
+import io.sentry.SentryClient;
+import io.sentry.SentryClientFactory;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -80,12 +85,28 @@ public class DiscordGroups {
 	public boolean permsReady = false;
 
 	static DiscordGroups instance;
+	
+	private static SentryClient sentry;
 
 	public void init() {
 		gson = new GsonBuilder().setPrettyPrinting().create();
 		
-		String file = DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-		jarFile = file.substring(0, file.length() - 18);
+		Sentry.init();
+		
+		sentry = SentryClientFactory.sentryClient();
+		
+		File file = null;
+		try {
+			file = new File(DiscordGroups.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		if(file.isDirectory()) {
+			jarFile = file.getAbsolutePath();
+		} else {
+			jarFile = file.getParentFile().getAbsolutePath();
+		}
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 
 		prop = new Properties();

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -61,6 +62,10 @@ public class Storage {
 		
 		File file = subFolder != null ? new File(dataFolder + subFolder + "/" + fileName) : new File(dataFolder + fileName);
 		
+		if(!file.exists()) {
+			createJsonFile(subFolder, fileName);
+		}
+		
 		FileReader reader;
 		try {
 			reader = new FileReader(file);
@@ -76,8 +81,7 @@ public class Storage {
 	}
 	
 	protected void createJsonFile(String subFolder, String fileName) {
-		File file = subFolder != null ? new File(dataFolder + subFolder + "/" + fileName) : new File(dataFolder + fileName);
-		file.mkdirs();
+		File file = subFolder != null ? new File(dataFolder + subFolder + "/" + fileName) : new File(dataFolder + fileName);;
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
@@ -87,6 +91,7 @@ public class Storage {
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter(file));
+			writer.write(DiscordGroups.gson.toJson(new JsonObject()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,6 +117,29 @@ public class Storage {
 	
 	protected void updateJsonFile(String subFolder, String fileName, JsonObject json) {
 		File file = subFolder != null ? new File(dataFolder + subFolder + "/" + fileName) : new File(dataFolder + fileName);
-		
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				return;
+			}
+			
+		} else {
+			file.delete();
+			
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				return;
+			}
+		}
+		try {
+			BufferedWriter write = new BufferedWriter(new FileWriter(file));
+			write.write(DiscordGroups.gson.toJson(json));
+			write.flush();
+			write.close();
+		} catch (IOException e) {
+			instance.getLogger().log("Error Updating JSON file " + fileName, Level.SEVERE, e, true);
+		}
 	}
 }
