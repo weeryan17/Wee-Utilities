@@ -1,8 +1,16 @@
 package tk.weeryan17.dgs.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
@@ -93,62 +101,88 @@ public class MessageUtil {
 			}
 		}
 	}
-	
-	public String makeAsciiTable(java.util.List<String> headers, java.util.List<java.util.List<String>> table, java.util.List<String> footer) {
-        StringBuilder sb = new StringBuilder();
-        int padding = 1;
-        int[] widths = new int[headers.size()];
-        for (int i = 0; i < widths.length; i++) {
-            widths[i] = 0;
-        }
-        for (int i = 0; i < headers.size(); i++) {
-            if (headers.get(i).length() > widths[i]) {
-                widths[i] = headers.get(i).length();
-                if (footer != null) {
-                    widths[i] = Math.max(widths[i], footer.get(i).length());
-                }
-            }
-        }
-        for (java.util.List<String> row : table) {
-            for (int i = 0; i < row.size(); i++) {
-                String cell = row.get(i);
-                if (cell.length() > widths[i]) {
-                    widths[i] = cell.length();
-                }
-            }
-        }
-        sb.append("```").append("\n");
-        String formatLine = "|";
-        for (int width : widths) {
-            formatLine += " %-" + width + "s |";
-        }
-        formatLine += "\n";
-        sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-        sb.append(String.format(formatLine, headers.toArray()));
-        sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-        for (java.util.List<String> row : table) {
-            sb.append(String.format(formatLine, row.toArray()));
-        }
-        if (footer != null) {
-            sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-            sb.append(String.format(formatLine, footer.toArray()));
-        }
-        sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-        sb.append("```");
-        return sb.toString();
+
+	public String makeAsciiTable(java.util.List<String> headers, java.util.List<java.util.List<String>> table,
+			java.util.List<String> footer) {
+		StringBuilder sb = new StringBuilder();
+		int padding = 1;
+		int[] widths = new int[headers.size()];
+		for (int i = 0; i < widths.length; i++) {
+			widths[i] = 0;
+		}
+		for (int i = 0; i < headers.size(); i++) {
+			if (headers.get(i).length() > widths[i]) {
+				widths[i] = headers.get(i).length();
+				if (footer != null) {
+					widths[i] = Math.max(widths[i], footer.get(i).length());
+				}
+			}
+		}
+		for (java.util.List<String> row : table) {
+			for (int i = 0; i < row.size(); i++) {
+				String cell = row.get(i);
+				if (cell.length() > widths[i]) {
+					widths[i] = cell.length();
+				}
+			}
+		}
+		sb.append("```").append("\n");
+		String formatLine = "|";
+		for (int width : widths) {
+			formatLine += " %-" + width + "s |";
+		}
+		formatLine += "\n";
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		sb.append(String.format(formatLine, headers.toArray()));
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		for (java.util.List<String> row : table) {
+			sb.append(String.format(formatLine, row.toArray()));
+		}
+		if (footer != null) {
+			sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+			sb.append(String.format(formatLine, footer.toArray()));
+		}
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		sb.append("```");
+		return sb.toString();
 	}
-	
+
 	private String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
-        boolean first = true;
-        StringBuilder ret = new StringBuilder();
-        for (int size : sizes) {
-            if (first) {
-                first = false;
-                ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-            } else {
-                ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-            }
-        }
-        return ret.append(right).append("\n").toString();
-    }
+		boolean first = true;
+		StringBuilder ret = new StringBuilder();
+		for (int size : sizes) {
+			if (first) {
+				first = false;
+				ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
+			} else {
+				ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
+			}
+		}
+		return ret.append(right).append("\n").toString();
+	}
+
+	public String paste(String message) {
+		MediaType mediaType = MediaType.parse("application/octet-stream");
+		RequestBody body = RequestBody.create(mediaType, message);
+		Request request = new Request.Builder().url("https://paste.weeryan17.tk/documents").post(body)
+				.addHeader("useragent", "Mozilla/5.0").addHeader("cache-control", "no-cache")
+				.addHeader("postman-token", "52411a60-c87b-ad8e-ad80-7563c8edcd9c").build();
+		Response response;
+		try {
+			response = DiscordGroups.http.newCall(request).execute();
+		} catch (IOException e) {
+			return null;
+		}
+		String responce;
+		try {
+			responce = response.body().string();
+		} catch (IOException e) {
+			return null;
+		}
+		
+		JsonParser parser = new JsonParser();
+		JsonObject json = parser.parse(responce).getAsJsonObject();
+		String key = json.get("key").getAsString();
+		return "http://paste.weeryan17.tk/" + key;
+	}
 }

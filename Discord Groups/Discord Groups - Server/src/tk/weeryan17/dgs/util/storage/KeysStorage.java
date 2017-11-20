@@ -57,5 +57,9 @@ public class KeysStorage extends Storage {
 		JsonObject json = getKeysJson();
 		return GeneralUtils.jsonArray(json.get(guildId).getAsJsonArray());
 	}
+	
+	public boolean hasKey(String guildId, String key) {
+		return getKeys(guildId).contains(key);
+	}
 
 }

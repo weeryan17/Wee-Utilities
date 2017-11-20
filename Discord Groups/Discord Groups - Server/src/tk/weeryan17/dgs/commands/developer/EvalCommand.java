@@ -57,7 +57,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 			String result = "";
 			try {
 				result = String.valueOf(engine.eval(imports + code));
-			} catch (Exception e) {
+			} catch (ScriptException e) {
 				instance.getLogger().log("The script encountered an exception on eval", Level.WARNING, e, true);
 				result = e.getMessage() + '\n';
 				for (StackTraceElement element : e.getStackTrace()) {
@@ -83,6 +83,7 @@ public class EvalCommand implements DiscordGroupsCommandBase {
 					}
 					builder.withColor(role.getColor());
 				}
+				instance.getLogger().log("test2", false);
 				instance.getLogger().logResult(result);
 				channel.sendMessage(builder.build());
 			} else {

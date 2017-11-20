@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +31,8 @@ import com.patreon.API;
 import io.sentry.Sentry;
 import io.sentry.SentryClient;
 import io.sentry.SentryClientFactory;
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -41,25 +44,24 @@ import tk.weeryan17.dgs.commands.CommandManager;
 import tk.weeryan17.dgs.commands.CommandsCommand;
 import tk.weeryan17.dgs.commands.DiscordGroupsCommand;
 import tk.weeryan17.dgs.commands.admin.GenerateCommand;
-//import tk.weeryan17.dgs.commands.admin.PermissionsCommand;
 import tk.weeryan17.dgs.commands.developer.EvalCommand;
 import tk.weeryan17.dgs.commands.developer.StopCommand;
 import tk.weeryan17.dgs.commands.developer.UpdateCommand;
 import tk.weeryan17.dgs.listeners.PushListener;
 import tk.weeryan17.dgs.listeners.discord.ChatListener;
 import tk.weeryan17.dgs.listeners.discord.RandomListener;
-//import tk.weeryan17.dgs.socket.SocketTimer;
 import tk.weeryan17.dgs.util.Logging;
 import tk.weeryan17.dgs.util.MessageUtil;
-import tk.weeryan17.dgs.util.WebUpdate;
 import tk.weeryan17.dgs.util.storage.Storage;
-import tk.weeryan17.dgs.util.twitter.TwitterUtil;
 import tk.weeryan17.dgs.util.versoning.PluginVersion;
 import tk.weeryan17.dgs.util.voice.VoiceTests;
 import tk.weeryan17.dgs.util.web.WebReciver;
 
 public class DiscordGroups {
 	public IDiscordClient client;
+	
+	public static OkHttpClient http =
+			new OkHttpClient.Builder().connectionPool(new ConnectionPool(4, 10, TimeUnit.SECONDS)).build();
 
 	Logging logger;
 
@@ -232,10 +234,7 @@ public class DiscordGroups {
 		secret = prop.getProperty("secret");
 		int port = Integer.valueOf(prop.getProperty("webhookPort"));
 		WebhooksBuilder web = new WebhooksBuilder().onPort(port).withSecret(secret)
-				.forRequest(prop.getProperty("requestSite"));// Port removed
-																// from github
-																// again
-																// security
+				.forRequest(prop.getProperty("requestSite"));
 		web = web.addListener(new PushListener(this));
 		final IChannel logChannel = mainGuild.getChannelByID(280177651392708608L);
 		EmbedBuilder ebProgress = new EmbedBuilder();
@@ -243,7 +242,6 @@ public class DiscordGroups {
 		ebProgress.appendField("Bot progress", progressBar(0), false);
 		getLogger().log("Bot initilizing", false);
 		final IMessage progress = logChannel.sendMessage(ebProgress.build());
-		new Timer().schedule(new WebUpdate(this), 1000L, 1000L);
 		@SuppressWarnings("unused")
 		GithubWebhooks4J github;
 		try {
@@ -265,36 +263,6 @@ public class DiscordGroups {
 		ebProgress.appendField("Perms progress", progressBar(perms), false);
 		progress.edit(ebProgress.build());
 		instance.getLogger().log("Creating all the perms!", false);
-		/*
-		new Thread() {
-			@Override
-			public void run() {
-				for (IGuild guild : client.getGuilds()) {
-					for (IUser user : guild.getUsers()) {
-						int perms = updateProgress();
-						if (instance.perms != perms) {
-							instance.perms = perms;
-							EmbedBuilder ebProgress = new EmbedBuilder();
-							ebProgress.appendField("Phase", "Working on perms", true);
-							ebProgress.appendField("Bot progress", progressBar(bot), false);
-							ebProgress.appendField("Perms progress", progressBar(perms), false);
-							progress.edit(ebProgress.build());
-						}
-						GuildUser guildUser = GuildUser.getGuildUser(user, guild);
-						new DiscordGroupsPermissions(guildUser);
-						try {
-							DiscordGroupsPermissions.updatePerms(guildUser, instance);
-						} catch (Exception e) {
-							instance.getLogger().log("Error updating perms!", Level.WARNING, e, false);
-						}
-					}
-				}
-				instance.getLogger().log("Done creating perms", false);
-				permsReady = true;
-				client.changePlayingText("^commands");
-			}
-		}.start();
-		*/
 		WebReciver website = new WebReciver(this);
 		website.initWeb();
 		cmdMannage = new CommandManager();

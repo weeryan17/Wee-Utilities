@@ -99,4 +99,8 @@ public class ClientListener {
 		takenKeys.remove(key);
 		guilds.remove(key);
 	}
+	
+	public JsonObject handleVerification(String guild, String key) {
+		return null;
+	}
 }

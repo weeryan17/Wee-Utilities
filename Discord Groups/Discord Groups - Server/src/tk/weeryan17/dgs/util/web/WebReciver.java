@@ -16,6 +16,7 @@ import com.qmetric.spark.authentication.BasicAuthenticationFilter;
 
 import tk.weeryan17.dgs.DiscordGroups;
 import tk.weeryan17.dgs.listeners.ClientListener;
+import tk.weeryan17.dgs.util.storage.KeysStorage;
 
 public class WebReciver {
 
@@ -100,7 +101,7 @@ public class WebReciver {
 				JsonParser parser = new JsonParser();
 				JsonObject json = parser.parse(req.body()).getAsJsonObject();
 				String key = json.get("key").getAsString();
-				
+				String guild = json.get("guild").getAsString();
 				return "";
 			});
 		});
